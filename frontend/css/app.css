@@ -1,0 +1,339 @@
+/* =========================================================================
+   HALKA KAAM · app shell + components — phone-first
+   A single stylesheet now (simpler to maintain than 5). Desktop adapts up.
+   ========================================================================= */
+
+/* ---------- PHONE FRAME / SHELL ---------- */
+#app{display:flex;flex-direction:column;min-height:100dvh;max-width:520px;margin:0 auto;background:var(--bg);position:relative}
+@media(min-width:560px){#app{box-shadow:var(--shadow-lg)}}
+
+.appbar{
+  position:sticky;top:0;z-index:30;background:var(--bg);
+  border-bottom:1px solid var(--line);
+  padding:max(10px,env(safe-area-inset-top)) 16px 10px;
+  display:flex;align-items:center;gap:10px;min-height:56px;
+}
+.appbar .wordmark{font-size:var(--fs-lg)}
+.appbar .loc-btn{
+  margin-left:auto;display:flex;align-items:center;gap:6px;
+  background:var(--bg-soft);border:1px solid var(--line);border-radius:999px;
+  padding:8px 14px;font-size:var(--fs-sm);font-weight:600;color:var(--ink);max-width:54%;
+}
+.appbar .loc-btn .pin{color:var(--crimson)}
+.appbar .loc-btn .txt{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.appbar .av{margin-left:8px}
+
+/* mode toggle — big, obvious, two tabs */
+.modebar{padding:10px 16px 0;background:var(--bg)}
+.modetoggle{
+  background:var(--bg-soft);border:1px solid var(--line);border-radius:999px;
+  display:flex;padding:4px;position:relative;
+}
+.modetoggle .pill{
+  position:absolute;top:4px;bottom:4px;left:4px;width:calc(50% - 4px);
+  border-radius:999px;background:var(--accent);transition:transform .28s cubic-bezier(.4,0,.2,1),background .28s;
+}
+body.mode-host .modetoggle .pill{transform:translateX(100%)}
+.modetoggle button{
+  flex:1;z-index:1;font-size:var(--fs-md);font-weight:700;padding:12px 0;
+  color:var(--slate);transition:color .25s;display:flex;align-items:center;justify-content:center;gap:7px;
+}
+.modetoggle button .ic{font-size:18px}
+.modetoggle button.on{color:#fff}
+
+.phasebar{background:var(--green-soft);color:var(--green);text-align:center;font-size:var(--fs-xs);font-weight:700;padding:6px 12px}
+
+/* main scroll area */
+main#screen{flex:1;overflow-y:auto;padding:16px 16px calc(var(--tap) + 40px);background:var(--bg)}
+
+/* ---------- BOTTOM NAV — big icons + labels ---------- */
+.bottomnav{
+  position:sticky;bottom:0;z-index:30;background:var(--bg);
+  border-top:1px solid var(--line);display:flex;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+.bottomnav button{
+  flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;
+  padding:9px 0 8px;font-size:var(--fs-xs);font-weight:600;color:var(--slate);min-height:var(--tap);
+}
+.bottomnav button .ic{font-size:23px;line-height:1}
+.bottomnav button.on{color:var(--accent)}
+.fabwrap{flex:1;position:relative}
+.fab{
+  position:absolute;left:50%;top:-20px;transform:translateX(-50%);
+  width:58px;height:58px;border-radius:50%;background:var(--crimson);color:#fff;
+  font-size:30px;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 6px 18px rgba(220,20,60,.45);
+}
+
+/* ---------- BUTTONS — large, finger-friendly ---------- */
+.btn{
+  display:flex;align-items:center;justify-content:center;gap:8px;width:100%;
+  min-height:var(--tap);padding:15px 18px;border-radius:14px;
+  font-size:var(--fs-md);font-weight:700;transition:transform .12s,background .15s;
+}
+.btn:active{transform:scale(.98)}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:active{background:var(--accent-dk)}
+.btn-lg{font-size:var(--fs-lg);min-height:60px;border-radius:16px}
+.btn-ghost{background:var(--bg-soft);color:var(--ink);border:1px solid var(--line)}
+.btn-green{background:var(--green);color:#fff}
+.btn-outline{background:var(--bg);color:var(--accent);border:1.5px solid var(--accent)}
+.btn-danger{background:var(--bg);color:var(--crimson);border:1px solid var(--crimson-soft)}
+.btn[disabled]{opacity:.5;pointer-events:none}
+.btnrow{display:flex;gap:10px}.btnrow .btn{flex:1}
+
+/* ---------- CARDS ---------- */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:var(--shadow)}
+.jobcard{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:16px;box-shadow:var(--shadow);margin-bottom:12px;transition:transform .12s;
+}
+.jobcard:active{transform:scale(.99)}
+.jobcard.featured{border-color:var(--gold);box-shadow:0 0 0 1.5px var(--gold),var(--shadow)}
+.jobcard .top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.jobcard h3{font-size:var(--fs-lg);font-weight:700;line-height:1.3}
+.jc-price{text-align:right;flex:none}
+.jc-price .amt{font-family:'Mukta',sans-serif;font-weight:800;font-size:var(--fs-xl);color:var(--green);white-space:nowrap}
+.jc-price .per{font-size:var(--fs-xs);color:var(--slate);font-weight:600}
+.meta{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
+.tag{font-size:var(--fs-xs);font-weight:600;padding:6px 11px;border-radius:8px;background:var(--bg-soft);color:var(--slate);display:inline-flex;align-items:center;gap:4px}
+.tag.cat{background:var(--accent-soft);color:var(--accent-dk)}
+.tag.dist{background:var(--green-soft);color:var(--green)}
+.applied{margin-top:12px;padding-top:12px;border-top:1px solid var(--line);font-size:var(--fs-sm);color:var(--slate);display:flex;align-items:center;gap:7px}
+.applied .lock{font-size:15px}
+.applied .you{margin-left:auto;background:var(--green);color:#fff;font-size:var(--fs-xs);font-weight:700;padding:4px 10px;border-radius:999px}
+.feat-chip{background:#FFF3DE;color:#A36A00;font-size:var(--fs-xs);font-weight:800;padding:4px 10px;border-radius:999px}
+
+/* avatar */
+.av{border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;flex:none}
+.av-sm{width:38px;height:38px;font-size:14px}
+.av-md{width:46px;height:46px;font-size:16px}
+.av-lg{width:64px;height:64px;font-size:22px}
+
+/* status chips */
+.status{font-size:var(--fs-xs);font-weight:700;padding:5px 11px;border-radius:999px}
+.st-open{background:var(--blue-soft);color:var(--flagblue)}
+.st-assigned{background:#FFF3DE;color:#A36A00}
+.st-done{background:var(--green-soft);color:var(--green)}
+
+/* ---------- SECTION HEADER ---------- */
+.shead{display:flex;align-items:center;justify-content:space-between;margin:4px 0 14px}
+.shead h2{font-size:var(--fs-xl);font-weight:800}
+.shead .sub{font-size:var(--fs-sm);color:var(--slate);margin-top:2px}
+.backrow{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.backbtn{width:var(--tap);height:var(--tap);min-width:var(--tap);border-radius:14px;background:var(--bg-soft);border:1px solid var(--line);font-size:20px;display:flex;align-items:center;justify-content:center}
+.backrow h2{font-size:var(--fs-lg);font-weight:800;line-height:1.25}
+
+/* ---------- CHIPS (category filter) ---------- */
+.chips{display:flex;gap:9px;overflow-x:auto;padding:2px 0 10px;margin:0 -16px 6px;padding-left:16px;padding-right:16px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;font-size:var(--fs-sm);font-weight:600;padding:11px 16px;border-radius:999px;border:1px solid var(--line);background:var(--bg);color:var(--slate);min-height:44px}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* ---------- FORM FIELDS — big inputs ---------- */
+.field{margin-bottom:18px}
+.field > label{display:block;font-size:var(--fs-md);font-weight:700;margin-bottom:9px}
+.field .help{font-size:var(--fs-sm);color:var(--slate);margin-top:7px}
+.field input,.field textarea,.field select{
+  width:100%;min-height:var(--tap);padding:15px;border:1.5px solid var(--line);
+  border-radius:14px;background:var(--bg);font-size:var(--fs-md);
+}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--accent)}
+.field textarea{min-height:110px;resize:vertical;line-height:1.5}
+
+/* big choice buttons (in-person / online, flat / hourly) */
+.choices{display:flex;gap:10px}
+.choice{
+  flex:1;min-height:var(--tap);border:1.5px solid var(--line);border-radius:14px;
+  background:var(--bg);font-size:var(--fs-md);font-weight:600;color:var(--slate);
+  display:flex;align-items:center;justify-content:center;gap:7px;padding:14px;
+}
+.choice.on{border-color:var(--accent);background:var(--accent-soft);color:var(--accent-dk)}
+.choice .ic{font-size:19px}
+
+/* category grid — visual, tappable */
+.catgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.catcell{
+  border:1.5px solid var(--line);border-radius:14px;padding:14px 8px;
+  display:flex;flex-direction:column;align-items:center;gap:7px;text-align:center;
+  font-size:var(--fs-xs);font-weight:600;color:var(--slate);background:var(--bg);min-height:84px;justify-content:center;
+}
+.catcell .ic{font-size:26px}
+.catcell.on{border-color:var(--accent);background:var(--accent-soft);color:var(--accent-dk)}
+
+/* photo uploader */
+.photos{display:flex;gap:10px;flex-wrap:wrap}
+.photo-slot{width:84px;height:84px;border-radius:14px;border:1.5px dashed #C8CDD4;display:flex;align-items:center;justify-content:center;font-size:26px;color:var(--slate);background:var(--bg);position:relative;overflow:hidden}
+.photo-slot.filled{border-style:solid}
+.photo-slot img{width:100%;height:100%;object-fit:cover}
+.photo-slot .rm{position:absolute;top:4px;right:4px;width:24px;height:24px;border-radius:50%;background:rgba(21,25,31,.75);color:#fff;font-size:13px;display:flex;align-items:center;justify-content:center}
+
+/* ---------- MAPS ---------- */
+.map{width:100%;height:240px;border-radius:var(--r);border:1px solid var(--line);overflow:hidden;z-index:0}
+.map.tall{height:300px}
+.maphint{font-size:var(--fs-xs);color:var(--slate);margin-top:8px;text-align:center}
+.leaflet-container{font:inherit}
+.hk-pin{background:none;border:none}
+.hk-pin .pinbox{font-weight:800;font-size:11px;font-family:'Mukta',sans-serif;border-radius:9px;padding:4px 8px;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.3);transform:translate(-50%,-115%);background:var(--crimson);color:#fff}
+.hk-pin .pinbox.me{background:var(--flagblue)}
+
+/* ---------- PRIVACY / INFO BOXES ---------- */
+.infobox{border-radius:14px;padding:14px 16px;font-size:var(--fs-sm);line-height:1.55;display:flex;gap:10px;margin-bottom:16px}
+.infobox .ic{font-size:18px;flex:none}
+.infobox.blue{background:var(--blue-soft);color:var(--blue-dk)}
+.infobox.green{background:var(--green-soft);color:var(--green)}
+.infobox.amber{background:#FFF3DE;color:#A36A00}
+.infobox.red{background:var(--crimson-soft);color:var(--crimson-dk)}
+
+/* ---------- HELPER / POSTER ROW ---------- */
+.personrow{display:flex;align-items:center;gap:12px;padding:14px;background:var(--bg-soft);border-radius:14px;border:1px solid var(--line);margin-bottom:16px}
+.personrow .nm{font-size:var(--fs-md);font-weight:700}
+.personrow .rt{font-size:var(--fs-sm);color:var(--slate);margin-top:2px}
+
+/* ---------- OFFER (bid) CARD in inbox ---------- */
+.offer{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-bottom:12px;box-shadow:var(--shadow)}
+.offer .head{display:flex;align-items:center;gap:12px}
+.offer .nm{font-size:var(--fs-md);font-weight:700}
+.offer .sub{font-size:var(--fs-xs);color:var(--slate);margin-top:2px}
+.offer .amt{margin-left:auto;text-align:right}
+.offer .amt b{font-family:'Mukta',sans-serif;font-weight:800;font-size:var(--fs-xl);color:var(--green)}
+.offer .amt span{display:block;font-size:var(--fs-xs);color:var(--slate);font-weight:600}
+.offer .pitch{margin:13px 0;font-size:var(--fs-md);line-height:1.55;background:var(--bg-soft);border-radius:12px;padding:13px 15px;border:1px solid var(--line)}
+.lockchip{font-size:var(--fs-xs);font-weight:700;color:var(--slate);background:var(--bg-soft);border:1px solid var(--line);padding:8px 13px;border-radius:999px;display:inline-flex;gap:6px;align-items:center}
+.chosenchip{font-size:var(--fs-xs);font-weight:700;color:#fff;background:var(--green);padding:6px 12px;border-radius:999px}
+
+/* ---------- CHAT ---------- */
+.chatwrap{display:flex;flex-direction:column;min-height:calc(100dvh - 200px)}
+.chatlog{flex:1;display:flex;flex-direction:column;gap:10px;padding:6px 0 14px}
+.bubble{max-width:80%;padding:12px 15px;border-radius:18px;font-size:var(--fs-md);line-height:1.45}
+.bubble.me{align-self:flex-end;background:var(--accent);color:#fff;border-bottom-right-radius:6px}
+.bubble.them{align-self:flex-start;background:var(--bg-soft);border:1px solid var(--line);border-bottom-left-radius:6px}
+.bubble .tm{display:block;font-size:10px;opacity:.7;margin-top:5px}
+.chatnote{align-self:center;text-align:center;font-size:var(--fs-xs);color:var(--slate);background:var(--bg-soft);border:1px solid var(--line);border-radius:999px;padding:7px 14px;margin:6px auto;max-width:90%}
+.chatbar{position:sticky;bottom:0;display:flex;gap:9px;padding:10px 0;background:var(--bg)}
+.chatbar input{flex:1;min-height:var(--tap);padding:14px 18px;border:1.5px solid var(--line);border-radius:999px;font-size:var(--fs-md)}
+.chatbar input:focus{outline:none;border-color:var(--accent)}
+.chatbar button{min-width:var(--tap);height:var(--tap);border-radius:50%;background:var(--accent);color:#fff;font-size:20px;display:flex;align-items:center;justify-content:center;flex:none}
+
+/* ---------- STAR PICKER (reviews) — big ---------- */
+.raterow{margin-bottom:18px}
+.raterow .lbl{font-size:var(--fs-md);font-weight:700;margin-bottom:9px}
+.starpick{display:flex;gap:10px;font-size:38px;user-select:none}
+.starpick span{color:#D8DADE;transition:transform .1s}
+.starpick span:active{transform:scale(1.2)}
+.starpick span.on{color:var(--gold)}
+.pubreview{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:15px;margin-bottom:12px;box-shadow:var(--shadow)}
+.pubreview .who{font-size:var(--fs-sm);color:var(--slate);margin-bottom:6px}
+.pubreview .txt{font-size:var(--fs-md);line-height:1.5}
+
+/* ---------- EMPTY STATES ---------- */
+.empty{text-align:center;padding:56px 26px;color:var(--slate)}
+.empty .big{font-size:46px;margin-bottom:14px}
+.empty b{display:block;color:var(--ink);font-size:var(--fs-lg);margin-bottom:7px}
+.empty p{font-size:var(--fs-md);line-height:1.55}
+
+/* ---------- BOTTOM SHEET / MODAL ---------- */
+.sheet-wrap{position:fixed;inset:0;background:rgba(21,25,31,.5);display:none;align-items:flex-end;justify-content:center;z-index:80;backdrop-filter:blur(2px)}
+.sheet-wrap.open{display:flex}
+.sheet{background:var(--bg);width:100%;max-width:520px;max-height:92dvh;border-radius:var(--r-lg) var(--r-lg) 0 0;overflow-y:auto;animation:sheetUp .3s cubic-bezier(.3,0,.2,1)}
+@keyframes sheetUp{from{transform:translateY(40px)}to{transform:none}}
+.sheet .grab{width:44px;height:5px;border-radius:99px;background:var(--line);margin:12px auto 2px}
+.sheet .inner{padding:10px 20px max(24px,env(safe-area-inset-bottom))}
+.sheet h2{font-size:var(--fs-xl);font-weight:800;margin-top:8px;line-height:1.25}
+.sheet .desc{font-size:var(--fs-md);color:var(--slate);line-height:1.55;margin:10px 0 16px}
+
+/* photo strip in detail */
+.pstrip{display:flex;gap:10px;margin:14px 0;overflow-x:auto;scrollbar-width:none}
+.pstrip::-webkit-scrollbar{display:none}
+.pstrip img,.pstrip .emo{width:96px;height:96px;border-radius:14px;flex:none;object-fit:cover;border:1px solid var(--line)}
+.pstrip .emo{display:flex;align-items:center;justify-content:center;font-size:34px;background:var(--bg-soft)}
+
+/* toast */
+.toast{position:fixed;left:50%;transform:translateX(-50%) translateY(20px);bottom:calc(var(--tap) + 24px);background:var(--ink);color:#fff;font-size:var(--fs-sm);font-weight:600;padding:13px 20px;border-radius:999px;opacity:0;transition:.3s;z-index:99;pointer-events:none;max-width:90vw;text-align:center}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ---------- LOCATION SUMMARY BAR (feed; replaces the old feed map) ---------- */
+.locsum{display:flex;align-items:center;gap:13px;width:100%;background:var(--bg-soft);border:1px solid var(--line);
+  border-radius:var(--r);padding:14px 16px;margin-bottom:14px;text-align:left}
+.locsum:active{transform:scale(.995)}
+.locsum-pin{font-size:22px;flex:none}
+.locsum-txt{display:flex;flex-direction:column;line-height:1.3;min-width:0}
+.locsum-txt b{font-size:var(--fs-md);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.locsum-txt span{font-size:var(--fs-sm);color:var(--slate)}
+.locsum-edit{margin-left:auto;flex:none;font-size:var(--fs-sm);font-weight:700;color:var(--accent);background:var(--accent-soft);padding:8px 13px;border-radius:999px}
+.jobs-grid{display:flex;flex-direction:column}
+
+/* =========================================================================
+   DESKTOP / WIDE-SCREEN LAYOUT (≥900px)
+   Phone stays as-is; wide screens get a sidebar rail + content that fills.
+   ========================================================================= */
+@media (min-width: 900px){
+  body.is-desktop{background:var(--bg-soft)}
+  #app{max-width:1240px;min-height:100dvh;margin:0 auto;display:grid;grid-template-columns:264px 1fr;
+       background:var(--bg);box-shadow:0 0 60px rgba(21,25,31,.07)}
+
+  /* ---- left rail ---- */
+  .rail{display:flex;flex-direction:column;gap:6px;padding:22px 16px;border-right:1px solid var(--line);
+        position:sticky;top:0;height:100dvh}
+  .rail-brand{display:flex;align-items:center;gap:10px;padding:6px 8px 14px;cursor:pointer}
+  .rail-brand .wordmark{font-size:var(--fs-xl)}
+  .rail-modetoggle{position:relative;margin-bottom:10px}
+  .rail-nav{display:flex;flex-direction:column;gap:4px;margin-top:6px}
+  .rail-item{display:flex;align-items:center;gap:14px;padding:13px 14px;border-radius:13px;font-size:var(--fs-md);
+             font-weight:600;color:var(--slate);text-align:left;min-height:50px}
+  .rail-item .ic{font-size:21px;width:24px;text-align:center}
+  .rail-item:hover{background:var(--bg-soft)}
+  .rail-item.on{background:var(--accent-soft);color:var(--accent-dk)}
+  .rail-item.accent{color:var(--crimson);font-weight:700}
+  .rail-item.accent.on{background:var(--crimson-soft);color:var(--crimson-dk)}
+  .rail-spacer{flex:1}
+  .rail-loc{display:flex;align-items:flex-start;gap:10px;padding:13px 14px;border-radius:13px;border:1px solid var(--line);
+            background:var(--bg);text-align:left;margin-bottom:10px}
+  .rail-loc .pin{font-size:18px}
+  .rail-loc span{display:flex;flex-direction:column;line-height:1.3;min-width:0}
+  .rail-loc b{font-size:var(--fs-sm);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px}
+  .rail-loc small{font-size:var(--fs-xs);color:var(--slate)}
+  .rail-user{display:flex;align-items:center;gap:10px;padding:8px;border-radius:13px}
+  .rail-user:hover{background:var(--bg-soft)}
+  .rail-user > span{font-weight:600;font-size:var(--fs-sm);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .rail-lang{margin-left:auto;font-size:var(--fs-xs);font-weight:700;color:var(--accent);background:var(--accent-soft);padding:6px 11px;border-radius:999px}
+
+  /* ---- main column ---- */
+  .maincol{display:flex;flex-direction:column;min-width:0}
+  .maincol .phasebar{border-radius:0}
+  #app > .maincol main#screen{flex:1;overflow-y:auto;padding:28px 36px 48px}
+
+  /* content gets a comfortable reading max-width, centred in the column */
+  .maincol main#screen > *{max-width:760px;margin-left:auto;margin-right:auto}
+
+  /* feed: job cards fill the width as a grid */
+  .maincol .jobs-grid{max-width:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;align-items:start}
+  .maincol .jobs-grid .jobcard{margin-bottom:0}
+  .maincol .shead, .maincol .locsum, .maincol .chips{max-width:none}
+  .maincol .chips{flex-wrap:wrap;overflow:visible;margin-left:0;margin-right:0;padding-left:0;padding-right:0}
+
+  /* the section heading area can be wider than the reading column */
+  .maincol main#screen{scrollbar-gutter:stable}
+
+  /* ---- location step: big map left, controls right ---- */
+  #locstep.screen-full{max-width:1100px;padding:32px 36px}
+  #locstep .loc-main{display:grid;grid-template-columns:1fr 380px;gap:28px;align-items:start}
+  #locstep .mappick{margin-bottom:0;position:sticky;top:24px}
+  #locstep .mappick-map{height:520px}
+  #locstep .mappick-ring{width:240px;height:240px}
+  #locstep .loc-controls{padding-top:4px}
+
+  /* chat stays narrow & tall, not stretched */
+  .maincol .chatwrap{max-width:760px}
+
+  /* hide phone-only chrome on desktop */
+  body.is-desktop .appbar, body.is-desktop .modebar, body.is-desktop .bottomnav{display:none}
+}
+
+/* tablet: a slightly roomier single column, 2-up job cards */
+@media (min-width: 640px) and (max-width: 899px){
+  #app{max-width:680px}
+  .jobs-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .jobs-grid .jobcard{margin-bottom:0}
+}

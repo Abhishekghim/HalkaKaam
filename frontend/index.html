@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff">
+<title>हल्का काम · Halka Kaam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Mukta:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+
+<!-- App styles -->
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/onboarding.css">
+<link rel="stylesheet" href="css/app.css">
+
+<!-- Optional: point at the real backend (else built-in localStorage demo runs).
+     <script>window.HK_API_BASE = "http://localhost:4000";</script> -->
+</head>
+<body class="mode-worker">
+
+  <!-- Screens are populated by JS (render-* / buildShell). -->
+  <div id="langpick" class="screen-full"></div>
+  <div id="landing"  class="screen-full hidden"></div>
+  <div id="auth"     class="screen-full hidden"></div>
+  <div id="locstep"  class="screen-full hidden"></div>
+  <div id="app"      class="hidden"></div>
+
+  <!-- Bottom sheet / modal -->
+  <div id="sheetwrap" class="sheet-wrap">
+    <div class="sheet"><div class="grab"></div><div class="inner" id="sheetinner"></div></div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast"></div>
+
+  <!-- Logic — load order matters -->
+  <script src="js/00-i18n.js"></script>
+  <script src="js/01-core.js"></script>
+  <script src="js/02-worker.js"></script>
+  <script src="js/03-host.js"></script>
+  <script src="js/04-reviews-profile.js"></script>
+  <script src="js/05-bootstrap.js"></script>
+</body>
+</html>

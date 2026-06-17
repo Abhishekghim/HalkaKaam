@@ -1,0 +1,67 @@
+/* =========================================================================
+   HALKA KAAM · design tokens — phone-first, white base, flag accents
+   ========================================================================= */
+:root{
+  /* Nepal flag palette on a white base */
+  --crimson:#DC143C;        /* flag red  — primary accent */
+  --crimson-dk:#B01030;
+  --crimson-soft:#FDECEF;
+  --flagblue:#003893;       /* flag blue — secondary accent */
+  --blue-dk:#002A6E;
+  --blue-soft:#E7EDF7;
+
+  --ink:#15191F;            /* near-black text */
+  --slate:#5C6672;          /* secondary text */
+  --line:#E8EAED;           /* hairline borders */
+  --bg:#FFFFFF;             /* WHITE base */
+  --bg-soft:#F5F6F8;        /* faint grey for sections */
+  --card:#FFFFFF;
+
+  --gold:#F2A93B;           /* stars */
+  --green:#1F8A5F;          /* money / success */
+  --green-soft:#E7F4EE;
+
+  /* one accent variable flips with mode */
+  --accent:var(--crimson);
+  --accent-dk:var(--crimson-dk);
+  --accent-soft:var(--crimson-soft);
+
+  --r:16px;                 /* card radius */
+  --r-lg:22px;
+  --tap:54px;               /* MINIMUM tap target — big for older users */
+  --shadow:0 1px 2px rgba(21,25,31,.05), 0 6px 20px rgba(21,25,31,.06);
+  --shadow-lg:0 8px 30px rgba(21,25,31,.14);
+
+  /* type scale — larger than typical for readability */
+  --fs-xs:12px; --fs-sm:14px; --fs-md:16px; --fs-lg:19px; --fs-xl:23px; --fs-2xl:30px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:'Inter',system-ui,-apple-system,sans-serif;
+  color:var(--ink);background:var(--bg);
+  font-size:var(--fs-md);line-height:1.5;
+  overscroll-behavior-y:none;
+}
+:lang(ne), .ne-text{font-family:'Mukta','Inter',sans-serif}
+button{font:inherit;cursor:pointer;color:inherit;background:none;border:none}
+input,textarea,select{font:inherit;color:inherit}
+a{color:inherit;text-decoration:none}
+.hidden{display:none!important}
+img{max-width:100%;display:block}
+
+/* mode → accent colour swap */
+body.mode-host{--accent:var(--crimson);--accent-dk:var(--crimson-dk);--accent-soft:var(--crimson-soft)}
+body.mode-worker{--accent:var(--flagblue);--accent-dk:var(--blue-dk);--accent-soft:var(--blue-soft)}
+
+/* the flag pennant brand mark */
+.pennants{width:26px;height:30px;position:relative;flex:none}
+.pennants i{position:absolute;left:0;width:100%;height:60%}
+.pennants i:first-child{top:0;background:var(--crimson);clip-path:polygon(0 0,100% 50%,0 100%)}
+.pennants i:last-child{bottom:0;background:var(--flagblue);clip-path:polygon(0 0,100% 50%,0 100%)}
+.wordmark{font-family:'Mukta',sans-serif;font-weight:800;line-height:1;letter-spacing:-.01em}
+.wordmark .h{color:var(--crimson)}.wordmark .k{color:var(--flagblue)}
+
+/* utility */
+.stars{color:var(--gold);letter-spacing:1px}
+.price{font-family:'Mukta',sans-serif;font-weight:800;color:var(--green)}
