@@ -1,0 +1,14 @@
+{
+  "name": "halka-kaam",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "frontend-next"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=frontend-next",
+    "build": "npm run build --workspace=frontend-next",
+    "start": "npm run start --workspace=frontend-next",
+    "lint": "npm run lint --workspace=frontend-next"
+  }
+}

@@ -72,6 +72,18 @@ halka-kaam/
             └── users.js      ← /me and public profiles with lifetime scores
 ```
 
+## Run the React frontend (Next.js)
+
+From the project root, install dependencies and start the development server:
+
+```bash
+npm install
+npm run dev
+```
+
+Open <http://localhost:3000>. Production commands are `npm run build` and
+`npm start`.
+
 ---
 
 ## Option A — run the frontend only (zero setup, 30 seconds)
