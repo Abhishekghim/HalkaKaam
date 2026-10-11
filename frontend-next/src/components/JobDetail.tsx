@@ -49,9 +49,11 @@ export const JobDetail: React.FC<{ job: Job }> = ({ job }) => {
     };
   }, [job.id, job.lat, job.lng]);
 
-  useEffect(() => {
+  const [prevJobId, setPrevJobId] = useState(job.id);
+  if (prevJobId !== job.id) {
+    setPrevJobId(job.id);
     setMapVisible(false);
-  }, [job.id]);
+  }
 
   useEffect(() => {
     if (!mapVisible || job.type !== 'In-person' || !mapEl.current) return;

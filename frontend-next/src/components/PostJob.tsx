@@ -63,7 +63,7 @@ export const PostJob: React.FC = () => {
 
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<MapboxMap | null>(null);
-  const markerRef = useRef<any>(null);
+  const markerRef = useRef<unknown>(null);
 
   // Mount Mapbox pin map when needed
   useEffect(() => {
@@ -169,7 +169,7 @@ export const PostJob: React.FC = () => {
 
   const handlePrevStep = () => {
     setValidationError(null);
-    if (step > 1) setStep((step - 1) as any);
+    if (step > 1) setStep((step - 1) as 1 | 2 | 3 | 4);
     else setTab('jobs');
   };
 
@@ -246,7 +246,7 @@ export const PostJob: React.FC = () => {
           {stepLabels.map((s) => (
             <div
               key={s.num}
-              onClick={() => s.num < step && setStep(s.num as any)}
+              onClick={() => s.num < step && setStep(s.num as 1 | 2 | 3 | 4)}
               className={`flex items-center gap-1.5 text-xs font-bold transition-colors ${
                 s.num === step
                   ? 'text-[var(--primary)]'
@@ -529,7 +529,7 @@ export const PostJob: React.FC = () => {
                   <button
                     key={p.id}
                     type="button"
-                    onClick={() => setDatePreset(p.id as any)}
+                    onClick={() => setDatePreset(p.id as 'today' | 'tomorrow' | 'weekend' | 'custom')}
                     className={`p-3 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
                       datePreset === p.id
                         ? 'border-[var(--primary)] bg-[var(--primary)] text-white shadow-xs'

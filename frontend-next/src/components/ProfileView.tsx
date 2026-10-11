@@ -97,10 +97,12 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ user, role = 'worker' 
                 <Calendar className="w-3.5 h-3.5 text-[var(--fg-subtle)]" />
                 <span>
                   {t('joined')}{' '}
-                  {new Date(targetUser.created || Date.now()).toLocaleDateString('en-GB', {
-                    month: 'short',
-                    year: 'numeric',
-                  })}
+                  {targetUser.created
+                    ? new Date(targetUser.created).toLocaleDateString('en-GB', {
+                        month: 'short',
+                        year: 'numeric',
+                      })
+                    : 'Recent'}
                 </span>
               </span>
             </p>

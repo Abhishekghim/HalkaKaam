@@ -23,8 +23,8 @@ export const HostJobs: React.FC = () => {
     .filter((j) => (me ? j.hostId === me.id : false))
     .sort((a, b) => b.createdAt - a.createdAt);
 
-  const getAssignedWorkerName = (j: any) => {
-    const b = j.bids.find((x: any) => x.id === j.assignedBidId);
+  const getAssignedWorkerName = (j: (typeof jobs)[number]) => {
+    const b = j.bids.find((x) => x.id === j.assignedBidId);
     return userById(b?.workerId)?.name || '—';
   };
 

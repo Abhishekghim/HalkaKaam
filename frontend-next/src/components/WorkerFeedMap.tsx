@@ -23,7 +23,7 @@ export const WorkerFeedMap: React.FC<WorkerFeedMapProps> = ({
 }) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MapboxMap | null>(null);
-  const markersRef = useRef<any[]>([]);
+  const markersRef = useRef<{ remove: () => void }[]>([]);
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
 
   useEffect(() => {
@@ -92,8 +92,8 @@ export const WorkerFeedMap: React.FC<WorkerFeedMapProps> = ({
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !map.isStyleLoaded()) return;
-    const source = map.getSource('user-radius') as any;
-    if (source) {
+    const source = map.getSource('user-radius') as { setData?: (data: unknown) => void } | undefined;
+    if (source && typeof source.setData === 'function') {
       source.setData(createGeoJsonCircle([userPos.lng, userPos.lat], radius));
     }
   }, [userPos.lat, userPos.lng, radius]);

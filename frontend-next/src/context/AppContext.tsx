@@ -299,20 +299,22 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       }
       save(K_USERS, u);
     }
-    setUsers(u);
-    setJobs(j);
-    if (sess?.id && u.some((x) => x.id === sess!.id)) {
-      setMeId(sess.id);
-      if (sess.lang) setLangState(sess.lang);
-      setViewState('locstep');
-    }
-    try {
-      const savedTheme = localStorage.getItem('hk-theme') as 'light' | 'dark' | null;
-      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
-      setTheme(initialTheme);
-    } catch {}
-    setReady(true);
+    queueMicrotask(() => {
+      setUsers(u);
+      setJobs(j);
+      if (sess?.id && u.some((x) => x.id === sess!.id)) {
+        setMeId(sess.id);
+        if (sess.lang) setLangState(sess.lang);
+        setViewState('locstep');
+      }
+      try {
+        const savedTheme = localStorage.getItem('hk-theme') as 'light' | 'dark' | null;
+        const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+        setTheme(initialTheme);
+      } catch {}
+      setReady(true);
+    });
   }, [setTheme]);
 
   /* ---------- side effects ---------- */
