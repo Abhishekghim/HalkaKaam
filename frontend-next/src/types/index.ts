@@ -23,6 +23,21 @@ export interface FeedFilters {
   sortBy: SortPreference;
 }
 
+export type KycStatus = 'unverified' | 'pending' | 'verified' | 'rejected';
+export type NepalDocType = 'citizenship' | 'nid' | 'driving_license' | 'passport';
+
+export interface KycData {
+  docType: NepalDocType;
+  docNumber: string;
+  fullName: string;
+  dob?: string;
+  district: string;
+  frontPhoto?: string;
+  backPhoto?: string;
+  submittedAt: number;
+  verifiedAt?: number;
+}
+
 export interface User {
   id: string;
   name: string;
@@ -33,6 +48,8 @@ export interface User {
   baseCount: number;
   isBot?: boolean;
   created?: number;
+  kycStatus?: KycStatus;
+  kycData?: KycData;
 }
 
 /** text = normal message, system = milestone (text holds an i18n key), counter = price counter-offer, image = photo */
@@ -125,7 +142,8 @@ export type SheetType =
   | 'hostReview'
   | 'report'
   | 'profile'
-  | 'filters';
+  | 'filters'
+  | 'kyc';
 
 /** Sheets store IDs (not object snapshots) so they always show live data. */
 export interface SheetState {

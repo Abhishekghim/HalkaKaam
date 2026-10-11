@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter, Mukta } from 'next/font/google';
+import 'mapbox-gl/dist/mapbox-gl.css';
 import './globals.css';
 import { AppProvider } from '../context/AppContext';
 
@@ -27,11 +28,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${mukta.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${mukta.variable}`}>
       <head>
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function() {
+              try {
+                var t = localStorage.getItem('hk-theme');
+                var d = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                var theme = t || (d ? 'dark' : 'light');
+                document.documentElement.setAttribute('data-theme', theme);
+                if (theme === 'dark') document.documentElement.classList.add('dark');
+              } catch(e) {}
+            })();`,
+          }}
         />
       </head>
       <body>

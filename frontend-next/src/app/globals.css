@@ -1,46 +1,192 @@
 @import "tailwindcss";
 
 /* =========================================================================
-   HALKA KAAM · DESIGN TOKENS & SHELL STYLES
+   HALKA KAAM · MODERN NEPAL MARKETPLACE DESIGN SYSTEM TOKENS
    ========================================================================= */
 :root {
-  /* Nepal flag palette on a white base */
-  --crimson: #DC143C;        /* flag red — primary accent */
-  --crimson-dk: #B01030;
-  --crimson-soft: #FDECEF;
-  --flagblue: #003893;       /* flag blue — secondary accent */
-  --blue-dk: #002A6E;
-  --blue-soft: #E7EDF7;
+  /* Core Brand Colors (Nepal Flag) */
+  --primary: #003893;             /* Nepal flag deep blue */
+  --primary-hover: #002A6E;
+  --primary-soft: #E6EDFA;        /* Soft tinted container background */
+  --primary-soft-hover: #D8E4F8;
+  --primary-border: #C8D8F4;
+  --primary-fg: #FFFFFF;
 
-  --ink: #15191F;            /* near-black text */
-  --slate: #5C6672;          /* secondary text */
-  --line: #E8EAED;           /* hairline borders */
-  --bg: #FFFFFF;             /* WHITE base */
-  --bg-soft: #F5F6F8;        /* faint grey for sections */
-  --card: #FFFFFF;
+  --accent: #DC143C;              /* Nepal flag crimson red */
+  --accent-fill: #DC143C;
+  --accent-text: #B80F32;
+  --accent-hover: #B80F32;
+  --accent-soft: #FDE8EC;         /* Soft red badge/container */
+  --accent-border: #F8B4C0;
+  --accent-fg: #FFFFFF;
 
-  --gold: #F2A93B;           /* stars */
-  --green: #1F8A5F;          /* money / success */
-  --green-soft: #E7F4EE;
+  /* Surfaces & Neutrals */
+  --bg: #F8FAFC;                  /* Soft off-white canvas */
+  --surface: #FFFFFF;             /* Crisp card and sheet background */
+  --surface-2: #F1F5F9;           /* Secondary surface / chips / inputs */
+  --surface-elevated: #FFFFFF;
+  --surface-hover: #F1F5F9;
+  --border: #E2E8F0;              /* Crisp clean borders */
+  --border-subtle: #EDF2F7;
+  --border-hover: #CBD5E1;
+  --line: var(--border);
+  --line-hover: var(--border-hover);
 
-  /* default accent */
-  --accent: var(--crimson);
-  --accent-dk: var(--crimson-dk);
-  --accent-soft: var(--crimson-soft);
+  /* Typography Colors */
+  --text: #0F172A;                /* Main text - deep rich slate 900 */
+  --text-muted: #475569;          /* Secondary text - high contrast slate 600 */
+  --text-subtle: #5A6A80;         /* Subtle meta text */
+  --text-inverse: #FFFFFF;
+  --fg: var(--text);
+  --fg-muted: var(--text-muted);
+  --fg-subtle: var(--text-subtle);
 
-  --r: 16px;                 /* card radius */
-  --r-lg: 22px;
-  --tap: 54px;               /* MINIMUM tap target */
-  --shadow: 0 1px 2px rgba(21,25,31,.05), 0 6px 20px rgba(21,25,31,.06);
-  --shadow-lg: 0 8px 30px rgba(21,25,31,.14);
+  /* Icon Tokens */
+  --icon: #003893;                /* Default icon color: Deep Blue */
+  --icon-muted: #64748B;
+  --icon-bg: #E6EDFA;             /* Icon container background: soft blue tint */
+  --icon-border: #C8D8F4;
 
-  /* type scale */
+  /* Interactive & States */
+  --link: #003893;
+  --link-hover: #002A6E;
+  --ring: rgba(0, 56, 147, 0.35); /* Accessible focus ring */
+  --ring-accent: rgba(220, 20, 60, 0.4);
+
+  /* Semantic Feedback */
+  --success: #166534;
+  --success-soft: #E8F5EC;
+  --success-border: #B7E4C7;
+  --warning: #B45309;
+  --warning-soft: #FEF3C7;
+  --warning-border: #FDE68A;
+  --info: #0E7490;                /* Deep teal-cyan (WCAG AA, never bright cyan) */
+  --info-soft: #E0F2FE;
+  --info-border: #BAE6FD;
+  --gold: #F59E0B;
+  --star: #D97706;
+
+  /* Legacy aliases for backward compatibility */
+  --crimson: var(--accent);
+  --crimson-dk: var(--accent-hover);
+  --crimson-soft: var(--accent-soft);
+  --flagblue: var(--primary);
+  --blue-dk: var(--primary-hover);
+  --blue-soft: var(--primary-soft);
+  --ink: var(--fg);
+  --slate: var(--fg-muted);
+  --bg-soft: var(--surface-2);
+  --card: var(--surface);
+  --green: var(--success);
+  --green-soft: var(--success-soft);
+
+  /* Radius & Spacing */
+  --r-sm: 8px;
+  --r: 16px;
+  --r-lg: 20px;
+  --r-xl: 24px;
+  --tap: 50px;
+
+  /* Rich Physical Elevation Shadows */
+  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.06);
+  --shadow-sm: 0 2px 6px -1px rgba(15, 23, 42, 0.08), 0 1px 3px -1px rgba(15, 23, 42, 0.04);
+  --shadow: 0 2px 8px -1px rgba(15, 23, 42, 0.08), 0 1px 3px -1px rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 4px 16px -2px rgba(15, 23, 42, 0.08), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
+  --shadow-lg: 0 12px 32px -4px rgba(0, 56, 147, 0.12), 0 4px 12px -2px rgba(15, 23, 42, 0.06);
+  --shadow-cta: 0 6px 18px -2px rgba(220, 20, 60, 0.32);
+
+  /* Gradients */
+  --grad-hero: linear-gradient(180deg, rgba(0, 56, 147, 0.04) 0%, rgba(248, 250, 252, 0) 100%);
+  --grad-primary: linear-gradient(135deg, #003893 0%, #002A6E 100%);
+  --grad-accent: linear-gradient(135deg, #DC143C 0%, #B80F32 100%);
+
+  /* Font scale */
   --fs-xs: 12px;
   --fs-sm: 14px;
   --fs-md: 16px;
-  --fs-lg: 19px;
-  --fs-xl: 23px;
-  --fs-2xl: 30px;
+  --fs-lg: 18px;
+  --fs-xl: 22px;
+  --fs-2xl: 28px;
+  --fs-display: 36px;
+}
+
+/* Dark Mode Tokens (Deep Navy Palette - WCAG AA Contrast) */
+[data-theme="dark"], .dark {
+  /* Surfaces & Canvas */
+  --bg: #0B1220;                  /* Deep navy background, not pure black */
+  --surface: #111A2E;             /* Card surface slightly lighter */
+  --surface-2: #18233B;           /* Inputs, chips, secondary surfaces */
+  --surface-elevated: #1E2945;
+  --surface-hover: #1E2D4D;
+  --border: #243049;              /* Navy hairline borders */
+  --border-subtle: #1C263B;
+  --border-hover: #374668;
+  --line: var(--border);
+  --line-hover: var(--border-hover);
+
+  /* Typography */
+  --text: #E8EDF7;                /* Off-white text */
+  --text-muted: #9AA7BD;          /* Secondary muted text */
+  --text-subtle: #7B8BA8;
+  --text-inverse: #0B1220;
+  --fg: var(--text);
+  --fg-muted: var(--text-muted);
+  --fg-subtle: var(--text-subtle);
+
+  /* Brand Primary */
+  --primary: #5B8DEF;             /* Brightened blue for dark background contrast */
+  --primary-hover: #7AA5F5;
+  --primary-soft: #16264A;
+  --primary-soft-hover: #1D3363;
+  --primary-border: #28427B;
+  --primary-fg: #0B1220;
+
+  /* Brand Accent */
+  --accent: #DC143C;
+  --accent-fill: #DC143C;         /* Solid crimson maintained for white-text button CTAs */
+  --accent-hover: #B80F32;
+  --accent-text: #FF6B84;         /* Vibrant brightened crimson for text/icons on dark */
+  --accent-soft: rgba(220, 20, 60, 0.15);
+  --accent-border: rgba(220, 20, 60, 0.35);
+  --accent-fg: #FFFFFF;
+
+  /* Icon Tokens */
+  --icon: #7AA5F5;
+  --icon-muted: #9AA7BD;
+  --icon-bg: #16264A;
+  --icon-border: #28427B;
+
+  /* Interactive & States */
+  --link: #5B8DEF;
+  --link-hover: #7AA5F5;
+  --ring: rgba(91, 141, 239, 0.45);
+  --ring-accent: rgba(220, 20, 60, 0.5);
+
+  /* Semantic Feedback */
+  --success: #4ADE80;
+  --success-soft: rgba(74, 222, 128, 0.15);
+  --success-border: rgba(74, 222, 128, 0.3);
+  --warning: #FBBF24;
+  --warning-soft: rgba(251, 191, 36, 0.15);
+  --warning-border: rgba(251, 191, 36, 0.3);
+  --info: #38BDF8;
+  --info-soft: rgba(56, 189, 248, 0.15);
+  --info-border: rgba(56, 189, 248, 0.3);
+  --gold: #FBBF24;
+  --star: #FBBF24;
+
+  /* Elevation Shadows */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 2px 6px -1px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 6px 20px -3px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 16px 36px -6px rgba(0, 0, 0, 0.65);
+  --shadow-cta: 0 6px 20px -2px rgba(220, 20, 60, 0.45);
+
+  /* Gradients */
+  --grad-hero: linear-gradient(180deg, rgba(91, 141, 239, 0.08) 0%, rgba(11, 18, 32, 0) 100%);
+  --grad-primary: linear-gradient(135deg, #16264A 0%, #0B1220 100%);
+  --grad-accent: linear-gradient(135deg, #DC143C 0%, #B80F32 100%);
 }
 
 @layer base {
@@ -56,7 +202,7 @@ html {
 
 body {
   font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
-  color: var(--ink);
+  color: var(--fg);
   background: var(--bg);
   font-size: var(--fs-md);
   line-height: 1.5;
@@ -65,6 +211,63 @@ body {
 
 :lang(ne), .ne-text {
   font-family: var(--font-mukta), var(--font-inter), sans-serif;
+  line-height: 1.6;
+}
+
+/* Card Lift & Marketplace Styles */
+.card-lift {
+  box-shadow: var(--shadow);
+  transition: transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.2s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.2s ease;
+}
+.card-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--line-hover);
+}
+
+/* Skeleton Loading Shimmer */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, var(--surface-2) 25%, var(--line) 37%, var(--surface-2) 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: var(--r-sm);
+}
+
+/* Soft Icon Containers (Lucide inside tinted containers - perfectly centered) */
+.icon-box {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 12px;
+  flex-shrink: 0 !important;
+  text-align: center;
+  line-height: 0 !important;
+  box-sizing: border-box;
+}
+.icon-box > svg {
+  display: block;
+  margin: auto !important;
+  flex-shrink: 0 !important;
+}
+.icon-box-primary {
+  background: var(--primary-soft);
+  color: var(--primary);
+}
+.icon-box-accent {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.icon-box-success {
+  background: var(--success-soft);
+  color: var(--success);
+}
+.icon-box-amber {
+  background: var(--warning-soft);
+  color: var(--warning);
 }
 
 @layer base {
@@ -99,17 +302,10 @@ body {
   scrollbar-width: none !important;
 }
 
-/* mode → accent colour swap */
-body.mode-host, .mode-host {
-  --accent: var(--crimson);
-  --accent-dk: var(--crimson-dk);
-  --accent-soft: var(--crimson-soft);
-}
-
+/* Nepal Flag Brand Accent & Mode consistency */
+body.mode-host, .mode-host,
 body.mode-worker, .mode-worker {
-  --accent: var(--flagblue);
-  --accent-dk: var(--blue-dk);
-  --accent-soft: var(--blue-soft);
+  /* Keep semantic Nepal Crimson accent consistent across modes */
 }
 
 /* Brand Pennants */
@@ -996,7 +1192,8 @@ body.mode-worker, .mode-worker {
   margin-top: 8px;
   text-align: center;
 }
-.leaflet-container {
+.leaflet-container,
+.mapboxgl-map {
   font: inherit;
 }
 .hk-pin {

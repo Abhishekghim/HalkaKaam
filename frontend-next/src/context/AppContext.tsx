@@ -24,8 +24,9 @@ import {
   SheetType,
   SortKey,
   User,
+  KycData,
 } from '../types';
-import { KIRTIPUR, makeSeed, uid } from '../lib/constants';
+import { KIRTIPUR, TEST_VERIFIED_USER, makeSeed, uid } from '../lib/constants';
 import { t as translate } from '../lib/i18n';
 
 /* ---------- storage keys (same as the original vanilla app) ---------- */
@@ -96,12 +97,17 @@ const BOT_PITCHES = [
 ];
 const pick = <T,>(arr: T[]) => arr[Math.floor(Math.random() * arr.length)];
 
-interface AppContextType {
+export interface AppContextType {
   ready: boolean;
+  theme: 'light' | 'dark';
+  setTheme: (t: 'light' | 'dark') => void;
+  toggleTheme: () => void;
   lang: Language;
   setLang: (l: Language) => void;
   toggleLang: () => void;
   t: (key: string) => string;
+  searchQuery: string;
+  setSearchQuery: (q: string) => void;
 
   view: AppView;
   setView: (v: AppView) => void;
@@ -115,6 +121,7 @@ interface AppContextType {
   goAuth: (intent?: AppMode | null) => void;
   sendOtp: (name: string, phone: string, area: string) => boolean;
   verifyOtp: (code: string) => boolean;
+  loginAsTestAccount: () => void;
   logout: () => void;
 
   me: User | null;
@@ -176,14 +183,32 @@ interface AppContextType {
   markInboxSeen: (jobId: string) => void;
   updateMyBio: (bio: string) => void;
   updateUserBio: (userId: string, bio: string) => void;
+  submitKyc: (data: KycData, autoApprove?: boolean) => void;
 }
 
 const AppContext = createContext<AppContextType | null>(null);
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [ready, setReady] = useState(false);
+  const [theme, setThemeState] = useState<'light' | 'dark'>('light');
   const [lang, setLangState] = useState<Language>('en');
+  const [searchQuery, setSearchQuery] = useState('');
   const [view, setViewState] = useState<AppView>('langpick');
+
+  const setTheme = useCallback((t: 'light' | 'dark') => {
+    setThemeState(t);
+    try {
+      localStorage.setItem('hk-theme', t);
+    } catch {}
+    if (typeof document !== 'undefined') {
+      document.documentElement.setAttribute('data-theme', t);
+      document.documentElement.classList.toggle('dark', t === 'dark');
+    }
+  }, []);
+
+  const toggleTheme = useCallback(() => {
+    setTheme(theme === 'dark' ? 'light' : 'dark');
+  }, [theme, setTheme]);
 
   const [authStep, setAuthStep] = useState<1 | 2>(1);
   const [authIntent, setAuthIntent] = useState<AppMode | null>(null);
@@ -257,6 +282,22 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       j = s.jobs;
       save(K_USERS, u);
       save(K_JOBS, j);
+    } else {
+      const s = makeSeed();
+      for (const su of s.users) {
+        const idx = u.findIndex((x) => x.id === su.id || (su.phone && x.phone === su.phone));
+        if (idx >= 0) {
+          u[idx] = {
+            ...u[idx],
+            phone: su.phone || u[idx].phone,
+            kycStatus: su.kycStatus || u[idx].kycStatus,
+            kycData: su.kycData || u[idx].kycData,
+          };
+        } else {
+          u.push(su);
+        }
+      }
+      save(K_USERS, u);
     }
     setUsers(u);
     setJobs(j);
@@ -265,8 +306,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       if (sess.lang) setLangState(sess.lang);
       setViewState('locstep');
     }
+    try {
+      const savedTheme = localStorage.getItem('hk-theme') as 'light' | 'dark' | null;
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const initialTheme = savedTheme || (prefersDark ? 'dark' : 'light');
+      setTheme(initialTheme);
+    } catch {}
     setReady(true);
-  }, []);
+  }, [setTheme]);
 
   /* ---------- side effects ---------- */
   useEffect(() => {
@@ -421,11 +468,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const sendOtp = (name: string, phone: string, area: string) => {
-    if (name.trim().length < 3) { showToast(tr('full_name')); return false; }
-    if (!/^9[78]\d{8}$/.test(phone.trim())) { showToast('98XXXXXXXX'); return false; }
-    setAuthName(name.trim());
-    setAuthPhone(phone.trim());
-    setAuthArea(area.trim());
+    const cleanPhone = phone.trim().replace(/\D/g, '');
+    if (!/^9[78]\d{8}$/.test(cleanPhone)) { showToast('98XXXXXXXX'); return false; }
+    const existing = users.find((u) => u.phone === cleanPhone);
+    const resolvedName = name.trim() || existing?.name || (cleanPhone === TEST_VERIFIED_USER.phone ? TEST_VERIFIED_USER.name : 'User');
+    setAuthName(resolvedName);
+    setAuthPhone(cleanPhone);
+    setAuthArea(area.trim() || existing?.campus || 'Kathmandu');
     setAuthStep(2);
     return true;
   };
@@ -434,16 +483,41 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     if (!/^\d{6}$/.test(code.trim())) { showToast(tr('otp_label')); return false; }
     let existing = users.find((u) => u.phone === authPhone);
     if (!existing) {
-      existing = {
-        id: uid(), name: authName, phone: authPhone, campus: authArea, bio: '',
-        baseRating: 0, baseCount: 0, isBot: false, created: Date.now(),
-      };
+      if (authPhone === TEST_VERIFIED_USER.phone) {
+        existing = TEST_VERIFIED_USER;
+      } else {
+        existing = {
+          id: uid(), name: authName || 'New User', phone: authPhone, campus: authArea, bio: '',
+          baseRating: 0, baseCount: 0, isBot: false, created: Date.now(),
+        };
+      }
       const created = existing;
       updateUsers((us) => [...us, created]);
     }
     setMeId(existing.id);
     setView('locstep');
     return true;
+  };
+
+  const loginAsTestAccount = () => {
+    let testUser = users.find((u) => u.phone === TEST_VERIFIED_USER.phone || u.id === TEST_VERIFIED_USER.id);
+    if (!testUser) {
+      testUser = TEST_VERIFIED_USER;
+      updateUsers((us) => [...us.filter((u) => u.id !== TEST_VERIFIED_USER.id), TEST_VERIFIED_USER]);
+    } else if (testUser.kycStatus !== 'verified') {
+      testUser = { ...testUser, ...TEST_VERIFIED_USER };
+      updateUsers((us) => us.map((u) => (u.id === testUser!.id ? testUser! : u)));
+    }
+    setMeId(testUser.id);
+    setPos(KIRTIPUR);
+    setLocName('Kirtipur, Kathmandu');
+    setRadius(5);
+    setModeState('worker');
+    setTabState('feed');
+    setLocSet(true);
+    setView('app');
+    showToast(lang === 'ne' ? '✅ KYC प्रमाणित खाता (किरण विष्ट) मा लगइन भयो!' : '✅ Logged in as KYC Verified Tasker (Kiran Bista)!');
+    celebrate();
   };
 
   const logout = () => {
@@ -475,6 +549,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   /* ---------- worker actions ---------- */
   const submitOffer = (jobId: string, amount: number, pitch: string) => {
     if (!me) return;
+    if (me.kycStatus !== 'verified') {
+      openSheet('kyc', { jobId });
+      showToast(
+        lang === 'ne'
+          ? '⚠️ काममा Apply गर्न पहिले KYC प्रमाणीकरण आवश्यक छ'
+          : '⚠️ KYC verification required before applying'
+      );
+      return;
+    }
     const job = jobById(jobId);
     if (!job || job.status !== 'open') return;
     if (job.bids.some((b) => b.workerId === me.id)) return;
@@ -689,10 +772,37 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     showToast(tr('save') + ' ✓');
   };
 
+  const submitKyc = (data: KycData, autoApprove = true) => {
+    if (!me) return;
+    const status = autoApprove ? 'verified' : 'pending';
+    updateUsers((us) =>
+      us.map((u) =>
+        u.id === me.id
+          ? {
+              ...u,
+              kycStatus: status,
+              kycData: {
+                ...data,
+                submittedAt: Date.now(),
+                verifiedAt: autoApprove ? Date.now() : undefined,
+              },
+            }
+          : u
+      )
+    );
+    if (autoApprove) {
+      showToast(lang === 'ne' ? '✅ KYC प्रमाणीकरण सफल भयो!' : '✅ KYC verified successfully!');
+      celebrate();
+    } else {
+      showToast(lang === 'ne' ? '⏳ KYC समीक्षाको लागि पेश गरियो' : '⏳ KYC submitted for review');
+    }
+  };
+
   const value: AppContextType = {
-    ready, lang, setLang, toggleLang, t: tr,
+    ready, theme, setTheme, toggleTheme, lang, setLang, toggleLang, t: tr,
+    searchQuery, setSearchQuery,
     view, setView,
-    authStep, setAuthStep, authIntent, authPhone, authName, authArea, goAuth, sendOtp, verifyOtp, logout,
+    authStep, setAuthStep, authIntent, authPhone, authName, authArea, goAuth, sendOtp, verifyOtp, logout, loginAsTestAccount,
     me, users, jobs, pos, locName, locSet, radius,
     mode, setMode, tab, setTab, cat, setCat, sort, setSort,
     toast, showToast, successPop, celebrate,
@@ -705,6 +815,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     sendChatMessage, sendCounter, acceptCounter, assignWorker,
     submitWorkerReview, submitHostReview, submitReport,
     markChatRead, markInboxSeen, updateMyBio, updateUserBio,
+    submitKyc,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

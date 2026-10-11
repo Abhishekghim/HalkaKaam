@@ -8,6 +8,8 @@ import { InboxSheet } from './InboxSheet';
 import { ReviewModal } from './ReviewModal';
 import { ProfileView } from './ProfileView';
 import { FilterSheet } from './FilterSheet';
+import { KycModal } from './KycModal';
+import { X } from 'lucide-react';
 
 export const SheetModal: React.FC = () => {
   const { sheet, closeSheet, jobById, userById } = useApp();
@@ -49,6 +51,9 @@ export const SheetModal: React.FC = () => {
       case 'profile':
         return <ProfileView user={user} role={sheet.role} />;
 
+      case 'kyc':
+        return <KycModal jobId={sheet.jobId} />;
+
       default:
         return null;
     }
@@ -61,9 +66,9 @@ export const SheetModal: React.FC = () => {
           type="button"
           onClick={closeSheet}
           aria-label="Close modal"
-          className="absolute right-4 top-3.5 w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-900 flex items-center justify-center transition-colors text-xs font-bold z-20 cursor-pointer shadow-2xs"
+          className="absolute right-4 top-3.5 w-8 h-8 rounded-full bg-[var(--surface-2)] hover:bg-[var(--line)] text-[var(--fg-muted)] hover:text-[var(--fg)] border border-[var(--line)] flex items-center justify-center transition-colors text-xs font-bold z-20 cursor-pointer shadow-2xs"
         >
-          ✕
+          <X className="w-4 h-4" />
         </button>
         <div className="grab" />
         <div className="inner">{renderContent()}</div>

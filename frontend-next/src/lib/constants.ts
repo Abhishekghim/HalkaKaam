@@ -1,4 +1,4 @@
-import { Area, Coordinates, Job, User } from '../types';
+import { Area, Coordinates, Job, User, KycStatus } from '../types';
 
 export const KIRTIPUR: Coordinates = { lat: 27.6789, lng: 85.2774 };
 
@@ -65,36 +65,61 @@ export function haversineKm(a: Coordinates, b: Coordinates): number {
 
 export const kmDist = haversineKm;
 
+export const TEST_VERIFIED_USER: User = {
+  id: 'seed-kiranbista',
+  name: 'Kiran Bista',
+  phone: '9801234567',
+  campus: 'Pulchowk Campus',
+  bio: 'Engineering student · moving & assembly. 34 gigs done! (Nepal KYC Verified)',
+  baseRating: 4.9,
+  baseCount: 34,
+  isBot: false,
+  kycStatus: 'verified',
+  kycData: {
+    docType: 'citizenship',
+    docNumber: '27-01-78-04921',
+    fullName: 'Kiran Bista',
+    district: 'Kathmandu (काठमाडौँ)',
+    dob: '2056-08-15',
+    submittedAt: 1718000000000,
+    verifiedAt: 1718000000000,
+  },
+  created: Date.now() - 90 * 864e5,
+};
+
 export function makeSeed(): { users: User[]; jobs: Job[] } {
   const mk = (
     name: string,
     campus: string,
     br: number,
     bc: number,
-    bio: string
+    bio: string,
+    phone = '',
+    kycStatus: KycStatus = 'verified'
   ): User => ({
     id: 'seed-' + name.toLowerCase().replace(/[^a-z]/g, ''),
     name,
-    phone: '',
+    phone,
     campus,
     bio,
     baseRating: br,
     baseCount: bc,
-    isBot: true,
+    isBot: phone ? false : true,
+    kycStatus,
     created: Date.now() - 90 * 864e5,
   });
 
   const users: User[] = [
-    mk('Sunita Gurung', 'Kirtipur', 4.8, 23, 'Homemaker. I post small household tasks weekly.'),
-    mk('Ramesh Karki', 'Balkhu', 4.5, 11, 'Shop owner near Balkhu chowk.'),
-    mk('Anita Shrestha', 'New Baneshwor', 5.0, 8, 'Frequent delivery tasks.'),
+    mk('Sunita Gurung', 'Kirtipur', 4.8, 23, 'Homemaker. I post small household tasks weekly.', '9801111111'),
+    mk('Ramesh Karki', 'Balkhu', 4.5, 11, 'Shop owner near Balkhu chowk.', '9802222222'),
+    mk('Anita Shrestha', 'New Baneshwor', 5.0, 8, 'Frequent delivery tasks.', '9803333333'),
     mk('Bikash Thapa', 'TU Gate', 4.7, 15, 'Looking for student tutors.'),
     mk('Prakriti Maharjan', 'Patan', 4.9, 31, 'Cleaning and gardening gigs around Patan.'),
-    mk('Kiran Bista', 'Pulchowk Campus', 4.9, 34, 'Engineering student · moving & assembly. 34 gigs done!'),
+    TEST_VERIFIED_USER,
     mk('Dipesh Maharjan', 'Kirtipur', 4.6, 12, 'BBS student, part-time at a hardware shop.'),
     mk('Sarita KC', 'Tribhuvan University', 5.0, 8, 'My brother and I take moving jobs together.'),
-    mk('Roshan Tamang', 'TU Gate', 4.2, 5, 'New to HK — building my rating.'),
-    mk('Pratiksha Sharma', 'Patan Campus', 4.9, 21, 'CSIT student · laptop repair, tutoring.'),
+    mk('Roshan Tamang', 'TU Gate', 4.2, 5, 'New to HK — unverified test profile.', '9805555555', 'unverified'),
+    mk('Pratiksha Sharma', 'Patan Campus', 4.9, 21, 'CSIT student · laptop repair, tutoring.', '9804444444'),
     mk('Anish Gautam', 'Kirtipur', 4.7, 9, 'BSc student, free most afternoons.'),
   ];
 
@@ -304,6 +329,24 @@ export function makeSeed(): { users: User[]; jobs: Job[] } {
         ['Dipesh Maharjan', 1200, 'I work at a hardware shop, used to cement. Free Sunday, start 7 AM.'],
         ['Sarita KC', 1000, 'My brother and I take heavy jobs together — covers both.'],
         ['Roshan Tamang', 950, 'Strong and punctual. Bidding lower to earn first reviews.'],
+      ]
+    ),
+    J(
+      'Sunita Gurung',
+      'Fix kitchen sink leak & replace water tap',
+      'Repairs / Handyman',
+      'In-person',
+      650,
+      'Flat',
+      27.6795,
+      85.2815,
+      'Naya Bazar, Kirtipur',
+      'Today, anytime after 3 PM',
+      'Kitchen sink pipe is leaking underneath and the main tap needs replacement. Spare washer and new tap already purchased.',
+      ['🔧', '🚰'],
+      4,
+      [
+        ['Dipesh Maharjan', 600, 'I work at hardware shop in Kirtipur and have plumbing tools. Can come at 4 PM.'],
       ]
     ),
   ];
