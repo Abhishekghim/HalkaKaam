@@ -258,32 +258,24 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         Math.max(y, window.innerHeight - y)
       );
 
+      // Set CSS custom properties on documentElement for the soft feathered mask
+      doc.documentElement.style.setProperty('--mask-x', `${x}px`);
+      doc.documentElement.style.setProperty('--mask-y', `${y}px`);
+      doc.documentElement.style.setProperty('--mask-end-radius', `${endRadius + 110}px`);
+
       const transition = doc.startViewTransition(() => {
         flushSync(() => {
           setTheme(nextTheme);
         });
       });
 
-      transition.ready
-        .then(() => {
-          const clipPath = [
-            `circle(0px at ${x}px ${y}px)`,
-            `circle(${endRadius}px at ${x}px ${y}px)`,
-          ];
-
-          doc.documentElement.animate(
-            {
-              clipPath,
-            },
-            {
-              duration: 420,
-              easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
-              pseudoElement: '::view-transition-new(root)',
-            }
-          );
-        })
-        .catch(() => {
-          // Animation aborted or interrupted
+      // Clean up variables after the transition completes
+      (transition as unknown as { finished?: Promise<void> }).finished
+        ?.catch(() => {})
+        .finally(() => {
+          doc.documentElement.style.removeProperty('--mask-x');
+          doc.documentElement.style.removeProperty('--mask-y');
+          doc.documentElement.style.removeProperty('--mask-end-radius');
         });
     },
     [theme, setTheme]
