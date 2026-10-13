@@ -1877,5 +1877,35 @@ body.mode-worker, .mode-worker {
 
 /* success pop */
 .successpop{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:120;pointer-events:none}
-.successpop .circle{width:120px;height:120px;border-radius:50%;background:var(--green);color:#fff;font-size:60px;display:flex;align-items:center;justify-content:center;box-shadow:0 12px 40px rgba(31,138,95,.45);animation:popIn .9s cubic-bezier(.2,1.4,.4,1) forwards}
 @keyframes popIn{0%{transform:scale(.3);opacity:0}25%{transform:scale(1.05);opacity:1}75%{transform:scale(1);opacity:1}100%{transform:scale(.9);opacity:0}}
+
+/* =========================================================================
+   SILKY SMOOTH VIEW TRANSITION & THEME SWITCHING ANIMATION
+   ========================================================================= */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 99999;
+}
+
+/* Fallback smooth transition for browsers without View Transitions API */
+.theme-transitioning,
+.theme-transitioning *,
+.theme-transitioning *::before,
+.theme-transitioning *::after {
+  transition: background-color 320ms cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 320ms cubic-bezier(0.4, 0, 0.2, 1),
+              color 320ms cubic-bezier(0.4, 0, 0.2, 1),
+              fill 320ms cubic-bezier(0.4, 0, 0.2, 1),
+              stroke 320ms cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 320ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition-delay: 0s !important;
+}

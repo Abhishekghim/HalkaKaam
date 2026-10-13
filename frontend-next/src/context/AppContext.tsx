@@ -9,6 +9,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
+import { flushSync } from 'react-dom';
 import {
   AppMode,
   AppTab,
@@ -101,7 +102,7 @@ export interface AppContextType {
   ready: boolean;
   theme: 'light' | 'dark';
   setTheme: (t: 'light' | 'dark') => void;
-  toggleTheme: () => void;
+  toggleTheme: (event?: React.MouseEvent | MouseEvent) => void;
   lang: Language;
   setLang: (l: Language) => void;
   toggleLang: () => void;
@@ -206,9 +207,87 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   }, []);
 
-  const toggleTheme = useCallback(() => {
-    setTheme(theme === 'dark' ? 'light' : 'dark');
-  }, [theme, setTheme]);
+  const toggleTheme = useCallback(
+    (event?: React.MouseEvent | MouseEvent) => {
+      const nextTheme = theme === 'dark' ? 'light' : 'dark';
+
+      if (typeof document === 'undefined') {
+        setTheme(nextTheme);
+        return;
+      }
+
+      const doc = document as unknown as {
+        startViewTransition?: (cb: () => void) => { ready: Promise<void> };
+        documentElement: HTMLElement;
+      };
+
+      const prefersReducedMotion =
+        typeof window !== 'undefined' &&
+        window.matchMedia &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // Fallback if browser lacks View Transitions API or user prefers reduced motion
+      if (!doc.startViewTransition || prefersReducedMotion) {
+        doc.documentElement.classList.add('theme-transitioning');
+        setTheme(nextTheme);
+        setTimeout(() => {
+          doc.documentElement.classList.remove('theme-transitioning');
+        }, 340);
+        return;
+      }
+
+      // Determine center coordinate for the expanding circle ripple
+      let x = typeof window !== 'undefined' ? window.innerWidth / 2 : 0;
+      let y = typeof window !== 'undefined' ? window.innerHeight / 2 : 0;
+
+      if (event && 'clientX' in event && typeof event.clientX === 'number' && event.clientX > 0) {
+        x = event.clientX;
+        y = event.clientY;
+      } else if (
+        event &&
+        'currentTarget' in event &&
+        (event.currentTarget as HTMLElement)?.getBoundingClientRect
+      ) {
+        const rect = (event.currentTarget as HTMLElement).getBoundingClientRect();
+        x = rect.left + rect.width / 2;
+        y = rect.top + rect.height / 2;
+      }
+
+      const endRadius = Math.hypot(
+        Math.max(x, window.innerWidth - x),
+        Math.max(y, window.innerHeight - y)
+      );
+
+      const transition = doc.startViewTransition(() => {
+        flushSync(() => {
+          setTheme(nextTheme);
+        });
+      });
+
+      transition.ready
+        .then(() => {
+          const clipPath = [
+            `circle(0px at ${x}px ${y}px)`,
+            `circle(${endRadius}px at ${x}px ${y}px)`,
+          ];
+
+          doc.documentElement.animate(
+            {
+              clipPath,
+            },
+            {
+              duration: 420,
+              easing: 'cubic-bezier(0.4, 0, 0.2, 1)',
+              pseudoElement: '::view-transition-new(root)',
+            }
+          );
+        })
+        .catch(() => {
+          // Animation aborted or interrupted
+        });
+    },
+    [theme, setTheme]
+  );
 
   const [authStep, setAuthStep] = useState<1 | 2>(1);
   const [authIntent, setAuthIntent] = useState<AppMode | null>(null);

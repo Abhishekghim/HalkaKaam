@@ -19,7 +19,7 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({ className = '', showLa
         type="button"
         role="switch"
         aria-checked={isDark}
-        onClick={toggleTheme}
+        onClick={(e) => toggleTheme(e)}
         aria-label={isDark ? t('light_mode') : t('dark_mode')}
         title={isDark ? t('light_mode') : t('dark_mode')}
         className={`group relative inline-flex h-8 w-15 flex-none items-center rounded-full p-1 cursor-pointer transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/30 select-none ${
@@ -31,30 +31,37 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({ className = '', showLa
         {/* Track Ambient Icons */}
         <div className="absolute inset-0 flex items-center justify-between px-2 text-[10px] pointer-events-none">
           <Sun
-            className={`w-3.5 h-3.5 transition-opacity duration-300 ${
-              isDark ? 'text-amber-500/40 opacity-40' : 'opacity-0'
+            className={`w-3.5 h-3.5 transition-all duration-300 ${
+              isDark ? 'text-amber-500/40 opacity-40 scale-90' : 'opacity-0 scale-75'
             }`}
           />
           <Moon
-            className={`w-3.5 h-3.5 transition-opacity duration-300 ${
-              isDark ? 'opacity-0' : 'text-slate-400/60 opacity-60'
+            className={`w-3.5 h-3.5 transition-all duration-300 ${
+              isDark ? 'opacity-0 scale-75' : 'text-slate-400/60 opacity-60 scale-90'
             }`}
           />
         </div>
 
         {/* Smooth Animated Sliding Thumb */}
         <div
-          className={`relative z-10 flex h-6 w-6 items-center justify-center rounded-full transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
+          className={`relative z-10 flex h-6 w-6 items-center justify-center rounded-full transition-transform duration-350 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
             isDark
               ? 'translate-x-7 bg-gradient-to-tr from-blue-600 to-indigo-500 text-white shadow-md shadow-blue-900/50'
               : 'translate-x-0 bg-gradient-to-tr from-amber-400 to-amber-300 text-white shadow-md shadow-amber-500/40'
           }`}
         >
-          {isDark ? (
-            <Moon className="w-3.5 h-3.5 fill-white text-white drop-shadow-2xs transition-transform duration-300 rotate-0" />
-          ) : (
-            <Sun className="w-3.5 h-3.5 fill-white text-white drop-shadow-2xs transition-transform duration-300 rotate-0" />
-          )}
+          <div className="relative w-3.5 h-3.5 flex items-center justify-center">
+            <Sun
+              className={`absolute inset-0 w-3.5 h-3.5 fill-white text-white drop-shadow-2xs transition-all duration-300 ${
+                isDark ? 'scale-0 rotate-90 opacity-0 pointer-events-none' : 'scale-100 rotate-0 opacity-100'
+              }`}
+            />
+            <Moon
+              className={`absolute inset-0 w-3.5 h-3.5 fill-white text-white drop-shadow-2xs transition-all duration-300 ${
+                isDark ? 'scale-100 rotate-0 opacity-100' : 'scale-0 -rotate-90 opacity-0 pointer-events-none'
+              }`}
+            />
+          </div>
         </div>
       </button>
 
