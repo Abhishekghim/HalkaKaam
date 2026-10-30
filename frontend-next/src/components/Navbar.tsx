@@ -12,6 +12,7 @@ import {
   Briefcase,
   Home,
   Languages,
+  Info,
 } from 'lucide-react';
 
 interface NavbarProps {
@@ -25,7 +26,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onPostClick }) => {
     toggleLang,
     mode,
     setMode,
-    tab,
     setTab,
     me,
     locName,
@@ -33,6 +33,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onPostClick }) => {
     setView,
     hostBadge,
     workerBadge,
+    isStandaloneApp,
   } = useApp();
 
   const handleLogoClick = () => {
@@ -98,6 +99,19 @@ export const Navbar: React.FC<NavbarProps> = ({ onPostClick }) => {
 
         {/* Right Actions */}
         <div className="flex items-center gap-2 sm:gap-2.5">
+          {/* Website-only About Sajha Kaam Home link */}
+          {!isStandaloneApp && (
+            <button
+              type="button"
+              onClick={() => setView('landing')}
+              className="hidden lg:inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-bold text-[var(--fg-muted)] hover:text-[var(--primary)] hover:bg-[var(--surface-2)] transition-colors cursor-pointer"
+              title={lang === 'ne' ? 'साझा कामको बारेमा' : 'About Sajha Kaam'}
+            >
+              <Info className="w-3.5 h-3.5" />
+              <span>{lang === 'ne' ? 'बारेमा' : 'About'}</span>
+            </button>
+          )}
+
           {/* Location button */}
           <button
             type="button"

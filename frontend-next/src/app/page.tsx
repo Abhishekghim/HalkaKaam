@@ -10,12 +10,12 @@ import { AppShell } from '../components/AppShell';
 import { Toast } from '../components/Toast';
 
 export default function Home() {
-  const { view } = useApp();
+  const { view, isStandaloneApp, me } = useApp();
 
   return (
     <>
       {view === 'langpick' && <ScreenLangPick />}
-      {view === 'landing' && <ScreenLanding />}
+      {view === 'landing' && (isStandaloneApp ? (me ? <AppShell /> : <ScreenAuth />) : <ScreenLanding />)}
       {view === 'auth' && <ScreenAuth />}
       {view === 'locstep' && <ScreenLocation />}
       {view === 'app' && <AppShell />}

@@ -32,6 +32,7 @@ export const AppShell: React.FC = () => {
     setTab,
     hostBadge,
     workerBadge,
+    isStandaloneApp,
   } = useApp();
 
   const renderActiveScreen = () => {
@@ -246,8 +247,8 @@ export const AppShell: React.FC = () => {
         </div>
       </nav>
 
-      {/* Footer */}
-      <Footer />
+      {/* Footer (Website only, hidden in installed mobile app) */}
+      {!isStandaloneApp && <Footer />}
 
       {/* Modals & Toasts */}
       <SheetModal />

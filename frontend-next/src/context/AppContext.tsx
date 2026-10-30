@@ -118,6 +118,7 @@ const pick = <T,>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
 
 export interface AppContextType {
   ready: boolean;
+  isStandaloneApp: boolean;
   theme: 'light' | 'dark';
   setTheme: (t: 'light' | 'dark') => void;
   toggleTheme: (event?: React.MouseEvent | MouseEvent) => void;
@@ -209,10 +210,25 @@ const AppContext = createContext<AppContextType | null>(null);
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [ready, setReady] = useState(false);
+  const [isStandaloneApp, setIsStandaloneApp] = useState(false);
   const [theme, setThemeState] = useState<'light' | 'dark'>('light');
   const [lang, setLangState] = useState<Language>('en');
   const [searchQuery, setSearchQuery] = useState('');
   const [view, setViewState] = useState<AppView>('langpick');
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const checkStandalone = () => {
+      const standalone =
+        window.matchMedia('(display-mode: standalone)').matches ||
+        (window.navigator as unknown as { standalone?: boolean }).standalone === true;
+      setIsStandaloneApp(standalone);
+    };
+    checkStandalone();
+    const mql = window.matchMedia('(display-mode: standalone)');
+    mql.addEventListener?.('change', checkStandalone);
+    return () => mql.removeEventListener?.('change', checkStandalone);
+  }, []);
 
   /* ---------- Managed Timer Registry (Prevents Orphaned Session-Bleed Leaks) ---------- */
   const activeTimersRef = useRef<Set<ReturnType<typeof setTimeout>>>(new Set());
@@ -624,17 +640,26 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   }, [jobs, meId]);
 
   /* ---------- Navigation & UI Actions ---------- */
-  const setView = useCallback((v: AppView) => {
-    setViewState(v);
-    if (typeof window !== 'undefined') window.scrollTo(0, 0);
-  }, []);
+  const setView = useCallback(
+    (v: AppView) => {
+      if (v === 'landing' && isStandaloneApp) {
+        setViewState(meId ? 'app' : 'auth');
+      } else {
+        setViewState(v);
+      }
+      if (typeof window !== 'undefined') window.scrollTo(0, 0);
+    },
+    [isStandaloneApp, meId]
+  );
 
   const setLang = useCallback(
     (l: Language) => {
       setLangState(l);
-      if (view === 'langpick') setView('landing');
+      if (view === 'langpick') {
+        setView(isStandaloneApp ? (meId ? 'app' : 'auth') : 'landing');
+      }
     },
-    [view, setView]
+    [view, setView, isStandaloneApp, meId]
   );
 
   const toggleLang = useCallback(() => {
@@ -1201,6 +1226,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const value = useMemo<AppContextType>(
     () => ({
       ready,
+      isStandaloneApp,
       theme,
       setTheme,
       toggleTheme,
@@ -1278,6 +1304,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }),
     [
       ready,
+      isStandaloneApp,
       theme,
       setTheme,
       toggleTheme,
