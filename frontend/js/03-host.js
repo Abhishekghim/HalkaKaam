@@ -79,7 +79,7 @@ async function publishJob() {
 function scheduleBotBids(j) {
   const bots = S.users.filter(u => u.isBot && u.id !== j.hostId).sort(() => Math.random()-.5).slice(0,3);
   const pitches = [ n => 'Namaste! I study nearby and I am free at your time. Please check my reviews. 🙏',
-                    n => `I have done ${n} similar gigs on Halka Kaam. I can bring my own tools and I am punctual.`,
+                    n => `I have done ${n} similar gigs on Sajha Kaam. I can bring my own tools and I am punctual.`,
                     n => 'I live in your area and can start on time. Fair price, good quality work.' ];
   bots.forEach((bot,k) => setTimeout(async () => {
     const job = S.jobs.find(x => x.id === j.id); if (!job || job.status !== 'open') return;

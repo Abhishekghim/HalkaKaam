@@ -1,8 +1,8 @@
-# हल्का काम — Halka Kaam (HK)
+# साझा काम — Sajha Kaam (HK)
 
 A peer-to-peer gig marketplace for Nepal. Hosts post everyday tasks; university
 students nearby pitch privately and earn flexible micro-incomes.
-**No work is too small — हल्का काम, ठूलो सम्मान.**
+**No work is too small — साझा काम, ठूलो सम्मान.**
 
 > **What's new in this version — mobile-first redesign + Marketplace map + desktop layout**
 > The web client is built for phones first (the way most users in Nepal will open
@@ -37,7 +37,7 @@ This is a real, multi-file project you download and run on your own machine.
 It has two independent parts you can use separately or together.
 
 ```
-halka-kaam/
+sajha-kaam/
 ├── README.md                 ← you are here
 ├── frontend/                 ← the web client (HTML + CSS + vanilla JS, no build step)
 │   ├── index.html            ← thin shell; screens are rendered by the js/ files
@@ -124,7 +124,7 @@ cp .env.example .env          # then edit DATABASE_URL if needed
 npm install
 npm run db:schema             # create tables, indexes, triggers
 npm run db:seed               # load sample Kathmandu data (optional)
-npm start                     # → हल्का काम — API + web client on http://localhost:4000
+npm start                     # → साझा काम — API + web client on http://localhost:4000
 ```
 
 `npm start` serves **both** the REST API (`/api/*`) **and** the web client from
@@ -198,4 +198,4 @@ GET  /api/users/:id/profile
 - Demo mode (localStorage) and the backend are two separate storage paths — the
   backend is the production one; localStorage just lets the UI run with no server.
 
-हल्का काम, ठूलो सम्मान 🇳🇵
+साझा काम, ठूलो सम्मान 🇳🇵

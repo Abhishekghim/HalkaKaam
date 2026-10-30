@@ -22,7 +22,7 @@ export const ScreenLangPick: React.FC = () => {
         </div>
         <Wordmark className="text-3xl mb-2" />
         <p className="text-xs font-bold text-[var(--fg-muted)] tracking-wide mb-8">
-          No work is too small · हल्का काम, ठूलो सम्मान 🇳🇵
+          No work is too small · साझा काम, ठूलो सम्मान 🇳🇵
         </p>
 
         <div className="w-full space-y-3">

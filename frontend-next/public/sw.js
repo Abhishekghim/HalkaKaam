@@ -1,5 +1,5 @@
-// Halka Kaam Service Worker (PWA Offline Cache & Fast Assets)
-const CACHE_NAME = 'halka-kaam-v1';
+// Sajha Kaam Service Worker (PWA Offline Cache & Fast Assets)
+const CACHE_NAME = 'sajha-kaam-v1';
 const STATIC_ASSETS = [
   '/',
   '/manifest.webmanifest',
@@ -50,3 +50,4 @@ self.addEventListener('fetch', (event) => {
     })
   );
 });
+

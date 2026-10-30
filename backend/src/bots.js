@@ -8,7 +8,7 @@ const enabled = () => (process.env.DEMO_BOTS ?? 'true') !== 'false';
 
 const PITCHES = [
   (n) => `Namaste! I study nearby and I'm free at your scheduled time — happy to help. Please check my reviews. 🙏`,
-  (n) => `I've completed ${n} similar gigs on Halka Kaam. I can bring my own tools/transport if needed and I'm very punctual.`,
+  (n) => `I've completed ${n} similar gigs on Sajha Kaam. I can bring my own tools/transport if needed and I'm very punctual.`,
   ( ) => `I live within your area and can start exactly on time. Bidding fairly — quality work, no shortcuts.`,
 ];
 const REPLIES = [

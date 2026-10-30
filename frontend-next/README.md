@@ -1,6 +1,6 @@
-# हल्का काम (Halka Kaam) — Next.js & React Frontend
+# साझा काम (Sajha Kaam) — Next.js & React Frontend
 
-This is the modernized **React + Next.js (App Router) + TypeScript + Tailwind CSS** rewrite of the Halka Kaam web client, completely rebuilt from the ground up from the original vanilla HTML/CSS/JS frontend while preserving **100% visual design, branding, responsiveness, animations, and functionality**.
+This is the modernized **React + Next.js (App Router) + TypeScript + Tailwind CSS** rewrite of the Sajha Kaam web client, completely rebuilt from the ground up from the original vanilla HTML/CSS/JS frontend while preserving **100% visual design, branding, responsiveness, animations, and functionality**.
 
 ---
 

@@ -49,7 +49,7 @@ export const HowItWorks: React.FC = () => {
             <span>{lang === 'ne' ? 'सरल तथा भरपर्दो प्रक्रिया' : 'Simple & Trustworthy'}</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-black text-[var(--fg)] tracking-tight">
-            {lang === 'ne' ? 'यसले कसरी काम गर्छ? (३ सरल चरण)' : 'How Halka Kaam Works in 3 Simple Steps'}
+            {lang === 'ne' ? 'यसले कसरी काम गर्छ? (३ सरल चरण)' : 'How Sajha Kaam Works in 3 Simple Steps'}
           </h2>
           <p className="mt-2 text-xs sm:text-sm text-[var(--fg-muted)]">
             {lang === 'ne'

@@ -49,7 +49,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         <div className="flex justify-center mb-4">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[var(--primary-border)] bg-[var(--primary-soft)] text-[var(--primary)] text-xs font-bold shadow-2xs backdrop-blur-xs">
             <span className="flex h-2 w-2 rounded-full bg-[var(--accent)]" />
-            <span>हल्का काम, ठूलो सम्मान 🇳🇵</span>
+            <span>साझा काम, ठूलो सम्मान 🇳🇵</span>
             <span className="text-[var(--fg-muted)]">•</span>
             <span className="font-semibold text-[var(--fg-muted)]">
               {lang === 'ne' ? 'नेपालको पियर-टु-पियर बजार' : 'Nepal Gig Marketplace'}

@@ -17,10 +17,10 @@ export async function POST(req: Request) {
       website_url: origin,
       amount: amountInPaisa,
       purchase_order_id: `HK-JOB-${jobId || 'demo'}-${Date.now()}`,
-      purchase_order_name: `Halka Kaam Task Payment`,
+      purchase_order_name: `Sajha Kaam Task Payment`,
       customer_info: {
-        name: customerName || 'Halka Kaam Host',
-        email: 'host@halkakaam.com',
+        name: customerName || 'Sajha Kaam Host',
+        email: 'host@sajhakaam.com',
         phone: customerPhone || '9800000000',
       },
     };
@@ -65,3 +65,4 @@ export async function GET(req: Request) {
 
   return NextResponse.redirect(`${url.origin}?payment=success&pidx=${pidx}`);
 }
+

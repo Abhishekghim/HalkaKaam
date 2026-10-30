@@ -259,7 +259,7 @@ export const ChatView: React.FC = () => {
           <ShieldCheck className="w-3.5 h-3.5 flex-none" />
           <span>{isHost ? t('you_started') : t('poster_started')}</span>
         </div>
-        <span className="font-bold hidden sm:inline">Halka Kaam Secure Chat</span>
+        <span className="font-bold hidden sm:inline">Sajha Kaam Secure Chat</span>
       </div>
 
       {/* Message Log */}

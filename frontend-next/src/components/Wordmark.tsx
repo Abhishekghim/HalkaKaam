@@ -12,7 +12,7 @@ export const Wordmark: React.FC<{
       onClick={onClick}
       role={onClick ? 'button' : undefined}
     >
-      <span className="h">हल्का</span> <span className="k">काम</span>
+      <span className="h">साझा</span> <span className="k">काम</span>
     </div>
   );
 };

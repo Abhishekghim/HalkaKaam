@@ -32,4 +32,4 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () =>
-  console.log(`हल्का काम — API + web client on http://localhost:${PORT}`));
+  console.log(`साझा काम — API + web client on http://localhost:${PORT}`));

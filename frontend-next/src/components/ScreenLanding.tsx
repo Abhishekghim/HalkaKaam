@@ -76,7 +76,7 @@ export const ScreenLanding: React.FC = () => {
           <h2 className="text-2xl sm:text-3xl font-black tracking-tight mb-3">
             {lang === 'ne'
               ? 'काम चाहिएको छ वा काम गराउनु छ?'
-              : 'Ready to get started on Halka Kaam?'}
+              : 'Ready to get started on Sajha Kaam?'}
           </h2>
           <p className="text-sm sm:text-base text-white/85 max-w-xl mx-auto mb-6">
             {lang === 'ne'

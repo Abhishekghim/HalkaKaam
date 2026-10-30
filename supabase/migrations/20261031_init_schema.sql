@@ -1,5 +1,5 @@
 -- =========================================================================
--- HALKA KAAM · PRODUCTION DATABASE SCHEMA & SECURITY POLICIES (POSTGRESQL + POSTGIS)
+-- Sajha Kaam · PRODUCTION DATABASE SCHEMA & SECURITY POLICIES (POSTGRESQL + POSTGIS)
 -- =========================================================================
 
 -- Enable required extensions
@@ -339,3 +339,4 @@ CREATE POLICY "Messages visible to participants" ON public.messages
   FOR SELECT USING (auth.uid() = from_id OR auth.uid() = to_id);
 CREATE POLICY "Participants can send messages" ON public.messages
   FOR INSERT WITH CHECK (auth.uid() = from_id);
+

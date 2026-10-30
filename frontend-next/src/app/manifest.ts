@@ -2,9 +2,9 @@ import type { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: 'हल्का काम · Halka Kaam',
-    short_name: 'Halka Kaam',
-    description: 'Hyperlocal peer-to-peer gig marketplace for Nepal. No work is too small — हल्का काम, ठूलो सम्मान.',
+    name: 'साझा काम · Sajha Kaam',
+    short_name: 'Sajha Kaam',
+    description: 'Hyperlocal peer-to-peer gig marketplace for Nepal. No work is too small — साझा काम, ठूलो सम्मान.',
     start_url: '/',
     display: 'standalone',
     orientation: 'portrait',
@@ -35,3 +35,4 @@ export default function manifest(): MetadataRoute.Manifest {
     ],
   };
 }
+

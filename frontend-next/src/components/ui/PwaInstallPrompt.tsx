@@ -83,11 +83,11 @@ export const PwaInstallPrompt: React.FC = () => {
               fontSize: '13px',
             }}
           >
-            HK
+            SK
           </div>
           <div style={{ minWidth: 0 }}>
             <h4 style={{ margin: 0, fontSize: '13px', fontWeight: 800, color: 'var(--fg)' }}>
-              हल्का काम एप इन्स्टल गर्नुहोस्
+              साझा काम एप इन्स्टल गर्नुहोस्
             </h4>
             <p style={{ margin: '2px 0 0', fontSize: '11px', color: 'var(--fg-muted)' }}>
               Install app on your home screen

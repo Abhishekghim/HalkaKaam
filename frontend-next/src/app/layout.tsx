@@ -28,13 +28,13 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: 'हल्का काम · Halka Kaam',
-  description: 'A peer-to-peer gig marketplace for Nepal. No work is too small — हल्का काम, ठूलो सम्मान.',
-  applicationName: 'Halka Kaam',
+  title: 'साझा काम · Sajha Kaam',
+  description: 'A peer-to-peer gig marketplace for Nepal. No work is too small — साझा काम, ठूलो सम्मान.',
+  applicationName: 'Sajha Kaam',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'Halka Kaam',
+    title: 'Sajha Kaam',
   },
   formatDetection: {
     telephone: false,

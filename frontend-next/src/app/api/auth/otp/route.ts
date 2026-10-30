@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 // Nepal SMS Gateways (Sparrow SMS, Aakash SMS) integration adapter
 const SPARROW_TOKEN = process.env.SPARROW_SMS_TOKEN;
-const SPARROW_IDENTITY = process.env.SPARROW_SMS_IDENTITY || 'HalkaKaam';
+const SPARROW_IDENTITY = process.env.SPARROW_SMS_IDENTITY || 'SajhaKaam';
 
 export async function POST(req: Request) {
   try {
@@ -26,7 +26,7 @@ export async function POST(req: Request) {
       // If Sparrow SMS token is present, send live SMS
       if (SPARROW_TOKEN) {
         try {
-          const smsUrl = `http://api.sparrowsms.com/v2/sms/?token=${SPARROW_TOKEN}&from=${SPARROW_IDENTITY}&to=${cleanPhone}&text=Your+Halka+Kaam+verification+code+is+${generatedOtp}`;
+          const smsUrl = `http://api.sparrowsms.com/v2/sms/?token=${SPARROW_TOKEN}&from=${SPARROW_IDENTITY}&to=${cleanPhone}&text=Your+Sajha+Kaam+verification+code+is+${generatedOtp}`;
           await fetch(smsUrl, { method: 'GET' });
         } catch (smsErr) {
           console.error('[SMS Delivery Error]:', smsErr);
@@ -71,3 +71,4 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: false, message: msg }, { status: 500 });
   }
 }
+

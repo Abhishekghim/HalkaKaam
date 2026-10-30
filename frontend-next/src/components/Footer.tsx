@@ -28,7 +28,7 @@ export const Footer: React.FC = () => {
             </div>
             <p className="text-xs sm:text-sm text-[var(--fg-muted)] max-w-md leading-relaxed">
               {lang === 'ne'
-                ? 'नेपालको पहिलो भरपर्दो पियर-टु-पियर गिग प्लेटफर्म। घर सरसफाइ, सामान सार्ने, मर्मतदेखि प्रविधि सहयोगसम्म — हल्का काम, ठूलो सम्मान।'
+                ? 'नेपालको पहिलो भरपर्दो पियर-टु-पियर गिग प्लेटफर्म। घर सरसफाइ, सामान सार्ने, मर्मतदेखि प्रविधि सहयोगसम्म — साझा काम, ठूलो सम्मान।'
                 : "Nepal's trusted peer-to-peer task marketplace. From cleaning, moving, and repairs to tutoring and tech help — no work is too small."}
             </p>
             <div className="flex items-center gap-3 pt-2 text-xs font-semibold text-[var(--fg)]">
@@ -120,10 +120,10 @@ export const Footer: React.FC = () => {
         {/* Bottom Strip */}
         <div className="pt-6 border-t border-[var(--line)] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--fg-muted)]">
           <div>
-            © {new Date().getFullYear()} हल्का काम (Halka Kaam). Made with pride in Nepal 🇳🇵
+            © {new Date().getFullYear()} साझा काम (Sajha Kaam). Made with pride in Nepal 🇳🇵
           </div>
           <div className="flex items-center gap-4">
-            <span className="font-semibold text-[var(--fg)]">हल्का काम, ठूलो सम्मान</span>
+            <span className="font-semibold text-[var(--fg)]">साझा काम, ठूलो सम्मान</span>
             <span>•</span>
             <span className="text-[var(--fg-subtle)]">v2.0 Redesign</span>
           </div>

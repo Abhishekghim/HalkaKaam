@@ -165,7 +165,7 @@ function renderLanding() {
       <button class="rolecard worker" onclick="goAuth('worker')">
         <div class="ic">🎒</div><div><b>${t('land_want_work')}</b><span>${t('land_want_work_sub')}</span></div><div class="arrow">›</div></button>
     </div>
-    <p class="foot">हल्का काम, ठूलो सम्मान 🇳🇵</p>`;
+    <p class="foot">साझा काम, ठूलो सम्मान 🇳🇵</p>`;
 }
 
 /* ---------- auth ---------- */
