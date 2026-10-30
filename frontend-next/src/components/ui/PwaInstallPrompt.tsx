@@ -14,8 +14,11 @@ export const PwaInstallPrompt: React.FC = () => {
   const [dismissed, setDismissed] = useState(false);
 
   useEffect(() => {
-    // Check if dismissed in this session
-    if (sessionStorage.getItem('hk_pwa_dismissed') === 'true') return;
+    // Only run on client
+    if (typeof window === 'undefined') return;
+
+    // Check if dismissed previously
+    if (localStorage.getItem('hk_pwa_dismissed') === 'true') return;
 
     // Check if already installed
     if (window.matchMedia('(display-mode: standalone)').matches) return;
@@ -45,44 +48,90 @@ export const PwaInstallPrompt: React.FC = () => {
   const handleDismiss = () => {
     setShowPrompt(false);
     setDismissed(true);
-    sessionStorage.setItem('hk_pwa_dismissed', 'true');
+    localStorage.setItem('hk_pwa_dismissed', 'true');
   };
 
   if (!showPrompt || dismissed) return null;
 
   return (
-    <div className="fixed top-3 left-1/2 -translate-x-1/2 z-[100] w-[calc(100%-24px)] max-w-md animate-in fade-in slide-in-from-top-4 duration-300">
-      <div className="flex items-center justify-between gap-3 p-3 px-4 rounded-2xl bg-[var(--surface)] text-[var(--fg)] border border-[var(--primary-border)] shadow-xl backdrop-blur-md">
-        <div className="flex items-center gap-3 min-w-0">
-          <div className="w-10 h-10 rounded-xl bg-[var(--primary)] text-white flex items-center justify-center flex-none font-black text-sm shadow-sm">
+    <div
+      style={{
+        position: 'fixed',
+        bottom: '20px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        zIndex: 9999,
+        width: 'calc(100% - 24px)',
+        maxWidth: '440px',
+      }}
+      className="p-3.5 px-4 rounded-2xl bg-[var(--surface)] text-[var(--fg)] border border-[var(--primary-border)] shadow-2xl backdrop-blur-md transition-all animate-in fade-in slide-in-from-bottom-4"
+    >
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', minWidth: 0 }}>
+          <div
+            style={{
+              width: '40px',
+              height: '40px',
+              borderRadius: '12px',
+              backgroundColor: '#003893',
+              color: '#ffffff',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0,
+              fontWeight: 900,
+              fontSize: '13px',
+            }}
+          >
             HK
           </div>
-          <div className="min-w-0">
-            <h4 className="text-xs font-black text-[var(--fg)] truncate">
+          <div style={{ minWidth: 0 }}>
+            <h4 style={{ margin: 0, fontSize: '13px', fontWeight: 800, color: 'var(--fg)' }}>
               हल्का काम एप इन्स्टल गर्नुहोस्
             </h4>
-            <p className="text-[11px] text-[var(--fg-muted)] truncate">
-              Install Halka Kaam on your home screen
+            <p style={{ margin: '2px 0 0', fontSize: '11px', color: 'var(--fg-muted)' }}>
+              Install app on your home screen
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-1.5 flex-none">
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
           <button
             type="button"
             onClick={handleInstall}
-            className="px-3 py-1.5 rounded-xl bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white text-xs font-bold transition-all shadow-sm flex items-center gap-1.5 cursor-pointer active:scale-95"
+            style={{
+              padding: '6px 14px',
+              borderRadius: '10px',
+              backgroundColor: '#003893',
+              color: '#ffffff',
+              fontSize: '12px',
+              fontWeight: 700,
+              border: 'none',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+            }}
           >
-            <Download className="w-3.5 h-3.5" />
+            <Download style={{ width: '14px', height: '14px' }} />
             <span>Install</span>
           </button>
           <button
             type="button"
             onClick={handleDismiss}
             aria-label="Dismiss banner"
-            className="w-7 h-7 rounded-lg text-[var(--fg-muted)] hover:text-[var(--fg)] hover:bg-[var(--surface-2)] flex items-center justify-center transition-colors cursor-pointer"
+            style={{
+              background: 'transparent',
+              border: 'none',
+              color: 'var(--fg-muted)',
+              cursor: 'pointer',
+              padding: '4px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
           >
-            <X className="w-4 h-4" />
+            <X style={{ width: '16px', height: '16px' }} />
           </button>
         </div>
       </div>
