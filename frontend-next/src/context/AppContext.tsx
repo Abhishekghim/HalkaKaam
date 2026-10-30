@@ -214,7 +214,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [theme, setThemeState] = useState<'light' | 'dark'>('light');
   const [lang, setLangState] = useState<Language>('en');
   const [searchQuery, setSearchQuery] = useState('');
-  const [view, setViewState] = useState<AppView>('langpick');
+  const [view, setViewState] = useState<AppView>('landing');
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -223,6 +223,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         window.matchMedia('(display-mode: standalone)').matches ||
         (window.navigator as unknown as { standalone?: boolean }).standalone === true;
       setIsStandaloneApp(standalone);
+      if (standalone) {
+        setViewState((prev) => (prev === 'landing' || prev === 'langpick' ? 'auth' : prev));
+      }
     };
     checkStandalone();
     const mql = window.matchMedia('(display-mode: standalone)');
@@ -803,8 +806,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setAuthPhone('');
     setAuthName('');
     setAuthArea('');
-    setView('langpick');
-  }, [clearAllTimers, setView]);
+    setView(isStandaloneApp ? 'auth' : 'landing');
+  }, [clearAllTimers, setView, isStandaloneApp]);
 
   const confirmLocation = useCallback(
     (coords: Coordinates, name: string, rad: number) => {

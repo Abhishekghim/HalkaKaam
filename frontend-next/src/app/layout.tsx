@@ -72,7 +72,16 @@ export default function RootLayout({
             })();
             if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
               window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/sw.js').catch(function(){});
+                if ('caches' in window) {
+                  caches.keys().then(function(keys) {
+                    keys.forEach(function(k) {
+                      if (k !== 'sajha-kaam-v4') caches.delete(k);
+                    });
+                  });
+                }
+                navigator.serviceWorker.register('/sw.js').then(function(reg) {
+                  reg.update();
+                }).catch(function(){});
               });
             }`,
           }}
