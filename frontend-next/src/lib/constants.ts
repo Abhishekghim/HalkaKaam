@@ -11,8 +11,12 @@ export const AREAS: Area[] = [
   { name: 'Butwal', ne: 'बुटवल', lat: 27.7006, lng: 83.4484 },
 ];
 
-export const uid = (): string =>
-  Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+export const uid = (): string => {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    return crypto.randomUUID().replace(/-/g, '').slice(0, 16);
+  }
+  return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+};
 
 export const npr = (n: number | string): string =>
   'रु ' + Number(n).toLocaleString('en-IN');

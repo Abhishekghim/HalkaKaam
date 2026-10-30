@@ -36,6 +36,8 @@ export const JobDetail: React.FC<{ job: Job }> = ({ job }) => {
   const [mapVisible, setMapVisible] = useState(false);
 
   const approxOffset = React.useMemo(() => {
+    const baseLat = typeof job.lat === 'number' && !Number.isNaN(job.lat) ? job.lat : 27.6789;
+    const baseLng = typeof job.lng === 'number' && !Number.isNaN(job.lng) ? job.lng : 85.2774;
     let hash = 0;
     for (let i = 0; i < job.id.length; i++) {
       hash = (hash << 5) - hash + job.id.charCodeAt(i);
@@ -44,8 +46,8 @@ export const JobDetail: React.FC<{ job: Job }> = ({ job }) => {
     const latOff = ((Math.abs(hash) % 100) - 50) * 0.00004;
     const lngOff = (((Math.abs(hash) >> 4) % 100) - 50) * 0.00004;
     return {
-      lat: job.lat + latOff,
-      lng: job.lng + lngOff,
+      lat: baseLat + latOff,
+      lng: baseLng + lngOff,
     };
   }, [job.id, job.lat, job.lng]);
 
@@ -170,7 +172,7 @@ export const JobDetail: React.FC<{ job: Job }> = ({ job }) => {
             <img
               key={i}
               src={p}
-              alt=""
+              alt={`${job.title} - photo ${i + 1}`}
               className="w-24 h-24 rounded-2xl object-cover border border-[var(--line)] shadow-xs"
             />
           ))}

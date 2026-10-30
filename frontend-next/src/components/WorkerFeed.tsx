@@ -34,6 +34,8 @@ export const WorkerFeed: React.FC = () => {
     radius,
     locName,
     setView,
+    searchQuery,
+    setSearchQuery,
     filters,
     setFilters,
     resetFilters,
@@ -41,7 +43,6 @@ export const WorkerFeed: React.FC = () => {
     ready,
   } = useApp();
 
-  const [searchQuery, setSearchQuery] = useState('');
   const [sortOpen, setSortOpen] = useState(false);
   const [viewMode, setViewMode] = useState<'list' | 'map'>('list');
 
@@ -204,9 +205,8 @@ export const WorkerFeed: React.FC = () => {
   return (
     <div className="worker-feed space-y-4 pb-12">
       {/* Location Banner (Clean Card with Red Accent) */}
-      <div
-        role="button"
-        tabIndex={0}
+      <button
+        type="button"
         onClick={() => setView('locstep')}
         className="w-full flex items-center justify-between p-3.5 px-4 rounded-2xl bg-[var(--surface)] border border-[var(--line)] shadow-xs hover:border-[var(--primary)] transition-all text-left cursor-pointer card-lift"
       >
@@ -226,7 +226,7 @@ export const WorkerFeed: React.FC = () => {
         <span className="text-xs font-bold text-[var(--primary)] bg-[var(--primary-soft)] hover:bg-[var(--primary-soft-hover)] border border-[var(--primary-border)] px-3 py-1.5 rounded-full transition-colors whitespace-nowrap">
           {t('change')} ›
         </span>
-      </div>
+      </button>
 
       {/* Search & Filter Bar */}
       <div className="flex items-center gap-2">

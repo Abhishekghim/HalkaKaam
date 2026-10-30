@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { NepalDocType, KycData } from '../types';
+import { compressImageFile } from '../lib/image-compress';
 import {
   ShieldCheck,
   CheckCircle2,
@@ -48,16 +49,19 @@ export const KycModal: React.FC<{ jobId?: string }> = ({ jobId }) => {
   const [consent, setConsent] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
-  // Handle Photo File Upload with Preview
-  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>, side: 'front' | 'back') => {
+  // Handle Photo File Upload with Offscreen Canvas Compression
+  const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>, side: 'front' | 'back') => {
     const file = e.target.files?.[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      if (side === 'front') setFrontPhoto(reader.result as string);
-      else setBackPhoto(reader.result as string);
-    };
-    reader.readAsDataURL(file);
+    try {
+      const compressed = await compressImageFile(file, { maxWidth: 1000, quality: 0.72 });
+      if (side === 'front') setFrontPhoto(compressed);
+      else setBackPhoto(compressed);
+    } catch {
+      showToast(lang === 'ne' ? 'तस्बिर प्रशोधन गर्न सकिएन।' : 'Could not process image.');
+    } finally {
+      e.target.value = '';
+    }
   };
 
   // Quick Demo Autofill for fast testing

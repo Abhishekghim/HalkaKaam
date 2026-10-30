@@ -1939,3 +1939,14 @@ body.mode-worker, .mode-worker {
               box-shadow 340ms cubic-bezier(0.4, 0, 0.2, 1) !important;
   transition-delay: 0s !important;
 }
+
+/* =========================================================================
+   DEVANAGARI (NEPALI) MATRA LEGIBILITY FLOOR
+   Prevents clipping of top/bottom vowel diacritics on micro-text labels
+   ========================================================================= */
+html[lang="ne"] .text-\[10px\],
+html[lang="ne"] .text-\[9px\],
+html[lang="ne"] .text-\[11px\] {
+  font-size: 0.75rem !important; /* Minimum 12px for Devanagari script */
+  line-height: 1.45 !important;
+}

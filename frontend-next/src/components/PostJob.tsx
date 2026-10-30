@@ -6,6 +6,7 @@ import { CATS, CATICON, catName } from '../lib/i18n';
 import { loadMapbox, MAPBOX_TOKEN, MAPBOX_STYLE, MapboxMap } from '../lib/mapbox';
 import { JobType, PriceType } from '../types';
 import { POPULAR_LOCATIONS } from '../lib/nepal-geo';
+import { compressImageFile } from '../lib/image-compress';
 import { CategoryIconTile } from './ui/CategoryIconTile';
 import { PAYMENT_METHODS, PaymentMethodId } from './ui/PaymentBadges';
 import {
@@ -121,16 +122,17 @@ export const PostJob: React.FC = () => {
     };
   }, [type, showMap]);
 
-  const handlePhotoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      if (reader.result && photos.length < 3) {
-        setPhotos([...photos, reader.result as string]);
-      }
-    };
-    reader.readAsDataURL(file);
+    try {
+      const compressed = await compressImageFile(file, { maxWidth: 1000, quality: 0.72 });
+      setPhotos((prev) => (prev.length < 3 ? [...prev, compressed] : prev));
+    } catch {
+      showToast(lang === 'ne' ? 'तस्बिर अपलोड गर्न सकिएन।' : 'Failed to compress image.');
+    } finally {
+      e.target.value = '';
+    }
   };
 
   const handleRemovePhoto = (index: number) => {

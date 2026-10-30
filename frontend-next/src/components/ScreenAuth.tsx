@@ -87,11 +87,6 @@ export const ScreenAuth: React.FC = () => {
           setSubmitting(false);
           return;
         }
-
-        if (password.trim().length > 0) {
-          verifyOtp('123456');
-          return;
-        }
       }
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : 'Something went wrong. Please try again.';
