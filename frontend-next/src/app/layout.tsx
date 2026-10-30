@@ -1,8 +1,9 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import { Inter, Mukta } from 'next/font/google';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import './globals.css';
 import { AppProvider } from '../context/AppContext';
+import { PwaInstallPrompt } from '../components/ui/PwaInstallPrompt';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -17,9 +18,37 @@ const mukta = Mukta({
   display: 'swap',
 });
 
+export const viewport: Viewport = {
+  themeColor: '#003893',
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  viewportFit: 'cover',
+};
+
 export const metadata: Metadata = {
   title: 'हल्का काम · Halka Kaam',
   description: 'A peer-to-peer gig marketplace for Nepal. No work is too small — हल्का काम, ठूलो सम्मान.',
+  applicationName: 'Halka Kaam',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Halka Kaam',
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  icons: {
+    icon: [
+      { url: '/icons/icon.svg', type: 'image/svg+xml' },
+      { url: '/icons/icon-192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/icons/icon-512.png', sizes: '512x512', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/icons/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
+  },
 };
 
 export default function RootLayout({
@@ -40,12 +69,20 @@ export default function RootLayout({
                 document.documentElement.setAttribute('data-theme', theme);
                 if (theme === 'dark') document.documentElement.classList.add('dark');
               } catch(e) {}
-            })();`,
+            })();
+            if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
+              window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js').catch(function(){});
+              });
+            }`,
           }}
         />
       </head>
       <body>
-        <AppProvider>{children}</AppProvider>
+        <AppProvider>
+          <PwaInstallPrompt />
+          {children}
+        </AppProvider>
       </body>
     </html>
   );

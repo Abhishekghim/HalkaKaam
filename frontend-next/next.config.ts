@@ -11,6 +11,7 @@ const securityHeaders = [
       "font-src 'self' data: https://fonts.gstatic.com",
       "connect-src 'self' https://*.mapbox.com https://api.mapbox.com https://events.mapbox.com",
       "worker-src 'self' blob:",
+      "manifest-src 'self'",
       "frame-ancestors 'none'",
       "base-uri 'self'",
       "form-action 'self'",
