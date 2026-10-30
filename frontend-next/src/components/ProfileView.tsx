@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
-import { avColor, initials, Stars } from '../lib/constants';
-import { Role } from '../types';
+import { avColor, initials } from '../lib/constants';
+import { Role, User } from '../types';
 import {
   Award,
   Briefcase,
@@ -25,11 +25,27 @@ import {
 } from 'lucide-react';
 
 interface ProfileViewProps {
+  user?: User;
   userId?: string;
   role?: Role;
 }
 
-export const ProfileView: React.FC<ProfileViewProps> = ({ userId, role: initialRole }) => {
+const StarRow: React.FC<{ value: number }> = ({ value }) => (
+  <span className="inline-flex items-center gap-0.5">
+    {[1, 2, 3, 4, 5].map((s) => (
+      <Star
+        key={s}
+        className={`w-3.5 h-3.5 ${
+          s <= Math.round(value)
+            ? 'fill-amber-400 text-amber-400'
+            : 'text-[var(--line-strong)]'
+        }`}
+      />
+    ))}
+  </span>
+);
+
+export const ProfileView: React.FC<ProfileViewProps> = ({ user: propUser, userId, role: initialRole }) => {
   const {
     t,
     lang,
@@ -50,8 +66,8 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ userId, role: initialR
     showToast,
   } = useApp();
 
-  const targetId = userId || me?.id;
-  const user = userById(targetId);
+  const targetId = propUser?.id || userId || me?.id;
+  const user = propUser || userById(targetId);
   const isMe = Boolean(me && user && me.id === user.id);
 
   const [viewRole, setViewRole] = useState<Role>(initialRole || mode || 'worker');
@@ -65,14 +81,14 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ userId, role: initialR
   const reviews = reviewsOf(user.id, viewRole);
 
   const completedJobs = jobs.filter((j) => {
-    if (j.status !== 'completed') return false;
+    if (j.status !== 'done') return false;
     if (viewRole === 'host') return j.hostId === user.id;
     const assigned = j.bids.find((b) => b.id === j.assignedBidId);
     return assigned?.workerId === user.id;
   }).length;
 
   const assignedJobs = jobs.filter((j) => {
-    if (viewRole === 'host') return j.hostId === user.id && j.status !== 'cancelled';
+    if (viewRole === 'host') return j.hostId === user.id && j.status !== 'closed';
     const assigned = j.bids.find((b) => b.id === j.assignedBidId);
     return assigned?.workerId === user.id;
   }).length;
@@ -88,7 +104,7 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ userId, role: initialR
     Boolean(
       me &&
         jobs.some((j) => {
-          if (j.status !== 'assigned' && j.status !== 'completed') return false;
+          if (j.status !== 'assigned' && j.status !== 'done') return false;
           const assignedBid = j.bids.find((b) => b.id === j.assignedBidId);
           if (!assignedBid) return false;
           return (
@@ -367,7 +383,7 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ userId, role: initialR
                         <div className="mt-3 pt-3 border-t border-[var(--line)] flex flex-wrap gap-4 text-xs text-[var(--fg-muted)]">
                           <span>
                             <strong className="text-[var(--fg)]">ID:</strong>{' '}
-                            {user.kycData.docType.toUpperCase()} ({user.kycData.idNumber})
+                            {user.kycData.docType.toUpperCase()} ({user.kycData.docNumber})
                           </span>
                           {user.phone && (
                             <span>
@@ -479,7 +495,7 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ userId, role: initialR
                         <span className="text-xs font-extrabold text-[var(--fg)]">
                           {r.from || (lang === 'ne' ? 'प्रयोगकर्ता' : 'Community Member')}
                         </span>
-                        <Stars value={r.stars} size={13} />
+                        <StarRow value={r.stars} />
                       </div>
                       <p className="text-xs text-[var(--fg-muted)] mb-1">{r.txt}</p>
                       <span className="text-[11px] font-semibold text-[var(--fg-subtle)]">
@@ -599,7 +615,7 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ userId, role: initialR
                 <div key={i} className="py-3 first:pt-0 last:pb-0">
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-xs font-extrabold text-[var(--fg)]">{r.from}</span>
-                    <Stars value={r.stars} size={13} />
+                    <StarRow value={r.stars} />
                   </div>
                   <p className="text-xs text-[var(--fg-muted)]">{r.txt}</p>
                 </div>
