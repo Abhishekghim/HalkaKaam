@@ -122,15 +122,37 @@ export const PostJob: React.FC = () => {
     };
   }, [type, showMap]);
 
+  const [compressingPhotos, setCompressingPhotos] = useState(false);
+
   const handlePhotoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const fileList = e.target.files;
+    if (!fileList || fileList.length === 0) return;
+
+    const files = Array.from(fileList).slice(0, Math.max(0, 4 - photos.length));
+    if (files.length === 0) return;
+
+    setCompressingPhotos(true);
     try {
-      const compressed = await compressImageFile(file, { maxWidth: 1000, quality: 0.72 });
-      setPhotos((prev) => (prev.length < 3 ? [...prev, compressed] : prev));
+      const compressedList: string[] = [];
+      for (const file of files) {
+        const compressed = await compressImageFile(file, {
+          maxWidth: 1600,
+          maxHeight: 1600,
+          quality: 0.82,
+          maxBytes: 260_000,
+        });
+        compressedList.push(compressed);
+      }
+      setPhotos((prev) => [...prev, ...compressedList].slice(0, 4));
+      showToast(
+        lang === 'ne'
+          ? '✅ तस्बिर HD गुणस्तरमा कम्प्रेस गरी थपियो'
+          : '✅ Photo optimized & attached (HD quality)'
+      );
     } catch {
       showToast(lang === 'ne' ? 'तस्बिर अपलोड गर्न सकिएन।' : 'Failed to compress image.');
     } finally {
+      setCompressingPhotos(false);
       e.target.value = '';
     }
   };
@@ -358,29 +380,50 @@ export const PostJob: React.FC = () => {
 
             {/* Photo upload */}
             <div>
-              <label className="block text-xs font-bold text-[var(--fg)] uppercase tracking-wider mb-2">
-                {t('f_photos')} (अधिकतम ३ वटा)
-              </label>
-              <div className="flex gap-2.5 flex-wrap">
+              <div className="flex items-center justify-between mb-2">
+                <label className="block text-xs font-bold text-[var(--fg)] uppercase tracking-wider">
+                  {t('f_photos')}{' '}
+                  <span className="text-[var(--fg-muted)] font-semibold normal-case">
+                    ({lang === 'ne' ? 'अधिकतम ४ वटा · उच्च रेजोल्युसन स्वतः कम्प्रेस हुन्छ' : 'Up to 4 photos · High-res auto-optimized like Facebook'})
+                  </span>
+                </label>
+                <span className="text-[11px] font-bold text-[var(--fg-muted)]">
+                  {photos.length}/4
+                </span>
+              </div>
+              <div className="flex gap-3 flex-wrap">
                 {photos.map((p, i) => (
-                  <div key={i} className="relative w-20 h-20 rounded-xl overflow-hidden border border-[var(--line)]">
-                    <img src={p} alt="" className="w-full h-full object-cover" />
+                  <div key={i} className="relative w-24 h-24 rounded-xl overflow-hidden border border-[var(--line)] bg-[var(--surface-2)] group">
+                    <img src={p} alt={`Task upload ${i + 1}`} className="w-full h-full object-cover" />
+                    <span className="absolute bottom-1 left-1 px-1.5 py-0.5 rounded bg-black/65 text-white text-[9px] font-bold">
+                      HD
+                    </span>
                     <button
                       type="button"
                       onClick={() => handleRemovePhoto(i)}
-                      className="absolute top-1 right-1 w-5 h-5 rounded-full bg-black/70 text-white flex items-center justify-center text-xs cursor-pointer"
+                      className="absolute top-1 right-1 w-6 h-6 rounded-full bg-black/75 hover:bg-black text-white flex items-center justify-center text-xs cursor-pointer"
                     >
-                      <X className="w-3 h-3" />
+                      <X className="w-3.5 h-3.5" />
                     </button>
                   </div>
                 ))}
-                {photos.length < 3 && (
-                  <label className="w-20 h-20 rounded-xl border-2 border-dashed border-[var(--line)] hover:border-[var(--primary)] bg-[var(--surface-2)] flex flex-col items-center justify-center gap-1 text-[var(--fg-muted)] cursor-pointer transition-colors">
+                {photos.length < 4 && (
+                  <label className="w-24 h-24 rounded-xl border-2 border-dashed border-[var(--line)] hover:border-[var(--primary)] bg-[var(--surface)] flex flex-col items-center justify-center gap-1.5 text-[var(--fg-muted)] hover:text-[var(--primary)] cursor-pointer transition-colors">
                     <Camera className="w-5 h-5" />
-                    <span className="text-[10px] font-bold">थप्नुहोस्</span>
+                    <span className="text-[11px] font-bold text-center px-1">
+                      {compressingPhotos
+                        ? lang === 'ne'
+                          ? 'कम्प्रेस हुँदै...'
+                          : 'Optimizing...'
+                        : lang === 'ne'
+                          ? '+ तस्बिर थप्नुहोस्'
+                          : '+ Add Photo'}
+                    </span>
                     <input
                       type="file"
                       accept="image/*"
+                      multiple
+                      disabled={compressingPhotos}
                       className="hidden"
                       onChange={handlePhotoUpload}
                     />

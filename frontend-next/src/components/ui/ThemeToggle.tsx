@@ -46,8 +46,8 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({ className = '', showLa
         <div
           className={`relative z-10 flex h-6 w-6 items-center justify-center rounded-full transition-transform duration-350 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
             isDark
-              ? 'translate-x-7 bg-gradient-to-tr from-blue-600 to-indigo-500 text-white shadow-md shadow-blue-900/50'
-              : 'translate-x-0 bg-gradient-to-tr from-amber-400 to-amber-300 text-white shadow-md shadow-amber-500/40'
+              ? 'translate-x-7 bg-zinc-700 text-zinc-100 shadow-sm'
+              : 'translate-x-0 bg-amber-500 text-white shadow-sm'
           }`}
         >
           <div className="relative w-3.5 h-3.5 flex items-center justify-center">

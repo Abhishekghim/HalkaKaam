@@ -74,6 +74,25 @@ export const JobCard: React.FC<JobCardProps> = ({ job, dist }) => {
           </p>
         )}
 
+        {/* Uploaded Task Photos Preview */}
+        {job.photos && job.photos.length > 0 && (
+          <div className="flex items-center gap-2 mb-3 overflow-x-auto no-scrollbar">
+            {job.photos.slice(0, 3).map((p, idx) => (
+              <img
+                key={idx}
+                src={p}
+                alt={`${job.title} photo ${idx + 1}`}
+                className="w-16 h-16 rounded-xl object-cover border border-[var(--line)] shrink-0"
+              />
+            ))}
+            {job.photos.length > 3 && (
+              <span className="text-xs font-bold text-[var(--fg-muted)] px-1.5">
+                +{job.photos.length - 3}
+              </span>
+            )}
+          </div>
+        )}
+
         {/* Location & Time Tags */}
         <div className="flex items-center gap-1.5 flex-wrap mb-3 text-xs">
           <span className="inline-flex items-center gap-1 rounded-lg px-2.5 py-1 font-semibold border border-[var(--line)] bg-[var(--surface-2)] text-[var(--fg)]">

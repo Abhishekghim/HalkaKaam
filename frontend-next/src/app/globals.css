@@ -7,35 +7,38 @@
   /* Core Brand Colors (Nepal Flag) */
   --primary: #003893;             /* Nepal flag deep blue */
   --primary-hover: #002A6E;
-  --primary-soft: #E6EDFA;        /* Soft tinted container background */
-  --primary-soft-hover: #D8E4F8;
-  --primary-border: #C8D8F4;
+  --primary-soft: #DCE6F7;        /* Distinct tinted container background */
+  --primary-tint: #DCE6F7;
+  --primary-soft-hover: #C8D8F4;
+  --primary-border: #B2C7EC;
   --primary-fg: #FFFFFF;
 
   --accent: #DC143C;              /* Nepal flag crimson red */
   --accent-fill: #DC143C;
   --accent-text: #B80F32;
   --accent-hover: #B80F32;
-  --accent-soft: #FDE8EC;         /* Soft red badge/container */
-  --accent-border: #F8B4C0;
+  --accent-soft: #FADCE2;         /* Distinct soft red badge/container */
+  --accent-tint: #FADCE2;
+  --accent-border: #F3A6B5;
   --accent-fg: #FFFFFF;
 
-  /* Surfaces & Neutrals */
-  --bg: #F8FAFC;                  /* Soft off-white canvas */
-  --surface: #FFFFFF;             /* Crisp card and sheet background */
-  --surface-2: #F1F5F9;           /* Secondary surface / chips / inputs */
+  /* Surfaces & Neutrals (Distinct Stone Canvas so White Cards Pop Clearly) */
+  --bg: #E8ECF1;                  /* Soft cool stone-grey canvas (not blinding white!) */
+  --surface: #FFFFFF;             /* Crisp card & navbar surface contrasting against --bg */
+  --surface-2: #DFE4EC;           /* Secondary surface for chips, pills & inputs */
   --surface-elevated: #FFFFFF;
-  --surface-hover: #F1F5F9;
-  --border: #E2E8F0;              /* Crisp clean borders */
-  --border-subtle: #EDF2F7;
-  --border-hover: #CBD5E1;
+  --surface-hover: #D5DCE6;
+  --border: #C5CEDB;              /* Visible card & input border for clear separation */
+  --border-subtle: #D5DCE6;
+  --border-hover: #9AA6B8;
   --line: var(--border);
+  --line-strong: #9AA6B8;
   --line-hover: var(--border-hover);
 
   /* Typography Colors */
-  --text: #0F172A;                /* Main text - deep rich slate 900 */
-  --text-muted: #475569;          /* Secondary text - high contrast slate 600 */
-  --text-subtle: #5A6A80;         /* Subtle meta text */
+  --text: #1A202C;                /* Main text - comfortable deep slate */
+  --text-muted: #4A5568;          /* Secondary text */
+  --text-subtle: #64748B;         /* Subtle meta text */
   --text-inverse: #FFFFFF;
   --fg: var(--text);
   --fg-muted: var(--text-muted);
@@ -43,27 +46,31 @@
 
   /* Icon Tokens */
   --icon: #003893;                /* Default icon color: Deep Blue */
-  --icon-muted: #64748B;
-  --icon-bg: #E6EDFA;             /* Icon container background: soft blue tint */
-  --icon-border: #C8D8F4;
+  --icon-muted: #4A5568;
+  --icon-bg: #DCE6F7;             /* Icon container background */
+  --icon-border: #B2C7EC;
 
   /* Interactive & States */
   --link: #003893;
   --link-hover: #002A6E;
-  --ring: rgba(0, 56, 147, 0.35); /* Accessible focus ring */
-  --ring-accent: rgba(220, 20, 60, 0.4);
+  --ring: rgba(0, 56, 147, 0.3);
+  --ring-accent: rgba(220, 20, 60, 0.35);
 
   /* Semantic Feedback */
   --success: #166534;
-  --success-soft: #E8F5EC;
-  --success-border: #B7E4C7;
+  --success-soft: #DCFCE7;
+  --success-border: #86EFAC;
+  --ok: var(--success);
+  --ok-tint: var(--success-soft);
   --warning: #B45309;
   --warning-soft: #FEF3C7;
-  --warning-border: #FDE68A;
-  --info: #0E7490;                /* Deep teal-cyan (WCAG AA, never bright cyan) */
+  --warning-border: #FCD34D;
+  --warn: var(--warning);
+  --warn-tint: var(--warning-soft);
+  --info: #0E7490;
   --info-soft: #E0F2FE;
-  --info-border: #BAE6FD;
-  --gold: #F59E0B;
+  --info-border: #7DD3FC;
+  --gold: #D97706;
   --star: #D97706;
 
   /* Legacy aliases for backward compatibility */
@@ -88,15 +95,15 @@
   --tap: 50px;
 
   /* Rich Physical Elevation Shadows */
-  --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.06);
-  --shadow-sm: 0 2px 6px -1px rgba(15, 23, 42, 0.08), 0 1px 3px -1px rgba(15, 23, 42, 0.04);
-  --shadow: 0 2px 8px -1px rgba(15, 23, 42, 0.08), 0 1px 3px -1px rgba(15, 23, 42, 0.05);
-  --shadow-md: 0 4px 16px -2px rgba(15, 23, 42, 0.08), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
-  --shadow-lg: 0 12px 32px -4px rgba(0, 56, 147, 0.12), 0 4px 12px -2px rgba(15, 23, 42, 0.06);
-  --shadow-cta: 0 6px 18px -2px rgba(220, 20, 60, 0.32);
+  --shadow-xs: 0 1px 3px rgba(15, 23, 42, 0.08);
+  --shadow-sm: 0 2px 6px -1px rgba(15, 23, 42, 0.10), 0 1px 3px -1px rgba(15, 23, 42, 0.06);
+  --shadow: 0 2px 8px -1px rgba(15, 23, 42, 0.10), 0 1px 3px -1px rgba(15, 23, 42, 0.06);
+  --shadow-md: 0 4px 16px -2px rgba(15, 23, 42, 0.12), 0 2px 6px -1px rgba(15, 23, 42, 0.06);
+  --shadow-lg: 0 12px 32px -4px rgba(0, 56, 147, 0.14), 0 4px 12px -2px rgba(15, 23, 42, 0.08);
+  --shadow-cta: 0 4px 14px -2px rgba(220, 20, 60, 0.28);
 
   /* Gradients */
-  --grad-hero: linear-gradient(180deg, rgba(0, 56, 147, 0.04) 0%, rgba(248, 250, 252, 0) 100%);
+  --grad-hero: linear-gradient(180deg, rgba(0, 56, 147, 0.04) 0%, rgba(232, 236, 241, 0) 100%);
   --grad-primary: linear-gradient(135deg, #003893 0%, #002A6E 100%);
   --grad-accent: linear-gradient(135deg, #DC143C 0%, #B80F32 100%);
 
@@ -110,83 +117,112 @@
   --fs-display: 36px;
 }
 
-/* Dark Mode Tokens (Deep Navy Palette - WCAG AA Contrast) */
+/* Dark Mode Tokens (Eye-Friendly Soft Dimmed Charcoal — Low Contrast & Muted Colors) */
 [data-theme="dark"], .dark {
-  /* Surfaces & Canvas */
-  --bg: #0B1220;                  /* Deep navy background, not pure black */
-  --surface: #111A2E;             /* Card surface slightly lighter */
-  --surface-2: #18233B;           /* Inputs, chips, secondary surfaces */
-  --surface-elevated: #1E2945;
-  --surface-hover: #1E2D4D;
-  --border: #243049;              /* Navy hairline borders */
-  --border-subtle: #1C263B;
-  --border-hover: #374668;
+  /* Surfaces & Canvas (Soft Charcoal like Facebook Dark / Discord, not pitch black) */
+  --bg: #18191B;                  /* Soft dimmed charcoal background */
+  --surface: #222427;             /* Distinct elevated card surface */
+  --surface-2: #2B2E33;           /* Inputs, chips, secondary surfaces */
+  --surface-elevated: #31343A;
+  --surface-hover: #35383E;
+  --border: #35383F;              /* Soft visible card borders */
+  --border-subtle: #2B2E33;
+  --border-hover: #464A52;
   --line: var(--border);
+  --line-strong: #464A52;
   --line-hover: var(--border-hover);
 
-  /* Typography */
-  --text: #E8EDF7;                /* Off-white text */
-  --text-muted: #9AA7BD;          /* Secondary muted text */
-  --text-subtle: #7B8BA8;
-  --text-inverse: #0B1220;
+  /* Typography (Softened warm grey-white so text never glares in the dark) */
+  --text: #C9CDD4;                /* Dimmed comfortable off-white (no harsh #FFF) */
+  --text-muted: #8E939C;          /* Soft muted secondary text */
+  --text-subtle: #6E737C;
+  --text-inverse: #18191B;
   --fg: var(--text);
   --fg-muted: var(--text-muted);
   --fg-subtle: var(--text-subtle);
 
-  /* Brand Primary */
-  --primary: #5B8DEF;             /* Brightened blue for dark background contrast */
-  --primary-hover: #7AA5F5;
-  --primary-soft: #16264A;
-  --primary-soft-hover: #1D3363;
-  --primary-border: #28427B;
-  --primary-fg: #0B1220;
+  /* Brand Primary (Muted, low-saturation dusty steel-blue so blue never hurts eyes) */
+  --primary: #7B90A8;
+  --primary-hover: #6A7E96;
+  --primary-soft: #272C33;
+  --primary-tint: #272C33;
+  --primary-soft-hover: #2F353E;
+  --primary-border: #38404B;
+  --primary-fg: #D4D8DF;
 
-  /* Brand Accent */
-  --accent: #DC143C;
-  --accent-fill: #DC143C;         /* Solid crimson maintained for white-text button CTAs */
-  --accent-hover: #B80F32;
-  --accent-text: #FF6B84;         /* Vibrant brightened crimson for text/icons on dark */
-  --accent-soft: rgba(220, 20, 60, 0.15);
-  --accent-border: rgba(220, 20, 60, 0.35);
-  --accent-fg: #FFFFFF;
+  /* Brand Accent (Muted dusty rosewood/burgundy — no bright red glare) */
+  --accent: #A3626B;
+  --accent-fill: #69363E;
+  --accent-hover: #5A2E35;
+  --accent-text: #B0727B;
+  --accent-soft: rgba(163, 98, 107, 0.12);
+  --accent-tint: rgba(163, 98, 107, 0.12);
+  --accent-border: rgba(163, 98, 107, 0.24);
+  --accent-fg: #D4D8DF;
 
   /* Icon Tokens */
-  --icon: #7AA5F5;
-  --icon-muted: #9AA7BD;
-  --icon-bg: #16264A;
-  --icon-border: #28427B;
+  --icon: #7B90A8;
+  --icon-muted: #8E939C;
+  --icon-bg: #272C33;
+  --icon-border: #363E4A;
 
   /* Interactive & States */
-  --link: #5B8DEF;
-  --link-hover: #7AA5F5;
-  --ring: rgba(91, 141, 239, 0.45);
-  --ring-accent: rgba(220, 20, 60, 0.5);
+  --link: #7B90A8;
+  --link-hover: #90A4BC;
+  --ring: rgba(123, 144, 168, 0.22);
+  --ring-accent: rgba(163, 98, 107, 0.28);
 
-  /* Semantic Feedback */
-  --success: #4ADE80;
-  --success-soft: rgba(74, 222, 128, 0.15);
-  --success-border: rgba(74, 222, 128, 0.3);
-  --warning: #FBBF24;
-  --warning-soft: rgba(251, 191, 36, 0.15);
-  --warning-border: rgba(251, 191, 36, 0.3);
-  --info: #38BDF8;
-  --info-soft: rgba(56, 189, 248, 0.15);
-  --info-border: rgba(56, 189, 248, 0.3);
-  --gold: #FBBF24;
-  --star: #FBBF24;
+  /* Semantic Feedback (Desaturated sage-green & warm ochre for dark mode comfort) */
+  --success: #648C75;
+  --success-soft: rgba(100, 140, 117, 0.11);
+  --success-border: rgba(100, 140, 117, 0.22);
+  --ok: var(--success);
+  --ok-tint: var(--success-soft);
+  --warning: #A68446;
+  --warning-soft: rgba(166, 132, 70, 0.11);
+  --warning-border: rgba(166, 132, 70, 0.22);
+  --warn: var(--warning);
+  --warn-tint: var(--warning-soft);
+  --info: #6B8FA3;
+  --info-soft: #272D32;
+  --info-border: #353F47;
+  --gold: #A68446;
+  --star: #A68446;
 
   /* Elevation Shadows */
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow-sm: 0 2px 6px -1px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.3);
-  --shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.4), 0 1px 3px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 6px 20px -3px rgba(0, 0, 0, 0.5);
-  --shadow-lg: 0 16px 36px -6px rgba(0, 0, 0, 0.65);
-  --shadow-cta: 0 6px 20px -2px rgba(220, 20, 60, 0.45);
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.28);
+  --shadow-sm: 0 2px 5px -1px rgba(0, 0, 0, 0.35);
+  --shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 6px 18px -3px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 14px 30px -6px rgba(0, 0, 0, 0.55);
+  --shadow-cta: 0 3px 10px -2px rgba(0, 0, 0, 0.4);
 
   /* Gradients */
-  --grad-hero: linear-gradient(180deg, rgba(91, 141, 239, 0.08) 0%, rgba(11, 18, 32, 0) 100%);
-  --grad-primary: linear-gradient(135deg, #16264A 0%, #0B1220 100%);
-  --grad-accent: linear-gradient(135deg, #DC143C 0%, #B80F32 100%);
+  --grad-hero: linear-gradient(180deg, rgba(255, 255, 255, 0.015) 0%, rgba(24, 25, 27, 0) 100%);
+  --grad-primary: linear-gradient(135deg, #324154 0%, #283444 100%);
+  --grad-accent: linear-gradient(135deg, #69363E 0%, #562B32 100%);
+}
+
+/* Dark mode solid button & badge dimming so filled pills (Work, All, You offered, Post a Task) never glow */
+[data-theme="dark"] .bg-\[var\(--primary\)\],
+.dark .bg-\[var\(--primary\)\] {
+  background-color: #324254 !important;
+  border-color: #43566D !important;
+  color: #D4D8DF !important;
+}
+
+[data-theme="dark"] .bg-\[var\(--accent-fill\)\],
+.dark .bg-\[var\(--accent-fill\)\],
+[data-theme="dark"] .bg-\[var\(--accent\)\],
+.dark .bg-\[var\(--accent\)\] {
+  background-color: #69363E !important;
+  border-color: #7D434C !important;
+  color: #D4D8DF !important;
+}
+
+[data-theme="dark"] .text-white,
+.dark .text-white {
+  color: #D4D8DF !important;
 }
 
 @layer base {

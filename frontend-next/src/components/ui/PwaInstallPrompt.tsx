@@ -68,23 +68,18 @@ export const PwaInstallPrompt: React.FC = () => {
     >
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', minWidth: 0 }}>
-          <div
+          <img
+            src="/icons/logo.png"
+            alt="Sajha Kaam Logo"
             style={{
               width: '40px',
               height: '40px',
-              borderRadius: '12px',
-              backgroundColor: '#003893',
-              color: '#ffffff',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              borderRadius: '10px',
+              backgroundColor: '#ffffff',
+              objectFit: 'contain',
               flexShrink: 0,
-              fontWeight: 900,
-              fontSize: '13px',
             }}
-          >
-            SK
-          </div>
+          />
           <div style={{ minWidth: 0 }}>
             <h4 style={{ margin: 0, fontSize: '13px', fontWeight: 800, color: 'var(--fg)' }}>
               साझा काम एप इन्स्टल गर्नुहोस्
@@ -99,11 +94,10 @@ export const PwaInstallPrompt: React.FC = () => {
           <button
             type="button"
             onClick={handleInstall}
+            className="bg-[var(--primary)] text-[var(--primary-fg)]"
             style={{
               padding: '6px 14px',
               borderRadius: '10px',
-              backgroundColor: '#003893',
-              color: '#ffffff',
               fontSize: '12px',
               fontWeight: 700,
               border: 'none',

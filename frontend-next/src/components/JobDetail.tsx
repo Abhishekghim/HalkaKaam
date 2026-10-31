@@ -34,6 +34,7 @@ export const JobDetail: React.FC<{ job: Job }> = ({ job }) => {
   const { t, lang, me, pos, userById, ratingOf, openSheet, openChat, withdrawOffer, showToast } = useApp();
   const mapEl = useRef<HTMLDivElement>(null);
   const [mapVisible, setMapVisible] = useState(false);
+  const [lightboxImg, setLightboxImg] = useState<string | null>(null);
 
   const approxOffset = React.useMemo(() => {
     const baseLat = typeof job.lat === 'number' && !Number.isNaN(job.lat) ? job.lat : 27.6789;
@@ -165,17 +166,37 @@ export const JobDetail: React.FC<{ job: Job }> = ({ job }) => {
         <PaymentBadges size="md" lang={lang} />
       </div>
 
-      {/* Photos or item badges */}
-      {job.photos.length > 0 && (
-        <div className="flex gap-2 overflow-x-auto pb-2 mb-4">
-          {job.photos.map((p, i) => (
-            <img
-              key={i}
-              src={p}
-              alt={`${job.title} - photo ${i + 1}`}
-              className="w-24 h-24 rounded-2xl object-cover border border-[var(--line)] shadow-xs"
-            />
-          ))}
+      {/* Photos Gallery with Fullscreen Lightbox */}
+      {job.photos && job.photos.length > 0 && (
+        <div className="mb-4">
+          <div className="text-[11px] font-bold text-[var(--fg-muted)] uppercase tracking-wider mb-1.5">
+            {lang === 'ne' ? 'कामका तस्बिरहरू' : 'Task Photos'} ({job.photos.length})
+          </div>
+          <div className="flex gap-2.5 overflow-x-auto pb-1">
+            {job.photos.map((p, i) => (
+              <img
+                key={i}
+                src={p}
+                onClick={() => setLightboxImg(p)}
+                alt={`${job.title} - photo ${i + 1}`}
+                className="w-28 h-28 sm:w-32 sm:h-32 rounded-2xl object-cover border border-[var(--line)] shadow-xs cursor-pointer hover:opacity-90 transition-opacity shrink-0"
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Lightbox Modal for Full-Resolution Photo Inspection */}
+      {lightboxImg && (
+        <div
+          onClick={() => setLightboxImg(null)}
+          className="fixed inset-0 z-50 bg-black/85 flex items-center justify-center p-4 cursor-zoom-out"
+        >
+          <img
+            src={lightboxImg}
+            alt="Full size preview"
+            className="max-w-full max-h-[88vh] rounded-xl object-contain shadow-2xl"
+          />
         </div>
       )}
 

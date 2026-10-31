@@ -27,13 +27,13 @@ export const starsHtml = (r: number): string => {
 };
 
 export const COLORS = [
-  '#DC143C',
-  '#003893',
-  '#1F8A5F',
-  '#A36A00',
-  '#6B4ABF',
-  '#0E7490',
-  '#B0307A',
+  '#7D3B45',
+  '#3A5273',
+  '#3D6B56',
+  '#7D5D2B',
+  '#524378',
+  '#2E5C6E',
+  '#733B5B',
 ];
 
 export const avColor = (n?: string): string =>
