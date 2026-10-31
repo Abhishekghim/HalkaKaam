@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { Job } from '../types';
 import { npr } from '../lib/constants';
+import { trText } from '../lib/i18n';
 import {
   ArrowLeft,
   Send,
@@ -113,7 +114,7 @@ export const OfferForm: React.FC<{ job: Job }> = ({ job }) => {
             {t('make_offer')}
           </h2>
           <p className="text-xs text-[var(--fg-muted)] truncate max-w-[260px] sm:max-w-md">
-            {job.title}
+            {trText(job.title, lang)}
           </p>
         </div>
       </div>

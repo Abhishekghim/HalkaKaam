@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { Job } from '../types';
 import { useApp } from '../context/AppContext';
+import { trText } from '../lib/i18n';
 import {
   Star,
   AlertTriangle,
@@ -93,7 +94,7 @@ export const ReviewModal: React.FC<ReviewModalProps> = ({ type, job }) => {
             <h2 className="text-lg font-extrabold tracking-tight text-[var(--fg)]">
               {t('report_issue')}
             </h2>
-            <p className="text-xs text-[var(--fg-muted)]">{job.title}</p>
+            <p className="text-xs text-[var(--fg-muted)]">{trText(job.title, lang)}</p>
           </div>
         </div>
 
@@ -140,7 +141,7 @@ export const ReviewModal: React.FC<ReviewModalProps> = ({ type, job }) => {
               {t('review_worker')}
             </h2>
             <p className="text-xs text-[var(--fg-muted)] truncate max-w-[260px]">
-              {worker?.name || 'Helper'} · {job.title}
+              {worker?.name ? trText(worker.name, lang) : t('helper')} · {trText(job.title, lang)}
             </p>
           </div>
         </div>
@@ -202,7 +203,7 @@ export const ReviewModal: React.FC<ReviewModalProps> = ({ type, job }) => {
             {t('review_host')}
           </h2>
           <p className="text-xs text-[var(--fg-muted)] truncate max-w-[260px]">
-            {host?.name || 'Poster'} · {job.title}
+            {host?.name ? trText(host.name, lang) : t('poster')} · {trText(job.title, lang)}
           </p>
         </div>
       </div>

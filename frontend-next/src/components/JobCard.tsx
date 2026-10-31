@@ -4,7 +4,7 @@ import React from 'react';
 import { Job } from '../types';
 import { useApp } from '../context/AppContext';
 import { npr, timeAgo } from '../lib/constants';
-import { catName } from '../lib/i18n';
+import { catName, trText, toNepaliNum } from '../lib/i18n';
 import { CategoryIconTile } from './ui/CategoryIconTile';
 import { UrgentBadge, FeaturedBadge, VerifiedBadge } from './ui/StatusBadge';
 import { PaymentBadges } from './ui/PaymentBadges';
@@ -64,13 +64,13 @@ export const JobCard: React.FC<JobCardProps> = ({ job, dist }) => {
 
         {/* Task Title */}
         <h3 className="text-[15px] sm:text-base font-extrabold text-[var(--fg)] group-hover:text-[var(--primary)] transition-colors line-clamp-2 leading-snug mb-1.5">
-          {job.title}
+          {trText(job.title, lang)}
         </h3>
 
         {/* Description Snippet */}
         {job.desc && (
           <p className="text-xs text-[var(--fg-muted)] line-clamp-2 leading-relaxed mb-3 font-medium">
-            {job.desc}
+            {trText(job.desc, lang)}
           </p>
         )}
 
@@ -106,8 +106,8 @@ export const JobCard: React.FC<JobCardProps> = ({ job, dist }) => {
                 <MapPin className="w-3.5 h-3.5 text-[var(--accent)]" />
                 <span>
                   {dist !== null
-                    ? `${dist.toFixed(1)} km ${lang === 'ne' ? 'टाढा' : 'away'}`
-                    : job.address || (lang === 'ne' ? 'नजिकै' : 'Near you')}
+                    ? `${toNepaliNum(dist.toFixed(1), lang)} ${lang === 'ne' ? 'कि.मी. टाढा' : 'km away'}`
+                    : trText(job.address, lang) || (lang === 'ne' ? 'नजिकै' : 'Near you')}
                 </span>
               </>
             )}
@@ -116,7 +116,7 @@ export const JobCard: React.FC<JobCardProps> = ({ job, dist }) => {
           {job.when && (
             <span className="inline-flex items-center gap-1 rounded-lg bg-[var(--surface-2)] px-2.5 py-1 text-[var(--fg-muted)] font-medium text-[11px] border border-[var(--line)]">
               <Calendar className="w-3.5 h-3.5 text-[var(--fg-subtle)]" />
-              <span className="truncate max-w-[150px]">{job.when}</span>
+              <span className="truncate max-w-[150px]">{trText(job.when, lang)}</span>
             </span>
           )}
 
@@ -160,7 +160,7 @@ export const JobCard: React.FC<JobCardProps> = ({ job, dist }) => {
               <MessageSquare className="w-3.5 h-3.5 text-[var(--primary)]" />
               <span>
                 {job.bids.length > 0
-                  ? `${job.bids.length} ${job.bids.length === 1 ? t('applied_one') : t('applied_count')}`
+                  ? `${toNepaliNum(job.bids.length, lang)} ${job.bids.length === 1 ? t('applied_one') : t('applied_count')}`
                   : lang === 'ne'
                   ? 'पहिलो प्रस्ताव दिनुहोस्'
                   : 'Be the first!'}

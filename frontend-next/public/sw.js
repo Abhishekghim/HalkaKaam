@@ -1,5 +1,5 @@
 // Sajha Kaam Service Worker (Network-First with Cache Busting)
-const CACHE_NAME = 'sajha-kaam-v5';
+const CACHE_NAME = 'sajha-kaam-v6';
 const STATIC_ASSETS = [
   '/manifest.webmanifest',
   '/icons/icon-192.png',

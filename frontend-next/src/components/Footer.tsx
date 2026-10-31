@@ -64,7 +64,7 @@ export const Footer: React.FC = () => {
                   }}
                   className="hover:text-[var(--primary)] transition-colors cursor-pointer"
                 >
-                  {lang === 'ne' ? 'काम खोज्नुहोस् (Worker Feed)' : 'Find Tasks to Earn'}
+                  {lang === 'ne' ? 'काम खोज्नुहोस्' : 'Find Tasks to Earn'}
                 </button>
               </li>
               <li>
@@ -76,7 +76,7 @@ export const Footer: React.FC = () => {
                   }}
                   className="hover:text-[var(--accent)] transition-colors cursor-pointer"
                 >
-                  {lang === 'ne' ? 'काम पोस्ट गर्नुहोस् (Post Task)' : 'Post a New Task'}
+                  {lang === 'ne' ? 'काम पोस्ट गर्नुहोस्' : 'Post a New Task'}
                 </button>
               </li>
               <li>
@@ -88,7 +88,7 @@ export const Footer: React.FC = () => {
                   }}
                   className="hover:text-[var(--primary)] transition-colors cursor-pointer"
                 >
-                  {lang === 'ne' ? 'मेरा कामहरू (My Tasks)' : 'Manage My Tasks'}
+                  {lang === 'ne' ? 'मेरा कामहरू' : 'Manage My Tasks'}
                 </button>
               </li>
               <li>

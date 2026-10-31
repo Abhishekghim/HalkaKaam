@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { avColor, initials } from '../lib/constants';
+import { trText, toNepaliNum } from '../lib/i18n';
 import { Role, User } from '../types';
 import {
   Award,
@@ -148,7 +149,7 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ user: propUser, userId
             <div>
               <div className="flex flex-wrap items-center gap-2">
                 <h1 className="text-lg sm:text-xl font-extrabold text-[var(--fg)]">
-                  {user.name}
+                  {trText(user.name, lang)}
                 </h1>
                 {isVerified && (
                   <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-[var(--ok-tint)] text-[var(--ok)] text-[11px] font-bold">
@@ -162,12 +163,12 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ user: propUser, userId
                 {user.campus && (
                   <span className="inline-flex items-center gap-1">
                     <MapPin className="w-3.5 h-3.5 text-[var(--primary)]" />
-                    {user.campus}
+                    {trText(user.campus, lang)}
                   </span>
                 )}
                 <span className="inline-flex items-center gap-1">
                   <Calendar className="w-3.5 h-3.5" />
-                  {lang === 'ne' ? `सदस्य: ${joinYear}` : `Joined ${joinYear}`}
+                  {lang === 'ne' ? `सदस्य: ${toNepaliNum(joinYear, 'ne')}` : `Joined ${joinYear}`}
                 </span>
               </div>
             </div>
@@ -203,7 +204,9 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ user: propUser, userId
         {/* Clean 3-Metric Stat Row */}
         <div className="grid grid-cols-3 gap-3 py-4 border-b border-[var(--line)] text-center">
           <div>
-            <div className="text-lg sm:text-xl font-black text-[var(--fg)]">{completedJobs}</div>
+            <div className="text-lg sm:text-xl font-black text-[var(--fg)]">
+              {toNepaliNum(completedJobs, lang)}
+            </div>
             <div className="text-[11px] font-bold text-[var(--fg-muted)]">
               {viewRole === 'worker'
                 ? lang === 'ne'
@@ -218,15 +221,23 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ user: propUser, userId
           <div className="border-x border-[var(--line)]">
             <div className="inline-flex items-center gap-1 text-lg sm:text-xl font-black text-[var(--fg)]">
               <Star className="w-4 h-4 fill-amber-400 text-amber-400" />
-              <span>{rating.count > 0 ? rating.avg.toFixed(1) : 'New'}</span>
+              <span>
+                {rating.count > 0
+                  ? toNepaliNum(rating.avg.toFixed(1), lang)
+                  : lang === 'ne'
+                  ? 'नयाँ'
+                  : 'New'}
+              </span>
             </div>
             <div className="text-[11px] font-bold text-[var(--fg-muted)]">
-              {rating.count} {lang === 'ne' ? 'समीक्षा' : 'Reviews'}
+              {toNepaliNum(rating.count, lang)} {lang === 'ne' ? 'समीक्षा' : 'Reviews'}
             </div>
           </div>
 
           <div>
-            <div className="text-lg sm:text-xl font-black text-[var(--ok)]">{reliability}%</div>
+            <div className="text-lg sm:text-xl font-black text-[var(--ok)]">
+              {toNepaliNum(reliability, lang)}%
+            </div>
             <div className="text-[11px] font-bold text-[var(--fg-muted)]">
               {lang === 'ne' ? 'विश्वसनीयता' : 'Reliability'}
             </div>
@@ -282,14 +293,15 @@ export const ProfileView: React.FC<ProfileViewProps> = ({ user: propUser, userId
             </div>
           ) : (
             <p className="text-sm text-[var(--fg-muted)] leading-relaxed">
-              {user.bio ||
-                (isMe
-                  ? lang === 'ne'
-                    ? 'आफ्नो सीप र अनुभवको बारेमा छोटो विवरण थप्नुहोस्।'
-                    : 'Add a short bio about your skills and availability.'
-                  : lang === 'ne'
-                    ? 'कुनै विवरण राखिएको छैन।'
-                    : 'No bio provided yet.')}
+              {user.bio
+                ? trText(user.bio, lang)
+                : isMe
+                ? lang === 'ne'
+                  ? 'आफ्नो सीप र अनुभवको बारेमा छोटो विवरण थप्नुहोस्।'
+                  : 'Add a short bio about your skills and availability.'
+                : lang === 'ne'
+                ? 'कुनै विवरण राखिएको छैन।'
+                : 'No bio provided yet.'}
             </p>
           )}
         </div>

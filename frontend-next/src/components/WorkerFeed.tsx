@@ -4,7 +4,7 @@ import React, { useMemo, useState, useRef, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
 import { JobCard } from './JobCard';
 import { WorkerFeedMap } from './WorkerFeedMap';
-import { CATS, catName } from '../lib/i18n';
+import { CATS, catName, trText, toNepaliNum } from '../lib/i18n';
 import { kmDist } from '../lib/constants';
 import { FeedFilters, Job, SortPreference } from '../types';
 import { CategoryIconTile } from './ui/CategoryIconTile';
@@ -110,12 +110,18 @@ export const WorkerFeed: React.FC = () => {
         return { job, dist };
       })
       .filter(({ job, dist }) => {
-        // Search query filter
+        // Search query filter (matches both English and Nepali translations)
         if (searchQuery.trim()) {
           const q = searchQuery.toLowerCase();
-          const matchesTitle = job.title.toLowerCase().includes(q);
-          const matchesDesc = (job.desc || '').toLowerCase().includes(q);
-          const matchesArea = (job.address || '').toLowerCase().includes(q);
+          const matchesTitle =
+            job.title.toLowerCase().includes(q) ||
+            trText(job.title, 'ne').toLowerCase().includes(q);
+          const matchesDesc =
+            (job.desc || '').toLowerCase().includes(q) ||
+            trText(job.desc || '', 'ne').toLowerCase().includes(q);
+          const matchesArea =
+            (job.address || '').toLowerCase().includes(q) ||
+            trText(job.address || '', 'ne').toLowerCase().includes(q);
           if (!matchesTitle && !matchesDesc && !matchesArea) return false;
         }
 
@@ -219,7 +225,7 @@ export const WorkerFeed: React.FC = () => {
               {t('your_location')}
             </span>
             <span className="text-sm font-extrabold text-[var(--fg)] truncate block">
-              {locName || 'Kathmandu Valley'} · {t('within')} {radius} km
+              {trText(locName || 'Kathmandu Valley', lang)} · {t('within')} {toNepaliNum(radius, lang)} {lang === 'ne' ? 'कि.मी.' : 'km'}
             </span>
           </div>
         </div>
@@ -524,7 +530,9 @@ export const WorkerFeed: React.FC = () => {
                   </h2>
                 </div>
                 <span className="text-xs font-bold text-[var(--fg-muted)]">
-                  {nearbyJobs.length} {lang === 'ne' ? 'काम' : 'tasks within'} {radius} km
+                  {lang === 'ne'
+                    ? `${toNepaliNum(radius, 'ne')} कि.मी. भित्र ${toNepaliNum(nearbyJobs.length, 'ne')} काम`
+                    : `${nearbyJobs.length} tasks within ${radius} km`}
                 </span>
               </div>
 
@@ -547,7 +555,7 @@ export const WorkerFeed: React.FC = () => {
                   <Compass className="w-3.5 h-3.5 text-[var(--primary)]" />
                   <span>
                     {lang === 'ne'
-                      ? `अलि टाढाका कामहरू (${radius} कि.मी. भन्दा बाहिर)`
+                      ? `अलि टाढाका कामहरू (${toNepaliNum(radius, 'ne')} कि.मी. भन्दा बाहिर)`
                       : `More tasks further away (Outside ${radius} km)`}
                   </span>
                 </div>

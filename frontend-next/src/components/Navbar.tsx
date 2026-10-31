@@ -6,6 +6,7 @@ import { Pennants } from './Pennants';
 import { Wordmark } from './Wordmark';
 import { ThemeToggle } from './ui/ThemeToggle';
 import { avColor, initials } from '../lib/constants';
+import { trText, toNepaliNum } from '../lib/i18n';
 import {
   MapPin,
   Plus,
@@ -54,7 +55,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onPostClick }) => {
           <div className="flex flex-col">
             <Wordmark className="text-xl leading-none" />
             <span className="text-[10px] font-bold text-[var(--fg-muted)] tracking-wider uppercase -mt-0.5">
-              Nepal Marketplace
+              {lang === 'ne' ? 'नेपाल मार्केटप्लेस' : 'Nepal Marketplace'}
             </span>
           </div>
         </div>
@@ -121,7 +122,9 @@ export const Navbar: React.FC<NavbarProps> = ({ onPostClick }) => {
           >
             <MapPin className="w-3.5 h-3.5 text-[var(--accent)] flex-none" />
             <span className="truncate">
-              {locName ? locName.split(',')[0] : `${radius} km`}
+              {locName
+                ? trText(locName.split(',')[0], lang)
+                : `${toNepaliNum(radius, lang)} ${lang === 'ne' ? 'कि.मी.' : 'km'}`}
             </span>
           </button>
 

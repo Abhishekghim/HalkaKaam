@@ -123,7 +123,8 @@ export const I18N: Record<Language, Record<string, string>> = {
     // profile
     joined: 'Joined', as_worker: 'as worker', as_host: 'as poster',
     no_reviews: 'No reviews yet',
-    edit_profile: 'Edit profile', log_out: 'Log out', about_me: 'About me',
+    edit_profile: 'Edit profile', log_out: 'Log out', logout: 'Log out',
+    about_me: 'About me', bio_label: 'About me', save_bio: 'Save',
     both_ways: 'Reviews go both ways — posters rate helpers, helpers rate posters.',
 
     // misc
@@ -308,7 +309,8 @@ export const I18N: Record<Language, Record<string, string>> = {
 
     joined: 'सामेल', as_worker: 'सहयोगीको रूपमा', as_host: 'पोस्ट गर्नेको रूपमा',
     no_reviews: 'अहिलेसम्म समीक्षा छैन',
-    edit_profile: 'प्रोफाइल सम्पादन', log_out: 'लग आउट', about_me: 'मेरो बारे',
+    edit_profile: 'प्रोफाइल सम्पादन', log_out: 'लग आउट', logout: 'लग आउट',
+    about_me: 'मेरो बारे', bio_label: 'मेरो बारेमा', save_bio: 'सुरक्षित गर्नुहोस्',
     both_ways: 'समीक्षा दुवैतर्फ हुन्छ — पोस्ट गर्नेले सहयोगीलाई, सहयोगीले पोस्ट गर्नेलाई।',
 
     poster: 'पोस्ट गर्ने', helper: 'सहयोगी',
@@ -434,4 +436,350 @@ export function t(key: string, lang: Language = 'en'): string {
 export function catName(cat: string, lang: Language = 'en'): string {
   return (CAT_T[lang] && CAT_T[lang][cat]) || cat;
 }
+
+const DEVANAGARI_DIGITS = ['०', '१', '२', '३', '४', '५', '६', '७', '८', '९'];
+
+let activeLangGlobal: Language = 'en';
+
+export function setActiveLang(l: Language) {
+  activeLangGlobal = l;
+}
+
+export function getActiveLang(): Language {
+  return activeLangGlobal;
+}
+
+export function toNepaliNum(val: string | number, lang: Language = activeLangGlobal): string {
+  const s = String(val);
+  if (lang !== 'ne') return s;
+  return s.replace(/[0-9]/g, (d) => DEVANAGARI_DIGITS[Number(d)]);
+}
+
+/* =========================================================================
+   COMPLETE NEPALI CONTENT TRANSLATION DICTIONARY (Jobs, Descriptions,
+   Timings, Addresses, Pitches, User Names, Campuses, and Bios)
+   ========================================================================= */
+export const TEXT_NE: Record<string, string> = {
+  // --- Seed Job Titles ---
+  'Need help moving study tables to 3rd floor':
+    'तेस्रो तलामा पढ्ने टेबलहरू सार्न सहयोग चाहियो',
+  'Fix slow laptop before exam week':
+    'परीक्षा हप्ता अघि ढिलो चलेको ल्यापटप मर्मत गर्ने',
+  'Pick up parcel from Baneshwor & drop in Kirtipur':
+    'बानेश्वरबाट पार्सल उठाएर कीर्तिपुर पुर्‍याउने',
+  'Grade 8 maths tutoring, 2 sessions/week':
+    'कक्षा ८ को गणित ट्युसन (हप्तामा २ दिन)',
+  'Deep-clean 2BHK flat before house-warming':
+    'घर सर्नुअघि २BHK फ्ल्याटको पूर्ण सरसफाइ',
+  'Trim hedge & clear leaves, small garden':
+    'सानो बगैंचाको झाडी काट्ने र पातपतिङ्गर सफा गर्ने',
+  'Format & proofread BBA assignment':
+    'BBA असाइनमेन्ट फर्म्याट र प्रुफरिड गर्ने',
+  'Carry cement bags to rooftop (15 bags)':
+    'छतमा सिमेन्टका बोरा बोक्ने (१५ बोरा)',
+  'Fix kitchen sink leak & replace water tap':
+    'भान्साको सिंक चुहावट मर्मत र पानीको धारा फेर्ने',
+
+  // --- Seed Job Descriptions ---
+  'Two study tables and a bookshelf from ground floor to 3rd floor (no lift). Under an hour. Water and chiya provided!':
+    'भुइँ तलाबाट तेस्रो तलामा (लिफ्ट छैन) दुईवटा पढ्ने टेबल र एउटा बुकसेल्फ सार्नु छ। एक घण्टा भित्रै सकिन्छ। पानी र चियाको व्यवस्था छ!',
+  'Old laptop takes 10 min to boot. Needs cleanup, maybe an SSD. Looking for a CSIT student.':
+    'पुरानो ल्यापटप खुल्न १० मिनेट लाग्छ। सफ्टवेयर सफा गर्नुपर्ने वा SSD हाल्नुपर्ने हुनसक्छ। CSIT पढ्ने विद्यार्थी खोज्दैछु।',
+  'Small box (~3 kg) at a shop in New Baneshwor → Naya Bazar, Kirtipur. Need your own scooter/cycle.':
+    'नयाँ बानेश्वरको पसलबाट सानो बक्स (करिब ३ केजी) लिएर नयाँ बजार, कीर्तिपुर पुर्‍याउनु छ। आफ्नै स्कुटर वा साइकल चाहिन्छ।',
+  'Daughter needs algebra and geometry help. Patient student tutor, twice a week near TU gate.':
+    'छोरीलाई बीजगणित (Algebra) र ज्यामिति (Geometry) मा सहयोग चाहियो। त्रि.वि. गेट नजिकै हप्तामा दुई पटक पढाउने धैर्यवान विद्यार्थी शिक्षक चाहियो।',
+  'Sweep + mop, windows, kitchen. Supplies provided. Two people may bid together.':
+    'बढार्ने र पुछ्ने, झ्याल र भान्सा सफा गर्ने। सरसफाइका सामान उपलब्ध गराइनेछ। दुई जना मिलेर पनि प्रस्ताव दिन सक्नुहुन्छ।',
+  'Small front garden. Trimmer available, bring energy. 2–3 hours.':
+    'घर अगाडिको सानो बगैंचा सफा गर्नु छ। काट्ने ट्रिमर यहीँ छ। २–३ घण्टाको काम हो।',
+  '12-page Word doc needs APA formatting, references, grammar pass. Remote.':
+    '१२ पेजको वर्ड (Word) फाइललाई APA फर्म्याट, सन्दर्भ सूची (References) र व्याकरण मिलाउनु छ। घरबाटै अनलाइन गर्न सकिने।',
+  '15 bags (50 kg) from gate to rooftop, 2 floors. Two helpers ideal — bid per person.':
+    'गेटबाट दुई तला माथि छतसम्म १५ बोरा (५० केजी) सिमेन्ट बोक्नु छ। दुई जना सहयोगी उपयुक्त हुन्छ — प्रति व्यक्ति दरमा प्रस्ताव दिनुहोस्।',
+  'Kitchen sink pipe is leaking underneath and the main tap needs replacement. Spare washer and new tap already purchased.':
+    'भान्साको सिंक मुनिको पाइप चुहिएको छ र मुख्य धारा फेर्नु छ। नयाँ धारा र वासर किनिसकेको छ।',
+
+  // --- Seed Job Timings (`when`) & PostJob Time Slots ---
+  'Today, 4–6 PM': 'आज, दिउँसो ४–६ बजे',
+  'Tomorrow morning': 'भोलि बिहान',
+  'Today, before 7 PM': 'आज, साँझ ७ बजे अघि',
+  'Flexible evenings': 'साँझको अनुकूल समयमा',
+  'Saturday morning': 'शनिबार बिहान',
+  'This weekend': 'यो सप्ताहान्त',
+  'Within 2 days': '२ दिन भित्र',
+  'Sunday morning': 'आइतबार बिहान',
+  'Today, anytime after 3 PM': 'आज, दिउँसो ३ बजे पछि जुनसुकै बेला',
+  'Morning (8 AM–12 PM)': 'बिहान (८–१२ बजे)',
+  'Afternoon (12–4 PM)': 'दिउँसो (१२–४ बजे)',
+  'Evening (4–8 PM)': 'साँझ (४–८ बजे)',
+  'Flexible timing': 'जुनसुकै अनुकूल समय',
+  'Today, Morning (8 AM–12 PM)': 'आज, बिहान (८–१२ बजे)',
+  'Today, Afternoon (12–4 PM)': 'आज, दिउँसो (१२–४ बजे)',
+  'Today, Evening (4–8 PM)': 'आज, साँझ (४–८ बजे)',
+  'Today, Flexible timing': 'आज, जुनसुकै अनुकूल समय',
+  'Tomorrow, Morning (8 AM–12 PM)': 'भोलि, बिहान (८–१२ बजे)',
+  'Tomorrow, Afternoon (12–4 PM)': 'भोलि, दिउँसो (१२–४ बजे)',
+  'Tomorrow, Evening (4–8 PM)': 'भोलि, साँझ (४–८ बजे)',
+  'Tomorrow, Flexible timing': 'भोलि, जुनसुकै अनुकूल समय',
+  'This weekend, Morning (8 AM–12 PM)': 'यो सप्ताहान्त, बिहान (८–१२ बजे)',
+  'This weekend, Afternoon (12–4 PM)': 'यो सप्ताहान्त, दिउँसो (१२–४ बजे)',
+  'This weekend, Evening (4–8 PM)': 'यो सप्ताहान्त, साँझ (४–८ बजे)',
+  'This weekend, Flexible timing': 'यो सप्ताहान्त, जुनसुकै अनुकूल समय',
+
+  // --- Addresses, Areas & Locations ---
+  'Naya Bazar, Kirtipur': 'नयाँ बजार, कीर्तिपुर',
+  'Balkhu Chowk': 'बल्खु चोक',
+  'New Baneshwor': 'नयाँ बानेश्वर',
+  'Near TU Gate': 'त्रि.वि. गेट नजिकै',
+  'TU Gate': 'त्रि.वि. गेट',
+  'Patan, Mangal Bazar': 'पाटन, मंगलबजार',
+  'Mangal Bazar': 'मंगलबजार',
+  'Chobhar': 'चोभार',
+  'Online': 'अनलाइन',
+  'Panga Road, Kirtipur': 'पाँगा रोड, कीर्तिपुर',
+  'Kathmandu': 'काठमाडौँ',
+  'Kathmandu, Bagmati': 'काठमाडौँ, बागमती',
+  'Kathmandu Valley': 'काठमाडौँ उपत्यका',
+  'Kirtipur': 'कीर्तिपुर',
+  'Patan': 'पाटन',
+  'Lalitpur': 'ललितपुर',
+  'Bhaktapur': 'भक्तपुर',
+  'Pokhara': 'पोखरा',
+  'Butwal': 'बुटवल',
+  'Balkhu': 'बल्खु',
+  'Pulchowk Campus': 'पुल्चोक क्याम्पस',
+  'Tribhuvan University': 'त्रिभुवन विश्वविद्यालय',
+  'Patan Campus': 'पाटन क्याम्पस',
+  'Approximate area': 'अनुमानित क्षेत्र',
+
+  // --- Seed Bid Pitches & Bot Messages ---
+  'Namaste! Engineering student at Pulchowk, I live 10 min away. Done 6 moving gigs — can bring a friend.':
+    'नमस्ते! म पुल्चोक क्याम्पसमा इन्जिनियरिङ पढ्ने विद्यार्थी हुँ, १० मिनेट टाढा बस्छु। ६ वटा सामान सार्ने काम गरिसकेको छु — साथी पनि ल्याउन सक्छु।',
+  'New but strong and punctual. Willing to do it for a bit less to build my rating.':
+    'म नयाँ छु तर बलियो र समयको पक्का छु। राम्रो रेटिङ बनाउन अलि कम दरमा पनि काम गर्न तयार छु।',
+  'CSIT student — I do laptop tune-ups weekly. Will bring a bootable USB.':
+    'CSIT विद्यार्थी हुँ — म हप्तापिच्छे ल्यापटप मर्मत र स्पिड बढाउने काम गर्छु। बुटेबल USB लिएर आउँछु।',
+  'I ride that route daily. Can pick up within the hour.':
+    'म दैनिक त्यही बाटो ओहोरदोहोर गर्छु। एक घण्टा भित्रै सामान उठाउन सक्छु।',
+  'Careful with packages, know both areas well.':
+    'सामान सुरक्षित रूपमा पुर्‍याउँछु, दुवै ठाउँ राम्रोसँग थाहा छ।',
+  'I tutor two other Grade 8 students. Patient, with weekly progress notes.':
+    'म कक्षा ८ का अन्य दुई विद्यार्थीलाई पनि ट्युसन पढाउँछु। धैर्यवान छु र साप्ताहिक प्रगति विवरण दिन्छु।',
+  'My brother and I clean as a pair — 2BHK in 3 hours. Covers both.':
+    'मेरो भाइ र म मिलेर सरसफाइ गर्छौं — ३ घण्टामा २BHK पूर्ण सफा हुन्छ। यो रकम दुवै जनाको लागि हो।',
+  'Thorough. Cleaned my hostel common room last week.':
+    'म निकै सफासँग काम गर्छु। गत हप्ता मात्र होस्टेलको हल सफा गरेको थिएँ।',
+  'APA is my comfort zone. Quick turnaround with tracked changes.':
+    'APA फर्म्याटिङमा मलाई राम्रो अनुभव छ। ट्र्याक चेन्ज (Tracked Changes) सहित छिट्टै बुझाउँछु।',
+  'Done 6 cement gigs. Can bring a friend to finish in an hour.':
+    'सिमेन्ट बोक्ने ६ वटा काम गरिसकेको छु। साथी ल्याएर एक घण्टामै सकाउन सक्छु।',
+  'I work at a hardware shop, used to cement. Free Sunday, start 7 AM.':
+    'म हार्डवेयर पसलमा काम गर्छु, सिमेन्ट बोक्ने बानी छ। आइतबार खाली छु, बिहान ७ बजे सुरु गर्न सक्छु।',
+  'My brother and I take heavy jobs together — covers both.':
+    'मेरो भाइ र म भारी काम सँगै गर्छौं — यो दर दुवै जनाको हो।',
+  'Strong and punctual. Bidding lower to earn first reviews.':
+    'बलियो र समयको पक्का छु। पहिलो समीक्षा पाउन कम रकममा प्रस्ताव गरेको हुँ।',
+  'I work at hardware shop in Kirtipur and have plumbing tools. Can come at 4 PM.':
+    'म कीर्तिपुरको हार्डवेयर पसलमा काम गर्छु र मसँग प्लम्बिङका सबै औजार छन्। दिउँसो ४ बजे आउन सक्छु।',
+  'Namaste! I am a student nearby and free at that time. I can do this carefully.':
+    'नमस्ते! म नजिकै बस्ने विद्यार्थी हुँ र तोकिएको समयमा खाली छु। यो काम ध्यानपूर्वक गर्न सक्छु।',
+  'I have done similar work before and live close by. Happy to help!':
+    'मैले पहिले पनि यस्तै काम गरिसकेको छु र नजिकै बस्छु। सहयोग गर्न पाउँदा खुसी लाग्नेछ!',
+  'Available today. I am punctual and will finish properly. 🙏':
+    'आजै उपलब्ध छु। म समयमा आउँछु र काम राम्ररी सम्पन्न गर्नेछु। 🙏',
+  'Namaste! Got it, thank you. 🙏': 'नमस्ते! बुझेँ, धन्यवाद। 🙏',
+  'Sure, I can do that. What time works best for you?':
+    'हुन्छ, म त्यो गर्न सक्छु। तपाईंलाई कुन समय उपयुक्त हुन्छ?',
+  'Okay! I will bring everything needed.': 'हुन्छ! म आवश्यक सबै सामान लिएर आउँछु।',
+  'Thank you for the details — I am ready.': 'विवरणको लागि धन्यवाद — म तयार छु।',
+  'No problem dai/didi, I will be on time.': 'केही समस्या छैन दाइ/दिदी, म समयमै आइपुग्छु।',
+  'Namaste! Thanks for your offer. Are you available at the time mentioned?':
+    'नमस्ते! प्रस्तावको लागि धन्यवाद। के तपाईं तोकिएको समयमा उपलब्ध हुनुहुन्छ?',
+  'Hi! Your pitch looks good. Have you done something similar before?':
+    'नमस्ते! तपाईंको प्रस्ताव राम्रो लाग्यो। के तपाईंले पहिले पनि यस्तो काम गर्नुभएको छ?',
+
+  // --- Seed User Names ---
+  'Sunita Gurung': 'सुनिता गुरुङ',
+  'Ramesh Karki': 'रमेश कार्की',
+  'Anita Shrestha': 'अनिता श्रेष्ठ',
+  'Bikash Thapa': 'बिकास थापा',
+  'Prakriti Maharjan': 'प्रकृति महर्जन',
+  'Kiran Bista': 'किरण विष्ट',
+  'Dipesh Maharjan': 'दिपेश महर्जन',
+  'Sarita KC': 'सरिता के.सी.',
+  'Roshan Tamang': 'रोशन तामाङ',
+  'Pratiksha Sharma': 'प्रतिक्षा शर्मा',
+  'Anish Gautam': 'अनिश गौतम',
+
+  // --- Seed User Bios ---
+  'Homemaker. I post small household tasks weekly.':
+    'गृहिणी। म हप्तापिच्छे घरका सानातिना कामहरू पोस्ट गर्छु।',
+  'Shop owner near Balkhu chowk.': 'बल्खु चोक नजिकैको पसल सञ्चालक।',
+  'Frequent delivery tasks.': 'नियमित डेलिभरी सम्बन्धी काम पोस्ट गर्छु।',
+  'Looking for student tutors.': 'विद्यार्थी ट्युसन शिक्षकको खोजीमा।',
+  'Cleaning and gardening gigs around Patan.': 'पाटन वरिपरि सरसफाइ र बगैंचाको काम।',
+  'Engineering student · moving & assembly. 34 gigs done! (Nepal KYC Verified)':
+    'इन्जिनियरिङ विद्यार्थी · सामान सार्ने र जडान गर्ने काम। ३४ वटा काम सम्पन्न! (नेपाल KYC प्रमाणित)',
+  'BBS student, part-time at a hardware shop.': 'BBS विद्यार्थी, हार्डवेयर पसलमा आंशिक काम गर्छु।',
+  'My brother and I take moving jobs together.': 'मेरो भाइ र म मिलेर सामान सार्ने काम गर्छौं।',
+  'New to HK — unverified test profile.': 'साझा काममा नयाँ — अप्रमाणित परीक्षण प्रोफाइल।',
+  'CSIT student · laptop repair, tutoring.': 'CSIT विद्यार्थी · ल्यापटप मर्मत र ट्युसन पढाउँछु।',
+  'BSc student, free most afternoons.': 'BSc विद्यार्थी, दिउँसो प्रायः खाली हुन्छु।',
+};
+
+// Reverse dictionary (Nepali -> English) in case a user posts in Nepali and switches to English
+export const TEXT_EN: Record<string, string> = Object.fromEntries(
+  Object.entries(TEXT_NE).map(([en, ne]) => [ne, en])
+);
+
+// Phrase / vocabulary fallback for custom user-entered tasks when offline or before async translation resolves
+const WORD_MAP_EN_TO_NE: [RegExp, string][] = [
+  [/\bneed help\b/gi, 'सहयोग चाहियो'],
+  [/\bhelp needed\b/gi, 'सहयोग चाहियो'],
+  [/\bmoving\b/gi, 'सार्ने'],
+  [/\bmove\b/gi, 'सार्ने'],
+  [/\bclean(ing)?\b/gi, 'सरसफाइ'],
+  [/\bfix(ing)?\b/gi, 'मर्मत गर्ने'],
+  [/\brepair(ing)?\b/gi, 'मर्मत'],
+  [/\bdeliver(y)?\b/gi, 'डेलिभरी'],
+  [/\bpick ?up\b/gi, 'पिकअप'],
+  [/\btutor(ing)?\b/gi, 'ट्युसन'],
+  [/\bgarden(ing)?\b/gi, 'बगैंचाको काम'],
+  [/\bkitchen\b/gi, 'भान्सा'],
+  [/\bbathroom\b/gi, 'बाथरुम'],
+  [/\broom\b/gi, 'कोठा'],
+  [/\bfloor\b/gi, 'तला'],
+  [/\brooftop\b/gi, 'छत'],
+  [/\btable(s)?\b/gi, 'टेबल'],
+  [/\bchair(s)?\b/gi, 'कुर्सी'],
+  [/\bsofa\b/gi, 'सोफा'],
+  [/\bbed\b/gi, 'खाट'],
+  [/\blaptop\b/gi, 'ल्यापटप'],
+  [/\bcomputer\b/gi, 'कम्प्युटर'],
+  [/\bphone\b/gi, 'मोबाइल'],
+  [/\bwater\b/gi, 'पानी'],
+  [/\btap\b/gi, 'धारा'],
+  [/\bpipe\b/gi, 'पाइप'],
+  [/\bleak(ing)?\b/gi, 'चुहावट'],
+  [/\btoday\b/gi, 'आज'],
+  [/\btomorrow\b/gi, 'भोलि'],
+  [/\bmorning\b/gi, 'बिहान'],
+  [/\bafternoon\b/gi, 'दिउँसो'],
+  [/\bevening\b/gi, 'साँझ'],
+  [/\bweekend\b/gi, 'सप्ताहान्त'],
+  [/\bhour(s)?\b/gi, 'घण्टा'],
+  [/\burgent(ly)?\b/gi, 'अत्यावश्यक'],
+];
+
+// Dynamic runtime translation cache for custom user-created job titles & descriptions
+const dynamicCacheNe = new Map<string, string>();
+const pendingFetchNe = new Set<string>();
+const translationListeners = new Set<() => void>();
+
+function loadCachedTranslations() {
+  if (typeof window === 'undefined') return;
+  try {
+    const raw = localStorage.getItem('hk-tr-ne-v1');
+    if (raw) {
+      const parsed = JSON.parse(raw) as Record<string, string>;
+      Object.entries(parsed).forEach(([k, v]) => dynamicCacheNe.set(k, v));
+    }
+  } catch {}
+}
+loadCachedTranslations();
+
+export function subscribeTranslations(cb: () => void): () => void {
+  translationListeners.add(cb);
+  return () => {
+    translationListeners.delete(cb);
+  };
+}
+
+function queueAutoTranslateToNe(text: string) {
+  if (typeof window === 'undefined') return;
+  if (pendingFetchNe.has(text) || dynamicCacheNe.has(text)) return;
+  pendingFetchNe.add(text);
+
+  const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ne&dt=t&q=${encodeURIComponent(
+    text
+  )}`;
+
+  fetch(url)
+    .then((res) => res.json())
+    .then((data) => {
+      if (Array.isArray(data) && Array.isArray(data[0])) {
+        const translated = data[0]
+          .map((part: unknown) => (Array.isArray(part) ? String(part[0] || '') : ''))
+          .join('')
+          .trim();
+        if (translated) {
+          dynamicCacheNe.set(text, translated);
+          try {
+            const obj: Record<string, string> = {};
+            dynamicCacheNe.forEach((v, k) => {
+              obj[k] = v;
+            });
+            localStorage.setItem('hk-tr-ne-v1', JSON.stringify(obj));
+          } catch {}
+          translationListeners.forEach((fn) => fn());
+        }
+      }
+    })
+    .catch(() => {})
+    .finally(() => {
+      pendingFetchNe.delete(text);
+    });
+}
+
+function fallbackPhraseTranslate(text: string): string {
+  let out = text;
+  for (const [regex, replacement] of WORD_MAP_EN_TO_NE) {
+    out = out.replace(regex, replacement);
+  }
+  return toNepaliNum(out, 'ne');
+}
+
+/**
+ * Translates any dynamic content (job title, description, when, address, pitch, user name, bio)
+ * into Nepali when `lang === 'ne'`, or back to English when `lang === 'en'`.
+ */
+export function trText(text: string | undefined | null, lang: Language = 'en'): string {
+  if (!text) return '';
+  const trimmed = text.trim();
+  if (!trimmed) return '';
+
+  if (lang === 'en') {
+    return TEXT_EN[trimmed] || text;
+  }
+
+  // 1. Exact curated translation match (instant)
+  if (TEXT_NE[trimmed]) {
+    return TEXT_NE[trimmed];
+  }
+
+  // 2. Comma-separated composite location or timing (e.g. "Kathmandu, Bagmati" or "2026-11-02, Morning (8 AM–12 PM)")
+  if (trimmed.includes(',')) {
+    const parts = trimmed.split(',').map((p) => p.trim());
+    if (parts.every((p) => TEXT_NE[p] || /^\d/.test(p))) {
+      return parts.map((p) => TEXT_NE[p] || toNepaliNum(p, 'ne')).join(', ');
+    }
+  }
+
+  // 3. Already contains Devanagari characters -> return with Nepali numerals
+  if (/[\u0900-\u097F]/.test(trimmed)) {
+    return toNepaliNum(trimmed, 'ne');
+  }
+
+  // 4. Cached runtime translation for custom user-entered text
+  const cached = dynamicCacheNe.get(trimmed);
+  if (cached) {
+    return cached;
+  }
+
+  // 5. Queue background translation for custom text and return immediate phrase translation
+  queueAutoTranslateToNe(trimmed);
+  return fallbackPhraseTranslate(trimmed);
+}
+
 

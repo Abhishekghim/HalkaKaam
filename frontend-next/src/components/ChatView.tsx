@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useApp, hostStartedChat } from '../context/AppContext';
 import { timeAgo, avColor, initials, npr } from '../lib/constants';
+import { trText } from '../lib/i18n';
 import { compressImageFile } from '../lib/image-compress';
 import {
   ArrowLeft,
@@ -145,13 +146,13 @@ export const ChatView: React.FC = () => {
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1.5">
             <h3 className="font-extrabold text-sm text-[var(--fg)] truncate">
-              {otherUser?.name || 'User'}
+              {otherUser?.name ? trText(otherUser.name, lang) : 'User'}
             </h3>
             {otherUser?.kycStatus === 'verified' && (
               <ShieldCheck className="w-4 h-4 text-[var(--primary)] flex-none" />
             )}
           </div>
-          <p className="text-xs text-[var(--fg-muted)] truncate mt-0.5">{job.title}</p>
+          <p className="text-xs text-[var(--fg-muted)] truncate mt-0.5">{trText(job.title, lang)}</p>
         </div>
 
         {/* Direct Phone Call Action (Only visible once task is assigned) */}
@@ -259,7 +260,9 @@ export const ChatView: React.FC = () => {
           <ShieldCheck className="w-3.5 h-3.5 flex-none" />
           <span>{isHost ? t('you_started') : t('poster_started')}</span>
         </div>
-        <span className="font-bold hidden sm:inline">Sajha Kaam Secure Chat</span>
+        <span className="font-bold hidden sm:inline">
+          {lang === 'ne' ? 'साझा काम सुरक्षित च्याट' : 'Sajha Kaam Secure Chat'}
+        </span>
       </div>
 
       {/* Message Log */}
@@ -267,13 +270,13 @@ export const ChatView: React.FC = () => {
         {/* Initial Pitch Card at Top of Thread */}
         <div className="rounded-2xl border border-[var(--line)] bg-[var(--surface)] p-3.5 text-xs shadow-2xs">
           <div className="flex items-center justify-between text-[var(--fg-muted)] font-bold mb-1">
-            <span>{isHost ? otherUser?.name : t('your_pitch')}</span>
+            <span>{isHost ? (otherUser?.name ? trText(otherUser.name, lang) : '') : t('your_pitch')}</span>
             <span className="font-mukta text-sm font-black text-[var(--primary)]">
               {npr(bid.amount)}
             </span>
           </div>
           <p className="text-[var(--fg)] leading-relaxed whitespace-pre-wrap break-words">
-            {bid.pitch}
+            {trText(bid.pitch, lang)}
           </p>
         </div>
 
@@ -358,7 +361,7 @@ export const ChatView: React.FC = () => {
                     />
                   )}
                   {msg.text && (
-                    <p className="whitespace-pre-wrap break-words">{msg.text}</p>
+                    <p className="whitespace-pre-wrap break-words">{trText(msg.text, lang)}</p>
                   )}
                 </div>
                 <div className="flex items-center gap-1 mt-1 px-1 text-xs text-[var(--fg-muted)]">

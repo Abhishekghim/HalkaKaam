@@ -4,6 +4,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Job } from '../types';
 import { hasUnread, useApp } from '../context/AppContext';
 import { avColor, initials, npr } from '../lib/constants';
+import { trText, toNepaliNum } from '../lib/i18n';
 import {
   Inbox,
   Check,
@@ -80,11 +81,11 @@ export const InboxSheet: React.FC<{ job: Job }> = ({ job }) => {
             <Inbox className="w-4 h-4" />
           </div>
           <h2 className="text-xl font-extrabold tracking-tight text-[var(--fg)] truncate">
-            {job.title}
+            {trText(job.title, lang)}
           </h2>
         </div>
         <p className="text-xs text-[var(--fg-muted)]">
-          {job.bids.length} {job.bids.length === 1 ? t('offers_inbox_one') : t('offers_inbox')} · {t('only_you_see')}
+          {toNepaliNum(job.bids.length, lang)} {job.bids.length === 1 ? t('offers_inbox_one') : t('offers_inbox')} · {t('only_you_see')}
         </p>
       </div>
 
@@ -208,13 +209,13 @@ export const InboxSheet: React.FC<{ job: Job }> = ({ job }) => {
                         className="font-extrabold text-sm text-[var(--fg)] flex items-center gap-1.5 cursor-pointer hover:text-[var(--primary)] transition-colors"
                         onClick={showProfile}
                       >
-                        <span className="truncate">{w?.name}</span>
+                        <span className="truncate">{w?.name ? trText(w.name, lang) : ''}</span>
                         {w?.kycStatus === 'verified' && (
                           <ShieldCheck className="w-3.5 h-3.5 text-[var(--primary)] flex-none" />
                         )}
                         {newIds.has(b.id) && (
                           <span className="px-1.5 py-0.5 rounded text-[10px] font-extrabold bg-[var(--accent-fill)] text-white">
-                            NEW
+                            {lang === 'ne' ? 'नयाँ' : 'NEW'}
                           </span>
                         )}
                       </div>
@@ -222,9 +223,9 @@ export const InboxSheet: React.FC<{ job: Job }> = ({ job }) => {
                       <div className="flex items-center gap-1 text-xs text-[var(--fg-muted)] mt-0.5">
                         <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
                         <span className="font-bold text-[var(--fg)]">
-                          {r.avg ? r.avg.toFixed(1) : t('new_helper')}
+                          {r.avg ? toNepaliNum(r.avg.toFixed(1), lang) : t('new_helper')}
                         </span>
-                        <span>· {r.count} {t('tasks_done')}</span>
+                        <span>· {toNepaliNum(r.count, lang)} {t('tasks_done')}</span>
                       </div>
                     </div>
                   </div>
@@ -242,7 +243,7 @@ export const InboxSheet: React.FC<{ job: Job }> = ({ job }) => {
 
                 {/* Pitch */}
                 <p className="text-xs text-[var(--fg)] bg-[var(--surface-2)] p-3 rounded-xl border border-[var(--line)] leading-relaxed mb-3">
-                  {b.pitch}
+                  {trText(b.pitch, lang)}
                 </p>
 
                 {b.counterAmount && (

@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
-import { CATS, CATICON, catName } from '../lib/i18n';
+import { CATS, CATICON, catName, trText, toNepaliNum } from '../lib/i18n';
 import { loadMapbox, MAPBOX_TOKEN, MAPBOX_STYLE, MapboxMap } from '../lib/mapbox';
 import { JobType, PriceType } from '../types';
 import { POPULAR_LOCATIONS } from '../lib/nepal-geo';
@@ -258,7 +258,7 @@ export const PostJob: React.FC = () => {
             {lang === 'ne' ? 'नयाँ काम पोस्ट गर्नुहोस्' : 'Post a New Task'}
           </h2>
           <span className="text-xs text-[var(--fg-muted)] font-semibold">
-            {lang === 'ne' ? `चरण ${step} / ४` : `Step ${step} of 4`}
+            {lang === 'ne' ? `चरण ${toNepaliNum(step, 'ne')} / ४` : `Step ${step} of 4`}
           </span>
         </div>
         <div className="w-9" />
@@ -363,7 +363,7 @@ export const PostJob: React.FC = () => {
             {/* Description */}
             <div>
               <label className="block text-xs font-bold text-[var(--fg)] uppercase tracking-wider mb-2">
-                {t('f_desc')} (वैकल्पिक / Optional)
+                {t('f_desc')} ({lang === 'ne' ? 'वैकल्पिक' : 'Optional'})
               </label>
               <textarea
                 value={desc}
@@ -566,10 +566,10 @@ export const PostJob: React.FC = () => {
               </label>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
                 {[
-                  { id: 'today', label: lang === 'ne' ? 'आज (Today)' : 'Today' },
-                  { id: 'tomorrow', label: lang === 'ne' ? 'भोलि (Tomorrow)' : 'Tomorrow' },
-                  { id: 'weekend', label: lang === 'ne' ? 'सप्ताहान्त (Weekend)' : 'This weekend' },
-                  { id: 'custom', label: lang === 'ne' ? 'मिती रोज्नुहोस्' : 'Custom date' },
+                  { id: 'today', label: lang === 'ne' ? 'आज' : 'Today' },
+                  { id: 'tomorrow', label: lang === 'ne' ? 'भोलि' : 'Tomorrow' },
+                  { id: 'weekend', label: lang === 'ne' ? 'यो सप्ताहान्त' : 'This weekend' },
+                  { id: 'custom', label: lang === 'ne' ? 'मिति रोज्नुहोस्' : 'Custom date' },
                 ].map((p) => (
                   <button
                     key={p.id}
@@ -624,7 +624,7 @@ export const PostJob: React.FC = () => {
                     }`}
                   >
                     <Clock className="w-4 h-4 text-[var(--fg-muted)] flex-none" />
-                    <span>{slot}</span>
+                    <span>{trText(slot, lang)}</span>
                   </button>
                 ))}
               </div>
@@ -650,7 +650,7 @@ export const PostJob: React.FC = () => {
                       : 'border-[var(--line)] bg-[var(--surface)] text-[var(--fg)]'
                   }`}
                 >
-                  {t('flat')} (निश्चित दर)
+                  {t('flat')}
                 </button>
                 <button
                   type="button"
@@ -661,7 +661,7 @@ export const PostJob: React.FC = () => {
                       : 'border-[var(--line)] bg-[var(--surface)] text-[var(--fg)]'
                   }`}
                 >
-                  {t('hourly')} (प्रति घण्टा)
+                  {t('hourly')}
                 </button>
               </div>
             </div>
@@ -669,7 +669,7 @@ export const PostJob: React.FC = () => {
             {/* NPR Amount Input & Quick Chips */}
             <div>
               <label className="block text-xs font-bold text-[var(--fg)] uppercase tracking-wider mb-2">
-                {lang === 'ne' ? 'बजेट रकम (NPR रु)' : 'Budget Amount in NPR (रु)'}
+                {lang === 'ne' ? 'बजेट रकम (रु)' : 'Budget Amount in NPR (रु)'}
               </label>
               <div className="relative mb-3">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 font-mukta font-extrabold text-lg text-[var(--primary)]">
@@ -700,7 +700,7 @@ export const PostJob: React.FC = () => {
                         : 'bg-[var(--surface)] border-[var(--line)] text-[var(--fg)] hover:border-[var(--primary)]'
                     }`}
                   >
-                    रु {amt}
+                    रु {toNepaliNum(amt, lang)}
                   </button>
                 ))}
               </div>
@@ -773,7 +773,7 @@ export const PostJob: React.FC = () => {
               className="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-[var(--accent-fill)] hover:bg-[var(--accent-hover)] text-white text-sm font-black shadow-cta active:scale-95 transition-all cursor-pointer"
             >
               <Sparkles className="w-4 h-4" />
-              <span>{lang === 'ne' ? 'काम पोस्ट गर्नुहोस् (Publish)' : 'Publish Task'}</span>
+              <span>{lang === 'ne' ? 'काम पोस्ट गर्नुहोस्' : 'Publish Task'}</span>
             </button>
           )}
         </div>

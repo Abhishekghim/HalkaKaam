@@ -28,7 +28,7 @@ import {
   KycData,
 } from '../types';
 import { KIRTIPUR, TEST_VERIFIED_USER, makeSeed, uid } from '../lib/constants';
-import { t as translate } from '../lib/i18n';
+import { t as translate, setActiveLang, subscribeTranslations } from '../lib/i18n';
 
 /* ---------- storage keys ---------- */
 const K_USERS = 'hk-users-v2';
@@ -213,6 +213,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [isStandaloneApp, setIsStandaloneApp] = useState(false);
   const [theme, setThemeState] = useState<'light' | 'dark'>('light');
   const [lang, setLangState] = useState<Language>('en');
+  const [, setTrVersion] = useState(0);
+  setActiveLang(lang);
+
+  useEffect(() => {
+    return subscribeTranslations(() => setTrVersion((v) => v + 1));
+  }, []);
   const [searchQuery, setSearchQuery] = useState('');
   const [view, setViewState] = useState<AppView>('landing');
 

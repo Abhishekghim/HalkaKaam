@@ -3,7 +3,7 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
 import { npr } from '../lib/constants';
-import { catName } from '../lib/i18n';
+import { catName, trText, toNepaliNum } from '../lib/i18n';
 import { CategoryIconTile } from './ui/CategoryIconTile';
 import { Handshake, MessageSquare, Star, ArrowRight, Clock } from 'lucide-react';
 
@@ -54,7 +54,7 @@ export const WorkerOffers: React.FC = () => {
     <div className="max-w-2xl mx-auto space-y-4">
       <div className="flex items-center justify-between mb-2">
         <h2 className="text-xl font-black text-[var(--fg)] tracking-tight">
-          {t('my_offers')} ({myBidsJobs.length})
+          {t('my_offers')} ({toNepaliNum(myBidsJobs.length, lang)})
         </h2>
       </div>
 
@@ -91,7 +91,7 @@ export const WorkerOffers: React.FC = () => {
               </div>
 
               <h3 className="text-base font-extrabold text-[var(--fg)] mb-2.5 leading-snug">
-                {j.title}
+                {trText(j.title, lang)}
               </h3>
 
               {/* Status pill */}
@@ -122,7 +122,7 @@ export const WorkerOffers: React.FC = () => {
 
               {/* Pitch text */}
               <div className="p-3.5 rounded-xl bg-[var(--surface-2)] text-xs text-[var(--fg)] leading-relaxed font-medium border border-[var(--line)] mb-3">
-                <b className="text-[var(--fg)]">{t('your_pitch')}:</b> {myBid.pitch}
+                <b className="text-[var(--fg)]">{t('your_pitch')}:</b> {trText(myBid.pitch, lang)}
               </div>
 
               {/* Chat or Review Actions */}

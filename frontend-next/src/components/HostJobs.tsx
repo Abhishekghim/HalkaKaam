@@ -3,7 +3,7 @@
 import React from 'react';
 import { useApp } from '../context/AppContext';
 import { npr } from '../lib/constants';
-import { catName } from '../lib/i18n';
+import { catName, trText, toNepaliNum } from '../lib/i18n';
 import { CategoryIconTile } from './ui/CategoryIconTile';
 import { JobStatusBadge } from './ui/StatusBadge';
 import { Plus, Inbox, ChevronRight, FolderOpen } from 'lucide-react';
@@ -60,7 +60,7 @@ export const HostJobs: React.FC = () => {
     <div className="max-w-2xl mx-auto space-y-4">
       <div className="flex items-center justify-between mb-2">
         <h2 className="text-xl font-black text-[var(--fg)] tracking-tight">
-          {t('nav_myjobs')} ({myPostedJobs.length})
+          {t('nav_myjobs')} ({toNepaliNum(myPostedJobs.length, lang)})
         </h2>
         <button
           type="button"
@@ -99,7 +99,7 @@ export const HostJobs: React.FC = () => {
               </div>
 
               <h3 className="text-base font-extrabold text-[var(--fg)] mb-3 leading-snug line-clamp-1">
-                {j.title}
+                {trText(j.title, lang)}
               </h3>
 
               <div className="flex items-center justify-between pt-3 border-t border-[var(--line)] text-xs">
@@ -107,7 +107,7 @@ export const HostJobs: React.FC = () => {
                 <div className="flex items-center gap-1.5 text-xs font-bold text-[var(--primary)]">
                   <Inbox className="w-4 h-4" />
                   <span>
-                    {off} {off === 1 ? t('offers_inbox_one') : t('offers_inbox')}
+                    {toNepaliNum(off, lang)} {off === 1 ? t('offers_inbox_one') : t('offers_inbox')}
                   </span>
                   <ChevronRight className="w-3.5 h-3.5" />
                 </div>

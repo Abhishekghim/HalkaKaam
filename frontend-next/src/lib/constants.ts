@@ -1,4 +1,5 @@
-import { Area, Coordinates, Job, User, KycStatus } from '../types';
+import { Area, Coordinates, Job, User, KycStatus, Language } from '../types';
+import { getActiveLang, toNepaliNum } from './i18n';
 
 export const KIRTIPUR: Coordinates = { lat: 27.6789, lng: 85.2774 };
 
@@ -18,8 +19,11 @@ export const uid = (): string => {
   return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
 };
 
-export const npr = (n: number | string): string =>
-  'रु ' + Number(n).toLocaleString('en-IN');
+export const npr = (n: number | string, lang?: Language): string => {
+  const l = lang || getActiveLang();
+  const formatted = Number(n).toLocaleString('en-IN');
+  return 'रु ' + toNepaliNum(formatted, l);
+};
 
 export const starsHtml = (r: number): string => {
   const f = Math.round(r);
@@ -47,8 +51,16 @@ export const initials = (n?: string): string =>
     .join('')
     .toUpperCase();
 
-export const timeAgo = (ts: number): string => {
+export const timeAgo = (ts: number, lang?: Language): string => {
+  const l = lang || getActiveLang();
   const m = Math.floor((Date.now() - ts) / 60000);
+  if (l === 'ne') {
+    if (m < 1) return 'भर्खरै';
+    if (m < 60) return `${toNepaliNum(m, 'ne')} मिनेट`;
+    const h = Math.floor(m / 60);
+    if (h < 24) return `${toNepaliNum(h, 'ne')} घण्टा`;
+    return `${toNepaliNum(Math.floor(h / 24), 'ne')} दिन`;
+  }
   if (m < 1) return 'now';
   if (m < 60) return `${m}m`;
   const h = Math.floor(m / 60);

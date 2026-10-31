@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useApp } from '../context/AppContext';
 import { Job } from '../types';
 import { avColor, haversineKm, initials, npr, starsHtml } from '../lib/constants';
-import { catName } from '../lib/i18n';
+import { catName, trText, toNepaliNum } from '../lib/i18n';
 import { sharedMapManager, MAPBOX_TOKEN } from '../lib/mapbox';
 import { CategoryIconTile } from './ui/CategoryIconTile';
 import { UrgentBadge, FeaturedBadge, VerifiedBadge, JobStatusBadge } from './ui/StatusBadge';
@@ -109,7 +109,7 @@ export const JobDetail: React.FC<{ job: Job }> = ({ job }) => {
 
       {/* Task Title */}
       <h2 className="text-xl sm:text-2xl font-black tracking-tight leading-snug mb-3">
-        {job.title}
+        {trText(job.title, lang)}
       </h2>
 
       {/* Price Banner */}
@@ -145,7 +145,9 @@ export const JobDetail: React.FC<{ job: Job }> = ({ job }) => {
           ) : (
             <>
               <MapPin className="w-3.5 h-3.5 text-[var(--accent)]" />
-              <span>{dist.toFixed(1)} km away</span>
+              <span>
+                {toNepaliNum(dist.toFixed(1), lang)} {lang === 'ne' ? 'कि.मी. टाढा' : 'km away'}
+              </span>
             </>
           )}
         </span>
@@ -153,7 +155,7 @@ export const JobDetail: React.FC<{ job: Job }> = ({ job }) => {
         {job.when && (
           <span className="inline-flex items-center gap-1.5 rounded-xl border border-[var(--line)] bg-[var(--surface)] px-3 py-1.5 text-[var(--fg)]">
             <Calendar className="w-3.5 h-3.5 text-[var(--fg-subtle)]" />
-            <span>{job.when}</span>
+            <span>{trText(job.when, lang)}</span>
           </span>
         )}
       </div>
@@ -206,7 +208,11 @@ export const JobDetail: React.FC<{ job: Job }> = ({ job }) => {
           {lang === 'ne' ? 'कामको विवरण' : 'Task Details'}
         </h3>
         <p className="text-sm text-[var(--fg)] leading-relaxed whitespace-pre-line font-medium bg-[var(--surface-2)] p-4 rounded-2xl border border-[var(--line)]">
-          {job.desc || (lang === 'ne' ? 'कुनै अतिरिक्त विवरण उपलब्ध छैन।' : 'No additional description provided.')}
+          {job.desc
+            ? trText(job.desc, lang)
+            : lang === 'ne'
+            ? 'कुनै अतिरिक्त विवरण उपलब्ध छैन।'
+            : 'No additional description provided.'}
         </p>
       </div>
 
@@ -221,7 +227,7 @@ export const JobDetail: React.FC<{ job: Job }> = ({ job }) => {
                 </div>
                 <div className="min-w-0">
                   <div className="font-extrabold text-sm text-[var(--fg)] truncate">
-                    {generalArea} {lang === 'ne' ? 'क्षेत्र' : 'area'}
+                    {trText(generalArea, lang)} {lang === 'ne' ? 'क्षेत्र' : 'area'}
                   </div>
                   <div className="text-[11px] font-semibold text-[var(--fg-muted)] flex items-center gap-1 mt-0.5">
                     <ShieldCheck className="w-3.5 h-3.5 text-[var(--success)]" />
@@ -282,7 +288,7 @@ export const JobDetail: React.FC<{ job: Job }> = ({ job }) => {
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-1.5">
               <span className="text-sm font-extrabold text-[var(--fg)] truncate">
-                {host?.name || t('poster')}
+                {host?.name ? trText(host.name, lang) : t('poster')}
               </span>
               {host?.kycStatus === 'verified' && (
                 <VerifiedBadge size="sm" lang={lang} showLabel={false} />
@@ -291,7 +297,7 @@ export const JobDetail: React.FC<{ job: Job }> = ({ job }) => {
             <div className="text-xs text-[var(--fg-muted)] font-medium flex items-center gap-1.5 mt-0.5">
               <span className="stars">{starsHtml(hr.avg)}</span>
               <span>
-                {hr.avg ? hr.avg.toFixed(1) : t('new_helper')} ({hr.count} {t('reviews')})
+                {hr.avg ? toNepaliNum(hr.avg.toFixed(1), lang) : t('new_helper')} ({toNepaliNum(hr.count, lang)} {t('reviews')})
               </span>
             </div>
           </div>

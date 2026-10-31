@@ -7,7 +7,7 @@ import { Wordmark } from './Wordmark';
 import { ThemeToggle } from './ui/ThemeToggle';
 import { PaymentBadges } from './ui/PaymentBadges';
 import { Footer } from './Footer';
-import { CATS, catName } from '../lib/i18n';
+import { CATS, catName, trText, toNepaliNum } from '../lib/i18n';
 import { npr, timeAgo } from '../lib/constants';
 import {
   ArrowRight,
@@ -82,7 +82,7 @@ export const ScreenLanding: React.FC = () => {
               <div className="flex flex-col">
                 <Wordmark className="text-xl leading-none" />
                 <span className="text-[10px] font-bold text-[var(--fg-muted)] tracking-wider uppercase -mt-0.5">
-                  Sajha Kaam
+                  {lang === 'ne' ? 'नेपाल मार्केटप्लेस' : 'Sajha Kaam'}
                 </span>
               </div>
             </div>
@@ -201,7 +201,7 @@ export const ScreenLanding: React.FC = () => {
                   >
                     <span>
                       {lang === 'ne'
-                        ? '+ काम पोस्ट गर्नुहोस् (Hire Help)'
+                        ? '+ काम पोस्ट गर्नुहोस्'
                         : '+ Post a Task (Hire a Helper)'}
                     </span>
                   </button>
@@ -225,7 +225,7 @@ export const ScreenLanding: React.FC = () => {
                       </span>
                     </div>
                     <span className="text-[11px] font-bold text-[var(--fg-muted)]">
-                      {openJobs.length} {lang === 'ne' ? 'सक्रिय' : 'active'}
+                      {toNepaliNum(openJobs.length, lang)} {lang === 'ne' ? 'सक्रिय' : 'active'}
                     </span>
                   </div>
 
@@ -247,15 +247,15 @@ export const ScreenLanding: React.FC = () => {
                             <span>·</span>
                             <span className="inline-flex items-center gap-1 truncate">
                               <MapPin className="w-3 h-3 text-[var(--accent)] shrink-0" />
-                              {job.address ? job.address.split(',')[0] : 'Kathmandu'}
+                              {job.address ? trText(job.address.split(',')[0], lang) : trText('Kathmandu', lang)}
                             </span>
                           </div>
                           <h3 className="text-sm font-bold text-[var(--fg)] truncate">
-                            {job.title}
+                            {trText(job.title, lang)}
                           </h3>
                           <p className="text-[11px] text-[var(--fg-subtle)]">
                             {timeAgo(job.createdAt)} {lang === 'ne' ? 'अगाडि' : 'ago'} ·{' '}
-                            {job.bids.length} {lang === 'ne' ? 'प्रस्ताव' : 'offers'}
+                            {toNepaliNum(job.bids.length, lang)} {lang === 'ne' ? 'प्रस्ताव' : 'offers'}
                           </p>
                         </div>
 
@@ -342,7 +342,7 @@ export const ScreenLanding: React.FC = () => {
                     <p className="text-xs text-[var(--fg-muted)] font-medium">
                       {count > 0
                         ? lang === 'ne'
-                          ? `${count} सक्रिय काम उपलब्ध`
+                          ? `${toNepaliNum(count, 'ne')} सक्रिय काम उपलब्ध`
                           : `${count} open ${count === 1 ? 'task' : 'tasks'} nearby`
                         : lang === 'ne'
                           ? 'नयाँ काम पोस्ट गर्नुहोस्'
