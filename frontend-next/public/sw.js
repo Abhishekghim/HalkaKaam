@@ -1,5 +1,5 @@
-// Sajha Kaam Service Worker (Network-First with Offline Fallback)
-const CACHE_NAME = 'sajha-kaam-v4';
+// Sajha Kaam Service Worker (Network-First with Cache Busting)
+const CACHE_NAME = 'sajha-kaam-v5';
 const STATIC_ASSETS = [
   '/manifest.webmanifest',
   '/icons/icon-192.png',
@@ -38,9 +38,14 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
   if (url.pathname.startsWith('/api/')) return;
 
-  // Network-first strategy so updates always appear immediately
+  // Always bypass HTTP disk cache on HTML navigation requests so Vercel updates appear immediately
+  const fetchReq =
+    event.request.mode === 'navigate'
+      ? new Request(event.request.url, { cache: 'no-store' })
+      : event.request;
+
   event.respondWith(
-    fetch(event.request)
+    fetch(fetchReq)
       .then((response) => {
         if (response && response.status === 200 && response.type === 'basic') {
           const responseClone = response.clone();
