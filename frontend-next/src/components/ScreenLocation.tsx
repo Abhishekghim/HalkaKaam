@@ -191,7 +191,7 @@ export const ScreenLocation: React.FC = () => {
     return POPULAR_LOCATIONS.filter((l) => l.province === selectedProvince);
   }, [selectedProvince]);
 
-  const handleBack = () => (locSet ? setView('app') : goAuth());
+  const handleBack = () => setView('app');
 
   return (
     <div id="locstep" className="min-h-screen bg-[var(--bg)] text-[var(--fg)] p-4 sm:p-6 transition-colors">
@@ -201,10 +201,11 @@ export const ScreenLocation: React.FC = () => {
           <button
             type="button"
             onClick={handleBack}
-            className="w-10 h-10 rounded-xl border border-[var(--line)] bg-[var(--surface)] hover:bg-[var(--surface-2)] text-[var(--fg)] flex items-center justify-center transition-colors shadow-2xs cursor-pointer"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-[var(--line)] bg-[var(--surface)] hover:bg-[var(--surface-2)] text-sm font-extrabold text-[var(--primary)] transition-colors shadow-2xs cursor-pointer"
             title={t('back')}
           >
-            <ArrowLeft className="w-5 h-5" />
+            <ArrowLeft className="w-4 h-4" />
+            <span>{lang === 'ne' ? 'मुख्य पृष्ठ' : 'Main Page'}</span>
           </button>
           <div className="text-center">
             <h1 className="text-xl sm:text-2xl font-black text-[var(--fg)] tracking-tight">

@@ -74,7 +74,7 @@ export default function RootLayout({
                 if ('caches' in window) {
                   caches.keys().then(function(keys) {
                     keys.forEach(function(k) {
-                      if (k !== 'sajha-kaam-v6') caches.delete(k);
+                      if (k !== 'sajha-kaam-v7') caches.delete(k);
                     });
                   });
                 }

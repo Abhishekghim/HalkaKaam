@@ -107,17 +107,31 @@
   --grad-primary: linear-gradient(135deg, #003893 0%, #002A6E 100%);
   --grad-accent: linear-gradient(135deg, #DC143C 0%, #B80F32 100%);
 
-  /* Font scale */
-  --fs-xs: 12px;
-  --fs-sm: 14px;
-  --fs-md: 16px;
-  --fs-lg: 18px;
-  --fs-xl: 22px;
-  --fs-2xl: 28px;
-  --fs-display: 36px;
+  /* Font scale (Enlarged for senior & low-tech accessibility) */
+  --fs-xs: 14px;
+  --fs-sm: 16px;
+  --fs-md: 18px;
+  --fs-lg: 20px;
+  --fs-xl: 24px;
+  --fs-2xl: 30px;
+  --fs-display: 40px;
+
+  /* Tailwind v4 Typography Scale Overrides (Larger, easier-to-read text across all screens) */
+  --text-xs: 0.875rem;
+  --text-xs--line-height: 1.45;
+  --text-sm: 1rem;
+  --text-sm--line-height: 1.5;
+  --text-base: 1.125rem;
+  --text-base--line-height: 1.55;
+  --text-lg: 1.25rem;
+  --text-lg--line-height: 1.5;
+  --text-xl: 1.4rem;
+  --text-xl--line-height: 1.4;
+  --text-2xl: 1.65rem;
+  --text-2xl--line-height: 1.35;
 }
 
-/* Dark Mode Tokens (Eye-Friendly Soft Dimmed Charcoal — Low Contrast & Muted Colors) */
+/* Dark Mode Tokens (Eye-Friendly Soft Charcoal with Clear, Standout Action Buttons) */
 [data-theme="dark"], .dark {
   /* Surfaces & Canvas (Soft Charcoal like Facebook Dark / Discord, not pitch black) */
   --bg: #18191B;                  /* Soft dimmed charcoal background */
@@ -125,104 +139,116 @@
   --surface-2: #2B2E33;           /* Inputs, chips, secondary surfaces */
   --surface-elevated: #31343A;
   --surface-hover: #35383E;
-  --border: #35383F;              /* Soft visible card borders */
-  --border-subtle: #2B2E33;
-  --border-hover: #464A52;
+  --border: #3A3E47;              /* Clear visible card borders */
+  --border-subtle: #2E3238;
+  --border-hover: #505662;
   --line: var(--border);
-  --line-strong: #464A52;
+  --line-strong: #505662;
   --line-hover: var(--border-hover);
 
-  /* Typography (Softened warm grey-white so text never glares in the dark) */
-  --text: #C9CDD4;                /* Dimmed comfortable off-white (no harsh #FFF) */
-  --text-muted: #8E939C;          /* Soft muted secondary text */
-  --text-subtle: #6E737C;
+  /* Typography (Clear, readable warm off-white for older users without harsh glare) */
+  --text: #E2E5EB;                /* Clear readable off-white */
+  --text-muted: #A6ACB8;          /* Clear secondary text */
+  --text-subtle: #858C99;
   --text-inverse: #18191B;
   --fg: var(--text);
   --fg-muted: var(--text-muted);
   --fg-subtle: var(--text-subtle);
 
-  /* Brand Primary (Muted, low-saturation dusty steel-blue so blue never hurts eyes) */
-  --primary: #7B90A8;
-  --primary-hover: #6A7E96;
-  --primary-soft: #272C33;
-  --primary-tint: #272C33;
-  --primary-soft-hover: #2F353E;
-  --primary-border: #38404B;
-  --primary-fg: #D4D8DF;
+  /* Brand Primary (Clear medium-bright sky/cobalt blue so links, prices & buttons stand out) */
+  --primary: #6AA1E6;
+  --primary-hover: #558FD8;
+  --primary-soft: #263140;
+  --primary-tint: #263140;
+  --primary-soft-hover: #2E3C4F;
+  --primary-border: #3E5470;
+  --primary-fg: #F5F7FA;
 
-  /* Brand Accent (Muted dusty rosewood/burgundy — no bright red glare) */
-  --accent: #A3626B;
-  --accent-fill: #69363E;
-  --accent-hover: #5A2E35;
-  --accent-text: #B0727B;
-  --accent-soft: rgba(163, 98, 107, 0.12);
-  --accent-tint: rgba(163, 98, 107, 0.12);
-  --accent-border: rgba(163, 98, 107, 0.24);
-  --accent-fg: #D4D8DF;
+  /* Brand Accent (Clear warm crimson-rose so action buttons & badges stand out) */
+  --accent: #E05A70;
+  --accent-fill: #C4324C;
+  --accent-hover: #D63C57;
+  --accent-text: #E86B80;
+  --accent-soft: rgba(224, 90, 112, 0.15);
+  --accent-tint: rgba(224, 90, 112, 0.15);
+  --accent-border: rgba(224, 90, 112, 0.32);
+  --accent-fg: #F5F7FA;
 
   /* Icon Tokens */
-  --icon: #7B90A8;
-  --icon-muted: #8E939C;
-  --icon-bg: #272C33;
-  --icon-border: #363E4A;
+  --icon: #6AA1E6;
+  --icon-muted: #A6ACB8;
+  --icon-bg: #263140;
+  --icon-border: #3E5470;
 
   /* Interactive & States */
-  --link: #7B90A8;
-  --link-hover: #90A4BC;
-  --ring: rgba(123, 144, 168, 0.22);
-  --ring-accent: rgba(163, 98, 107, 0.28);
+  --link: #6AA1E6;
+  --link-hover: #85B4F0;
+  --ring: rgba(106, 161, 230, 0.28);
+  --ring-accent: rgba(224, 90, 112, 0.32);
 
-  /* Semantic Feedback (Desaturated sage-green & warm ochre for dark mode comfort) */
-  --success: #648C75;
-  --success-soft: rgba(100, 140, 117, 0.11);
-  --success-border: rgba(100, 140, 117, 0.22);
+  /* Semantic Feedback (Clear sage-green & warm gold) */
+  --success: #56B87C;
+  --success-soft: rgba(86, 184, 124, 0.14);
+  --success-border: rgba(86, 184, 124, 0.28);
   --ok: var(--success);
   --ok-tint: var(--success-soft);
-  --warning: #A68446;
-  --warning-soft: rgba(166, 132, 70, 0.11);
-  --warning-border: rgba(166, 132, 70, 0.22);
+  --warning: #CC9A48;
+  --warning-soft: rgba(204, 154, 72, 0.14);
+  --warning-border: rgba(204, 154, 72, 0.28);
   --warn: var(--warning);
   --warn-tint: var(--warning-soft);
-  --info: #6B8FA3;
-  --info-soft: #272D32;
-  --info-border: #353F47;
-  --gold: #A68446;
-  --star: #A68446;
+  --info: #68A8C4;
+  --info-soft: #253038;
+  --info-border: #384B57;
+  --gold: #CC9A48;
+  --star: #CC9A48;
 
   /* Elevation Shadows */
-  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.28);
-  --shadow-sm: 0 2px 5px -1px rgba(0, 0, 0, 0.35);
-  --shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.35);
-  --shadow-md: 0 6px 18px -3px rgba(0, 0, 0, 0.45);
-  --shadow-lg: 0 14px 30px -6px rgba(0, 0, 0, 0.55);
-  --shadow-cta: 0 3px 10px -2px rgba(0, 0, 0, 0.4);
+  --shadow-xs: 0 1px 3px rgba(0, 0, 0, 0.32);
+  --shadow-sm: 0 2px 6px -1px rgba(0, 0, 0, 0.4);
+  --shadow: 0 2px 8px -2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 6px 18px -3px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 14px 30px -6px rgba(0, 0, 0, 0.6);
+  --shadow-cta: 0 4px 14px -2px rgba(196, 50, 76, 0.45);
 
   /* Gradients */
-  --grad-hero: linear-gradient(180deg, rgba(255, 255, 255, 0.015) 0%, rgba(24, 25, 27, 0) 100%);
-  --grad-primary: linear-gradient(135deg, #324154 0%, #283444 100%);
-  --grad-accent: linear-gradient(135deg, #69363E 0%, #562B32 100%);
+  --grad-hero: linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, rgba(24, 25, 27, 0) 100%);
+  --grad-primary: linear-gradient(135deg, #2D68BD 0%, #225196 100%);
+  --grad-accent: linear-gradient(135deg, #C4324C 0%, #A3263C 100%);
 }
 
-/* Dark mode solid button & badge dimming so filled pills (Work, All, You offered, Post a Task) never glow */
+/* Dark mode filled buttons: clearly visible, medium-bright royal blue & crimson so buttons stand out */
 [data-theme="dark"] .bg-\[var\(--primary\)\],
 .dark .bg-\[var\(--primary\)\] {
-  background-color: #324254 !important;
-  border-color: #43566D !important;
-  color: #D4D8DF !important;
+  background-color: #2B62B3 !important;
+  border-color: #467FD1 !important;
+  color: #F5F7FA !important;
+  box-shadow: 0 2px 10px rgba(43, 98, 179, 0.32);
+}
+[data-theme="dark"] .bg-\[var\(--primary\)\]:hover,
+.dark .bg-\[var\(--primary\)\]:hover {
+  background-color: #3570C7 !important;
 }
 
 [data-theme="dark"] .bg-\[var\(--accent-fill\)\],
 .dark .bg-\[var\(--accent-fill\)\],
 [data-theme="dark"] .bg-\[var\(--accent\)\],
 .dark .bg-\[var\(--accent\)\] {
-  background-color: #69363E !important;
-  border-color: #7D434C !important;
-  color: #D4D8DF !important;
+  background-color: #C4324C !important;
+  border-color: #DC4C66 !important;
+  color: #F5F7FA !important;
+  box-shadow: 0 2px 10px rgba(196, 50, 76, 0.35);
+}
+[data-theme="dark"] .bg-\[var\(--accent-fill\)\]:hover,
+.dark .bg-\[var\(--accent-fill\)\]:hover,
+[data-theme="dark"] .bg-\[var\(--accent\)\]:hover,
+.dark .bg-\[var\(--accent\)\]:hover {
+  background-color: #D43B57 !important;
 }
 
 [data-theme="dark"] .text-white,
 .dark .text-white {
-  color: #D4D8DF !important;
+  color: #F5F7FA !important;
 }
 
 @layer base {

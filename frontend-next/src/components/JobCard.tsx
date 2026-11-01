@@ -63,13 +63,13 @@ export const JobCard: React.FC<JobCardProps> = ({ job, dist }) => {
         </div>
 
         {/* Task Title */}
-        <h3 className="text-[15px] sm:text-base font-extrabold text-[var(--fg)] group-hover:text-[var(--primary)] transition-colors line-clamp-2 leading-snug mb-1.5">
+        <h3 className="text-base sm:text-lg font-extrabold text-[var(--fg)] group-hover:text-[var(--primary)] transition-colors line-clamp-2 leading-snug mb-1.5">
           {trText(job.title, lang)}
         </h3>
 
         {/* Description Snippet */}
         {job.desc && (
-          <p className="text-xs text-[var(--fg-muted)] line-clamp-2 leading-relaxed mb-3 font-medium">
+          <p className="text-sm text-[var(--fg-muted)] line-clamp-2 leading-relaxed mb-3 font-medium">
             {trText(job.desc, lang)}
           </p>
         )}
@@ -132,18 +132,18 @@ export const JobCard: React.FC<JobCardProps> = ({ job, dist }) => {
       </div>
 
       {/* Bottom Footer: Price & Applicants */}
-      <div className="flex items-center justify-between border-t border-[var(--line)] pt-3 mt-1">
+      <div className="flex items-center justify-between border-t border-[var(--line)] pt-3.5 mt-1">
         <div>
-          <div className="flex items-baseline gap-1.5">
-            <span className="font-mukta text-xl sm:text-2xl font-black text-[var(--primary)] leading-none">
+          <div className="flex items-baseline gap-2">
+            <span className="font-mukta text-2xl sm:text-[26px] font-black text-[var(--primary)] leading-none">
               {npr(job.price)}
             </span>
-            <span className="inline-block px-1.5 py-0.5 rounded text-[10px] font-black uppercase tracking-wider bg-[var(--primary-soft)] text-[var(--primary)] border border-[var(--primary-border)] align-middle">
+            <span className="inline-block px-2 py-0.5 rounded text-xs font-extrabold uppercase tracking-wider bg-[var(--primary-soft)] text-[var(--primary)] border border-[var(--primary-border)] align-middle">
               {job.ptype === 'Hourly' ? t('hourly') : t('flat')}
             </span>
           </div>
           {perHour && (
-            <span className="text-[11px] font-bold text-[var(--fg-subtle)] block mt-0.5">
+            <span className="text-xs font-bold text-[var(--fg-subtle)] block mt-0.5">
               ≈ {npr(perHour)}{t('per_hr')}
             </span>
           )}
@@ -151,13 +151,13 @@ export const JobCard: React.FC<JobCardProps> = ({ job, dist }) => {
 
         <div className="flex items-center gap-2">
           {mine ? (
-            <span className="inline-flex items-center gap-1 rounded-full bg-[var(--primary)] px-3 py-1 text-xs font-bold text-white shadow-2xs">
-              <CheckCircle className="w-3.5 h-3.5 text-white" />
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-[var(--primary)] px-3.5 py-1.5 text-xs sm:text-sm font-extrabold text-white shadow-sm">
+              <CheckCircle className="w-4 h-4 text-white" />
               <span>{t('you_offered')}</span>
             </span>
           ) : (
-            <div className="inline-flex items-center gap-1.5 text-xs font-bold text-[var(--primary)] bg-[var(--primary-soft)] hover:bg-[var(--primary-soft-hover)] px-3 py-1.5 rounded-full border border-[var(--primary-border)] transition-colors">
-              <MessageSquare className="w-3.5 h-3.5 text-[var(--primary)]" />
+            <div className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-extrabold text-[var(--primary)] bg-[var(--primary-soft)] hover:bg-[var(--primary-soft-hover)] px-3.5 py-1.5 rounded-full border border-[var(--primary-border)] transition-colors">
+              <MessageSquare className="w-4 h-4 text-[var(--primary)]" />
               <span>
                 {job.bids.length > 0
                   ? `${toNepaliNum(job.bids.length, lang)} ${job.bids.length === 1 ? t('applied_one') : t('applied_count')}`
@@ -165,7 +165,7 @@ export const JobCard: React.FC<JobCardProps> = ({ job, dist }) => {
                   ? 'पहिलो प्रस्ताव दिनुहोस्'
                   : 'Be the first!'}
               </span>
-              <ChevronRight className="w-3.5 h-3.5 text-[var(--primary)] group-hover:translate-x-0.5 transition-transform" />
+              <ChevronRight className="w-4 h-4 text-[var(--primary)] group-hover:translate-x-0.5 transition-transform" />
             </div>
           )}
         </div>

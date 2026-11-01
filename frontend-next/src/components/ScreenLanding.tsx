@@ -31,6 +31,7 @@ export const ScreenLanding: React.FC = () => {
     setView,
     setSearchQuery,
     setFilters,
+    openSheet,
   } = useApp();
 
   const [heroQuery, setHeroQuery] = useState('');
@@ -38,30 +39,25 @@ export const ScreenLanding: React.FC = () => {
   const openJobs = jobs.filter((j) => j.status === 'open');
   const previewJobs = openJobs.slice(0, 4);
 
-  const handleFindWork = (category?: string, query?: string) => {
+  const handleFindWork = (category?: string, query?: string, jobId?: string) => {
     if (query !== undefined) {
       setSearchQuery(query);
     }
     if (category) {
       setFilters((prev) => ({ ...prev, cat: category }));
     }
-    if (me) {
-      setMode('worker');
-      setTab('feed');
-      setView('app');
-    } else {
-      goAuth('worker');
+    setMode('worker');
+    setTab('feed');
+    setView('app');
+    if (jobId) {
+      setTimeout(() => openSheet('jobDetail', { jobId }), 60);
     }
   };
 
   const handlePostTask = () => {
-    if (me) {
-      setMode('host');
-      setTab('post');
-      setView('app');
-    } else {
-      goAuth('host');
-    }
+    setMode('host');
+    setTab('post');
+    setView('app');
   };
 
   const handleHeroSearchSubmit = (e: React.FormEvent) => {
@@ -75,42 +71,45 @@ export const ScreenLanding: React.FC = () => {
     <div className="min-h-screen flex flex-col bg-[var(--bg)] text-[var(--fg)]">
       {/* Website Top Header */}
       <header className="sticky top-0 z-40 w-full border-b border-[var(--line)] bg-[var(--surface)]/95 backdrop-blur-md">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-18 flex items-center justify-between gap-4">
           <div className="flex items-center gap-6">
-            <div className="flex items-center gap-2.5 select-none">
+            <div
+              onClick={() => handleFindWork()}
+              className="flex items-center gap-2.5 select-none cursor-pointer"
+            >
               <Pennants />
               <div className="flex flex-col">
-                <Wordmark className="text-xl leading-none" />
-                <span className="text-[10px] font-bold text-[var(--fg-muted)] tracking-wider uppercase -mt-0.5">
+                <Wordmark className="text-2xl leading-none" />
+                <span className="text-xs font-bold text-[var(--fg-muted)] tracking-wider uppercase -mt-0.5">
                   {lang === 'ne' ? 'नेपाल मार्केटप्लेस' : 'Sajha Kaam'}
                 </span>
               </div>
             </div>
 
-            <nav className="hidden md:flex items-center gap-6 text-xs font-bold text-[var(--fg-muted)]">
+            <nav className="hidden md:flex items-center gap-6 text-sm font-bold text-[var(--fg-muted)]">
+              <button
+                type="button"
+                onClick={() => handleFindWork()}
+                className="text-[var(--primary)] hover:underline transition-colors cursor-pointer font-extrabold"
+              >
+                {lang === 'ne' ? '🏠 मुख्य पृष्ठ (खुला कामहरू)' : '🏠 Main Page (Browse Tasks)'}
+              </button>
               <a href="#categories" className="hover:text-[var(--primary)] transition-colors">
                 {lang === 'ne' ? 'सेवा वर्गहरू' : 'Categories'}
               </a>
               <a href="#how-it-works" className="hover:text-[var(--primary)] transition-colors">
                 {lang === 'ne' ? 'प्रक्रिया र सुरक्षा' : 'How It Works'}
               </a>
-              <button
-                type="button"
-                onClick={() => handleFindWork()}
-                className="hover:text-[var(--primary)] transition-colors cursor-pointer"
-              >
-                {lang === 'ne' ? 'खुला कामहरू' : 'Browse Tasks'}
-              </button>
             </nav>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
             <button
               type="button"
               onClick={toggleLang}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[var(--line)] bg-[var(--surface-2)] hover:border-[var(--primary)] text-xs font-bold text-[var(--fg)] transition-colors cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-[var(--line)] bg-[var(--surface-2)] hover:border-[var(--primary)] text-sm font-bold text-[var(--fg)] transition-colors cursor-pointer"
             >
-              <Languages className="w-3.5 h-3.5 text-[var(--primary)]" />
+              <Languages className="w-4 h-4 text-[var(--primary)]" />
               <span>{lang === 'en' ? 'नेपाली' : 'English'}</span>
             </button>
 
@@ -119,18 +118,14 @@ export const ScreenLanding: React.FC = () => {
             <button
               type="button"
               onClick={() => handleFindWork()}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white text-xs font-extrabold shadow-xs transition-all cursor-pointer"
+              className="inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-xl bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white text-sm font-extrabold shadow-sm transition-all cursor-pointer"
             >
               <span>
-                {me
-                  ? lang === 'ne'
-                    ? 'मार्केटप्लेस खोल्नुहोस्'
-                    : 'Open Marketplace'
-                  : lang === 'ne'
-                    ? 'लगइन / सुरु गर्नुहोस्'
-                    : 'Sign In'}
+                {lang === 'ne'
+                  ? 'मुख्य पृष्ठ खोल्नुहोस्'
+                  : 'Open Main Page'}
               </span>
-              <ArrowRight className="w-3.5 h-3.5" />
+              <ArrowRight className="w-4 h-4" />
             </button>
           </div>
         </div>
@@ -143,8 +138,8 @@ export const ScreenLanding: React.FC = () => {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
               {/* Left Column: Value Proposition & Action */}
               <div className="lg:col-span-7 space-y-6">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[var(--line)] bg-[var(--surface-2)] text-xs font-bold text-[var(--primary)]">
-                  <span className="w-2 h-2 rounded-full bg-[var(--accent)]" />
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[var(--line)] bg-[var(--surface-2)] text-sm font-bold text-[var(--primary)]">
+                  <span className="w-2.5 h-2.5 rounded-full bg-[var(--accent)]" />
                   <span>
                     {lang === 'ne'
                       ? 'साझा काम · स्थानीय काम र सेवा प्लेटफर्म'
@@ -152,13 +147,13 @@ export const ScreenLanding: React.FC = () => {
                   </span>
                 </div>
 
-                <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[var(--fg)] leading-[1.12]">
+                <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-[var(--fg)] leading-[1.15]">
                   {lang === 'ne'
                     ? 'घरायसी र दैनिक कामका लागि भरपर्दो स्थानीय सहयोगी'
                     : 'Dependable local hands for everyday work across Nepal.'}
                 </h1>
 
-                <p className="text-base sm:text-lg text-[var(--fg-muted)] leading-relaxed max-w-xl">
+                <p className="text-lg sm:text-xl text-[var(--fg-muted)] leading-relaxed max-w-xl font-medium">
                   {lang === 'ne'
                     ? 'सरसफाइ, सामान सार्ने, मर्मत, डेलिभरी वा ट्युसन — साझा कामले काम पोस्ट गर्ने घरपरिवार र नागरिकता प्रमाणित स्थानीय कामदारहरूलाई सिधै जोड्छ।'
                     : 'Post what needs doing and set your fair NPR rate, or earn on your own schedule by helping households and shops in your neighborhood.'}
@@ -167,10 +162,10 @@ export const ScreenLanding: React.FC = () => {
                 {/* Functional Search Bar */}
                 <form
                   onSubmit={handleHeroSearchSubmit}
-                  className="flex flex-col sm:flex-row gap-2.5 max-w-xl pt-1"
+                  className="flex flex-col sm:flex-row gap-3 max-w-xl pt-1"
                 >
                   <div className="relative flex-1">
-                    <Search className="w-4 h-4 text-[var(--fg-subtle)] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                    <Search className="w-5 h-5 text-[var(--fg-subtle)] absolute left-4 top-1/2 -translate-y-1/2 pointer-events-none" />
                     <input
                       type="text"
                       value={heroQuery}
@@ -180,24 +175,24 @@ export const ScreenLanding: React.FC = () => {
                           ? 'काम खोज्नुहोस् (उदा. सरसफाइ, मर्मत, डेलिभरी)...'
                           : 'Search open tasks (e.g. cleaning, plumbing, moving)...'
                       }
-                      className="w-full h-12 pl-10 pr-4 rounded-xl border border-[var(--line)] bg-[var(--bg)] text-sm text-[var(--fg)] placeholder:text-[var(--fg-subtle)] focus:outline-none focus:border-[var(--primary)] transition-colors"
+                      className="w-full h-14 pl-12 pr-4 rounded-xl border-2 border-[var(--line)] bg-[var(--bg)] text-base font-medium text-[var(--fg)] placeholder:text-[var(--fg-subtle)] focus:outline-none focus:border-[var(--primary)] transition-colors"
                     />
                   </div>
                   <button
                     type="submit"
-                    className="h-12 px-5 rounded-xl bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white text-xs sm:text-sm font-bold inline-flex items-center justify-center gap-2 transition-colors cursor-pointer shrink-0"
+                    className="h-14 px-6 rounded-xl bg-[var(--primary)] hover:bg-[var(--primary-hover)] text-white text-base font-extrabold inline-flex items-center justify-center gap-2.5 shadow-md transition-all cursor-pointer shrink-0"
                   >
-                    <span>{lang === 'ne' ? 'काम खोज्नुहोस्' : 'Browse Tasks'}</span>
-                    <ArrowRight className="w-4 h-4" />
+                    <span>{lang === 'ne' ? 'काम खोज्नुहोस्' : 'Find Work'}</span>
+                    <ArrowRight className="w-5 h-5" />
                   </button>
                 </form>
 
                 {/* Secondary Action & Trust Line */}
-                <div className="pt-2 flex flex-wrap items-center gap-4 text-xs">
+                <div className="pt-2 flex flex-wrap items-center gap-4 text-sm">
                   <button
                     type="button"
                     onClick={handlePostTask}
-                    className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[var(--accent-fill)] hover:bg-[var(--accent-hover)] text-white font-bold shadow-xs transition-all cursor-pointer"
+                    className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-[var(--accent-fill)] hover:bg-[var(--accent-hover)] text-white text-base font-extrabold shadow-md transition-all cursor-pointer"
                   >
                     <span>
                       {lang === 'ne'
@@ -206,7 +201,7 @@ export const ScreenLanding: React.FC = () => {
                     </span>
                   </button>
 
-                  <span className="text-[var(--fg-muted)] font-semibold">
+                  <span className="text-[var(--fg-muted)] font-semibold text-sm">
                     {lang === 'ne'
                       ? 'बिचौलिया कमिसन छैन · नागरिकता प्रमाणित'
                       : 'No middleman markup · Citizenship / NID verified'}
@@ -216,15 +211,15 @@ export const ScreenLanding: React.FC = () => {
 
               {/* Right Column: Live Task Dispatch Board */}
               <div className="lg:col-span-5 w-full">
-                <div className="rounded-2xl border border-[var(--line)] bg-[var(--bg)] overflow-hidden shadow-xs">
-                  <div className="px-4 py-3 border-b border-[var(--line)] bg-[var(--surface-2)] flex items-center justify-between">
+                <div className="rounded-2xl border border-[var(--line)] bg-[var(--bg)] overflow-hidden shadow-sm">
+                  <div className="px-5 py-3.5 border-b border-[var(--line)] bg-[var(--surface-2)] flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <span className="w-2 h-2 rounded-full bg-[var(--accent)]" />
-                      <span className="text-xs font-bold uppercase tracking-wider text-[var(--fg)]">
+                      <span className="w-2.5 h-2.5 rounded-full bg-[var(--accent)]" />
+                      <span className="text-sm font-extrabold uppercase tracking-wider text-[var(--fg)]">
                         {lang === 'ne' ? 'हालैका खुला कामहरू' : 'Recent Open Tasks'}
                       </span>
                     </div>
-                    <span className="text-[11px] font-bold text-[var(--fg-muted)]">
+                    <span className="text-xs font-bold text-[var(--fg-muted)]">
                       {toNepaliNum(openJobs.length, lang)} {lang === 'ne' ? 'सक्रिय' : 'active'}
                     </span>
                   </div>
@@ -233,37 +228,37 @@ export const ScreenLanding: React.FC = () => {
                     {previewJobs.map((job) => (
                       <div
                         key={job.id}
-                        onClick={() => handleFindWork()}
+                        onClick={() => handleFindWork(undefined, undefined, job.id)}
                         role="button"
                         tabIndex={0}
-                        onKeyDown={(e) => e.key === 'Enter' && handleFindWork()}
-                        className="p-4 bg-[var(--surface)] hover:bg-[var(--surface-2)] transition-colors cursor-pointer flex items-start justify-between gap-3"
+                        onKeyDown={(e) => e.key === 'Enter' && handleFindWork(undefined, undefined, job.id)}
+                        className="p-4 sm:p-5 bg-[var(--surface)] hover:bg-[var(--surface-2)] transition-colors cursor-pointer flex items-start justify-between gap-3"
                       >
-                        <div className="min-w-0 space-y-1">
-                          <div className="flex items-center gap-2 text-[11px] font-semibold text-[var(--fg-muted)]">
-                            <span className="text-[var(--primary)] font-bold">
+                        <div className="min-w-0 space-y-1.5">
+                          <div className="flex items-center gap-2 text-xs font-bold text-[var(--fg-muted)]">
+                            <span className="text-[var(--primary)] font-extrabold">
                               {catName(job.cat, lang)}
                             </span>
                             <span>·</span>
                             <span className="inline-flex items-center gap-1 truncate">
-                              <MapPin className="w-3 h-3 text-[var(--accent)] shrink-0" />
+                              <MapPin className="w-3.5 h-3.5 text-[var(--accent)] shrink-0" />
                               {job.address ? trText(job.address.split(',')[0], lang) : trText('Kathmandu', lang)}
                             </span>
                           </div>
-                          <h3 className="text-sm font-bold text-[var(--fg)] truncate">
+                          <h3 className="text-base font-extrabold text-[var(--fg)] truncate">
                             {trText(job.title, lang)}
                           </h3>
-                          <p className="text-[11px] text-[var(--fg-subtle)]">
+                          <p className="text-xs text-[var(--fg-subtle)] font-medium">
                             {timeAgo(job.createdAt)} {lang === 'ne' ? 'अगाडि' : 'ago'} ·{' '}
                             {toNepaliNum(job.bids.length, lang)} {lang === 'ne' ? 'प्रस्ताव' : 'offers'}
                           </p>
                         </div>
 
                         <div className="text-right shrink-0">
-                          <div className="text-sm font-extrabold text-[var(--primary)] tabular-nums">
+                          <div className="text-base sm:text-lg font-extrabold text-[var(--primary)] tabular-nums">
                             {npr(job.price)}
                           </div>
-                          <div className="text-[10px] font-semibold text-[var(--fg-subtle)] uppercase">
+                          <div className="text-xs font-semibold text-[var(--fg-subtle)] uppercase">
                             {job.ptype === 'Hourly'
                               ? lang === 'ne'
                                 ? 'प्रति घण्टा'
@@ -280,14 +275,14 @@ export const ScreenLanding: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => handleFindWork()}
-                    className="w-full px-4 py-3 border-t border-[var(--line)] bg-[var(--surface-2)] hover:bg-[var(--surface-hover)] text-xs font-bold text-[var(--primary)] flex items-center justify-between transition-colors cursor-pointer"
+                    className="w-full px-5 py-4 border-t border-[var(--line)] bg-[var(--surface-2)] hover:bg-[var(--surface-hover)] text-sm font-extrabold text-[var(--primary)] flex items-center justify-between transition-colors cursor-pointer"
                   >
                     <span>
                       {lang === 'ne'
-                        ? 'सबै खुला कामहरू हेर्नुहोस्'
-                        : 'View all open tasks in marketplace'}
+                        ? 'सबै खुला कामहरू हेर्नुहोस् (मुख्य पृष्ठ)'
+                        : 'View all open tasks on Main Page'}
                     </span>
-                    <ArrowUpRight className="w-4 h-4" />
+                    <ArrowUpRight className="w-5 h-5" />
                   </button>
                 </div>
               </div>

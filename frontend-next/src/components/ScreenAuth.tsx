@@ -224,14 +224,29 @@ export const ScreenAuth: React.FC = () => {
     <div className="flex min-h-screen items-center justify-center bg-[var(--bg)] px-4 py-8 text-[var(--fg)]">
       <div className="w-full max-w-sm sm:max-w-md">
         {/* Brand Header */}
-        <div className="mb-6 flex flex-col items-center justify-center text-center">
-          <div className="flex items-center gap-2 mb-1">
+        <div className="mb-5 flex flex-col items-center justify-center text-center">
+          <div
+            onClick={() => setView('app')}
+            className="flex items-center gap-2 mb-1 cursor-pointer"
+          >
             <Pennants />
             <Wordmark className="text-2xl" />
           </div>
-          <p className="text-xs font-bold text-[var(--fg-muted)]">
+          <p className="text-xs font-bold text-[var(--fg-muted)] mb-3">
             {lang === 'ne' ? 'नेपालको पियर-टु-पियर गिग प्लेटफर्म' : 'Hyperlocal Nepal Gig Marketplace'}
           </p>
+          <button
+            type="button"
+            onClick={() => setView('app')}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[var(--surface)] border border-[var(--line)] hover:border-[var(--primary)] text-sm font-extrabold text-[var(--primary)] shadow-xs transition-all cursor-pointer"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            <span>
+              {lang === 'ne'
+                ? 'मुख्य पृष्ठमा जानुहोस् (कामहरू हेर्नुहोस्)'
+                : 'Go to Main Page (Browse Tasks)'}
+            </span>
+          </button>
         </div>
 
         <div className="bg-[var(--surface)] rounded-3xl border border-[var(--line)] p-6 sm:p-7 shadow-sm">

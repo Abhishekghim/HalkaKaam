@@ -38,43 +38,49 @@ export const Navbar: React.FC<NavbarProps> = ({ onPostClick }) => {
   } = useApp();
 
   const handleLogoClick = () => {
-    setTab(mode === 'worker' ? 'feed' : 'jobs');
+    setMode('worker');
+    setTab('feed');
+    setView('app');
   };
 
   const activeBadge = mode === 'worker' ? workerBadge : hostBadge;
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-[var(--line)] bg-[var(--surface)]/95 backdrop-blur-md transition-colors">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
-        {/* Brand / Logo */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 h-18 flex items-center justify-between gap-3">
+        {/* Brand / Logo -> Always goes to Main Page (Worker Feed) */}
         <div
           onClick={handleLogoClick}
           className="flex items-center gap-2.5 cursor-pointer select-none group"
+          title={lang === 'ne' ? 'मुख्य पृष्ठमा जानुहोस्' : 'Go to Main Page'}
         >
           <Pennants />
           <div className="flex flex-col">
-            <Wordmark className="text-xl leading-none" />
-            <span className="text-[10px] font-bold text-[var(--fg-muted)] tracking-wider uppercase -mt-0.5">
+            <Wordmark className="text-2xl leading-none" />
+            <span className="text-xs font-bold text-[var(--fg-muted)] tracking-wider uppercase -mt-0.5">
               {lang === 'ne' ? 'नेपाल मार्केटप्लेस' : 'Nepal Marketplace'}
             </span>
           </div>
         </div>
 
         {/* Center: Mode Pill Selector (Work vs Hire) */}
-        <div className="hidden md:flex items-center p-1 rounded-full border border-[var(--line)] bg-[var(--surface-2)]">
+        <div className="hidden md:flex items-center p-1.5 rounded-full border border-[var(--line)] bg-[var(--surface-2)]">
           <button
             type="button"
-            onClick={() => setMode('worker')}
-            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
+            onClick={() => {
+              setMode('worker');
+              setTab('feed');
+            }}
+            className={`flex items-center gap-2 px-5 py-2 rounded-full text-sm font-extrabold transition-all cursor-pointer ${
               mode === 'worker'
-                ? 'bg-[var(--primary)] text-white shadow-xs'
+                ? 'bg-[var(--primary)] text-white shadow-sm'
                 : 'text-[var(--fg-muted)] hover:text-[var(--fg)]'
             }`}
           >
-            <Briefcase className="w-3.5 h-3.5" />
+            <Briefcase className="w-4 h-4" />
             <span>{t('mode_work')}</span>
             {workerBadge > 0 && (
-              <span className="w-4 h-4 rounded-full bg-[var(--accent)] text-white text-[10px] flex items-center justify-center font-extrabold">
+              <span className="w-5 h-5 rounded-full bg-[var(--accent)] text-white text-xs flex items-center justify-center font-extrabold">
                 {workerBadge}
               </span>
             )}
@@ -82,16 +88,16 @@ export const Navbar: React.FC<NavbarProps> = ({ onPostClick }) => {
           <button
             type="button"
             onClick={() => setMode('host')}
-            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer ${
+            className={`flex items-center gap-2 px-5 py-2 rounded-full text-sm font-extrabold transition-all cursor-pointer ${
               mode === 'host'
-                ? 'bg-[var(--primary)] text-white shadow-xs'
+                ? 'bg-[var(--primary)] text-white shadow-sm'
                 : 'text-[var(--fg-muted)] hover:text-[var(--fg)]'
             }`}
           >
-            <Home className="w-3.5 h-3.5" />
+            <Home className="w-4 h-4" />
             <span>{t('mode_host')}</span>
             {hostBadge > 0 && (
-              <span className="w-4 h-4 rounded-full bg-[var(--accent)] text-white text-[10px] flex items-center justify-center font-extrabold">
+              <span className="w-5 h-5 rounded-full bg-[var(--accent)] text-white text-xs flex items-center justify-center font-extrabold">
                 {hostBadge}
               </span>
             )}
@@ -105,11 +111,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onPostClick }) => {
             <button
               type="button"
               onClick={() => setView('landing')}
-              className="hidden lg:inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl text-xs font-bold text-[var(--fg-muted)] hover:text-[var(--primary)] hover:bg-[var(--surface-2)] transition-colors cursor-pointer"
+              className="hidden lg:inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-bold text-[var(--fg-muted)] hover:text-[var(--primary)] hover:bg-[var(--surface-2)] transition-colors cursor-pointer"
               title={lang === 'ne' ? 'साझा कामको बारेमा' : 'About Sajha Kaam'}
             >
-              <Info className="w-3.5 h-3.5" />
-              <span>{lang === 'ne' ? 'बारेमा' : 'About'}</span>
+              <Info className="w-4 h-4" />
+              <span>{lang === 'ne' ? 'गृहपृष्ठ' : 'Home'}</span>
             </button>
           )}
 
@@ -117,10 +123,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onPostClick }) => {
           <button
             type="button"
             onClick={() => setView('locstep')}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[var(--line)] bg-[var(--surface-2)] text-[var(--fg)] hover:border-[var(--primary)] text-xs font-semibold max-w-[140px] sm:max-w-[200px] transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-[var(--line)] bg-[var(--surface-2)] text-[var(--fg)] hover:border-[var(--primary)] text-sm font-bold max-w-[155px] sm:max-w-[220px] transition-colors cursor-pointer"
             title="Change Location"
           >
-            <MapPin className="w-3.5 h-3.5 text-[var(--accent)] flex-none" />
+            <MapPin className="w-4 h-4 text-[var(--accent)] flex-none" />
             <span className="truncate">
               {locName
                 ? trText(locName.split(',')[0], lang)
@@ -128,7 +134,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onPostClick }) => {
             </span>
           </button>
 
-          {/* Primary Action Button: Post Task CTA (Always Crimson Red for highest conversion) */}
+          {/* Primary Action Button: Post Task CTA */}
           <button
             type="button"
             onClick={() => {
@@ -138,7 +144,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onPostClick }) => {
                 setTab('post');
               }
             }}
-            className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-[var(--accent-fill)] hover:bg-[var(--accent-hover)] text-white text-xs font-bold shadow-xs hover:shadow-md transition-all active:scale-95 cursor-pointer"
+            className="hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[var(--accent-fill)] hover:bg-[var(--accent-hover)] text-white text-sm font-extrabold shadow-sm hover:shadow-md transition-all active:scale-95 cursor-pointer"
           >
             <Plus className="w-4 h-4 stroke-[2.5]" />
             <span>{lang === 'ne' ? 'काम पोस्ट गर्नुहोस्' : 'Post a Task'}</span>
@@ -148,10 +154,10 @@ export const Navbar: React.FC<NavbarProps> = ({ onPostClick }) => {
           <button
             type="button"
             onClick={toggleLang}
-            className="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-xl border border-[var(--line)] bg-[var(--surface-2)] hover:border-[var(--primary)] text-xs font-bold text-[var(--fg)] transition-colors cursor-pointer select-none"
+            className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-[var(--line)] bg-[var(--surface-2)] hover:border-[var(--primary)] text-sm font-bold text-[var(--fg)] transition-colors cursor-pointer select-none"
             title={lang === 'en' ? 'Switch to Nepali' : 'अंग्रेजीमा हेर्नुहोस्'}
           >
-            <Languages className="w-3.5 h-3.5 text-[var(--primary)]" />
+            <Languages className="w-4 h-4 text-[var(--primary)]" />
             <span>{lang === 'en' ? 'नेपाली' : 'EN'}</span>
           </button>
 
@@ -166,7 +172,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onPostClick }) => {
             title={me?.name || 'Profile'}
           >
             <div
-              className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-black shadow-xs ring-2 ring-white dark:ring-[var(--surface)]"
+              className="w-9 h-9 rounded-full flex items-center justify-center text-white text-sm font-black shadow-xs ring-2 ring-white dark:ring-[var(--surface)]"
               style={{ backgroundColor: avColor(me?.name) }}
             >
               {initials(me?.name)}

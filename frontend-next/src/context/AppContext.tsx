@@ -364,9 +364,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [jobs, setJobs] = useState<Job[]>([]);
 
   const [pos, setPos] = useState<Coordinates>(KIRTIPUR);
-  const [locName, setLocName] = useState('');
-  const [locSet, setLocSet] = useState(false);
-  const [radius, setRadius] = useState(4);
+  const [locName, setLocName] = useState('Kathmandu, Bagmati');
+  const [locSet, setLocSet] = useState(true);
+  const [radius, setRadius] = useState(5);
 
   const [mode, setModeState] = useState<AppMode>('worker');
   const [tab, setTabState] = useState<AppTab>('feed');
@@ -479,7 +479,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       if (sess?.id && u.some((x) => x.id === sess!.id)) {
         setMeId(sess.id);
         if (sess.lang) setLangState(sess.lang);
-        setViewState('locstep');
+      } else {
+        setMeId(TEST_VERIFIED_USER.id);
       }
       try {
         const savedTheme = localStorage.getItem('hk-theme') as 'light' | 'dark' | null;
@@ -765,7 +766,15 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         updateUsers((us) => [...us, created]);
       }
       setMeId(existing.id);
-      setView('locstep');
+      setLocSet(true);
+      if (authIntent === 'host') {
+        setModeState('host');
+        setTabState('post');
+      } else {
+        setModeState('worker');
+        setTabState('feed');
+      }
+      setView('app');
       return true;
     },
     [users, authPhone, authName, authArea, tr, showToast, updateUsers, setView]
